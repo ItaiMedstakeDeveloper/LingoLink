@@ -1,98 +1,102 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { useSQLiteContext } from 'expo-sqlite';
+import { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { useAuth } from '@/lib/auth';
 
-export default function HomeScreen() {
+type Story = {
+  id: number;
+  title: string;
+  location: string;
+  description: string;
+  scene_count: number;
+};
+
+export default function DashboardScreen() {
+  const db = useSQLiteContext();
+  const { user, signOut } = useAuth();
+  const [stories, setStories] = useState<Story[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      const rows = await db.getAllAsync<Story>(
+        `SELECT s.id, s.title, s.location, s.description,
+                COUNT(sc.id) AS scene_count
+         FROM stories s
+         LEFT JOIN story_scenes sc ON sc.story_id = s.id
+         GROUP BY s.id
+         ORDER BY s.order_index`
+      );
+      if (active) setStories(rows);
+    })();
+    return () => {
+      active = false;
+    };
+  }, [db]);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
-
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.flex} edges={['top']}>
+      <FlatList
+        contentContainerStyle={styles.content}
+        data={stories}
+        keyExtractor={(item) => String(item.id)}
+        ListHeaderComponent={
+          <View style={styles.header}>
+            <View style={styles.flexShrink}>
+              <ThemedText type="title">Dashboard</ThemedText>
+              <ThemedText style={styles.subtitle}>
+                {user ? `Signed in as ${user.email}` : ''}
+              </ThemedText>
+            </View>
+            <TouchableOpacity onPress={signOut} style={styles.signOut}>
+              <ThemedText style={styles.signOutText}>Sign out</ThemedText>
+            </TouchableOpacity>
+          </View>
+        }
+        ListEmptyComponent={<ThemedText>No stories yet.</ThemedText>}
+        renderItem={({ item }) => (
+          <ThemedView style={styles.card}>
+            <ThemedText type="subtitle">{item.title}</ThemedText>
+            <ThemedText style={styles.location}>📍 {item.location}</ThemedText>
+            <ThemedText style={styles.description}>{item.description}</ThemedText>
+            <ThemedText style={styles.meta}>{item.scene_count} scenes</ThemedText>
+          </ThemedView>
+        )}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  flex: { flex: 1 },
+  flexShrink: { flexShrink: 1, paddingRight: 12 },
+  content: { padding: 20, gap: 16 },
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    justifyContent: 'space-between',
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  subtitle: { opacity: 0.7, marginTop: 2 },
+  signOut: {
+    borderWidth: 1,
+    borderColor: '#0a7ea4',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  signOutText: { color: '#0a7ea4', fontWeight: '600' },
+  card: {
+    borderWidth: 1,
+    borderColor: '#687076',
+    borderRadius: 12,
+    padding: 16,
+    gap: 6,
   },
+  location: { opacity: 0.8 },
+  description: { opacity: 0.9 },
+  meta: { opacity: 0.6, marginTop: 4 },
 });
