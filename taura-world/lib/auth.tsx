@@ -1,6 +1,13 @@
-import * as Crypto from 'expo-crypto';
-import { useSQLiteContext } from 'expo-sqlite';
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import * as Crypto from "expo-crypto";
+import { useSQLiteContext } from "expo-sqlite";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 
 export type User = {
   id: number;
@@ -19,10 +26,18 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-type UserRow = { id: number; email: string; password_hash: string; salt: string };
+type UserRow = {
+  id: number;
+  email: string;
+  password_hash: string;
+  salt: string;
+};
 
 async function hashPassword(password: string, salt: string): Promise<string> {
-  return Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, `${salt}:${password}`);
+  return Crypto.digestStringAsync(
+    Crypto.CryptoDigestAlgorithm.SHA256,
+    `${salt}:${password}`,
+  );
 }
 
 function normalizeEmail(email: string): string {
@@ -42,7 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const row = await db.getFirstAsync<{ id: number; email: string }>(
           `SELECT u.id, u.email FROM session s
            JOIN users u ON u.id = s.user_id
-           WHERE s.id = 1`
+           WHERE s.id = 1`,
         );
         if (active && row) {
           setUser({ id: row.id, email: row.email });
@@ -66,14 +81,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isLoading,
       async signUp(rawEmail, password) {
         const email = normalizeEmail(rawEmail);
-        if (!email.includes('@')) return { ok: false, error: 'Please enter a valid email address.' };
-        if (password.length < 6) return { ok: false, error: 'Password must be at least 6 characters.' };
+        if (!email.includes("@"))
+          return { ok: false, error: "Please enter a valid email address." };
+        if (password.length < 6)
+          return {
+            ok: false,
+            error: "Password must be at least 6 characters.",
+          };
 
         const existing = await db.getFirstAsync<{ id: number }>(
           `SELECT id FROM users WHERE email = ?`,
-          email
+          email,
         );
-        if (existing) return { ok: false, error: 'An account with this email already exists.' };
+        if (existing)
+          return {
+            ok: false,
+            error: "An account with this email already exists.",
+          };
 
         const salt = Crypto.randomUUID();
         const passwordHash = await hashPassword(password, salt);
@@ -82,7 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           email,
           passwordHash,
           salt,
-          new Date().toISOString()
+          new Date().toISOString(),
         );
         const newUser = { id: insert.lastInsertRowId, email };
         await persistSession(newUser.id);
@@ -93,13 +117,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const email = normalizeEmail(rawEmail);
         const row = await db.getFirstAsync<UserRow>(
           `SELECT id, email, password_hash, salt FROM users WHERE email = ?`,
-          email
+          email,
         );
-        if (!row) return { ok: false, error: 'No account found for this email.' };
+        if (!row)
+          return { ok: false, error: "No account found for this email." };
 
         const passwordHash = await hashPassword(password, row.salt);
         if (passwordHash !== row.password_hash) {
-          return { ok: false, error: 'Incorrect password.' };
+          return { ok: false, error: "Incorrect password." };
         }
         const signedInUser = { id: row.id, email: row.email };
         await persistSession(signedInUser.id);
@@ -118,6 +143,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within an AuthProvider');
+  if (!ctx) throw new Error("useAuth must be used within an AuthProvider");
   return ctx;
 }

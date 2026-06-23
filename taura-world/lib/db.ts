@@ -8,7 +8,7 @@ export const DATABASE_NAME = 'taura.db';
  * Guarded by PRAGMA user_version so it only runs when needed.
  */
 export async function migrateDbIfNeeded(db: SQLiteDatabase) {
-  const DATABASE_VERSION = 1;
+  const DATABASE_VERSION = 2;
 
   const result = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
   let currentVersion = result?.user_version ?? 0;
@@ -62,8 +62,53 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
     currentVersion = 1;
   }
 
+  if (currentVersion === 1) {
+    await db.execAsync(`
+      CREATE TABLE IF NOT EXISTS vocabulary (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        chinese TEXT NOT NULL,
+        chinese_pinyin TEXT NOT NULL,
+        french TEXT NOT NULL,
+        french_details TEXT,
+        english TEXT NOT NULL,
+        english_details TEXT,
+        context_tip TEXT,
+        mastered INTEGER DEFAULT 0
+      );
+    `);
+
+    await seedVocabulary(db);
+    currentVersion = 2;
+  }
+
   await db.execAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);
 }
+
+async function seedVocabulary(db: SQLiteDatabase) {
+  const words: [string, string, string, string, string, string, string][] = [
+    ['你好', 'nǐ hǎo', 'Bonjour', 'bon-ZHOOR · greeting', 'Hello', 'the most common greeting', 'Used in Harare every day. You\'ll hear this at every shop on First Street'],
+    ['市场', 'shì chǎng', 'Marché', 'le marché · masculine', 'Market', 'e.g. Mbare Musika, Harare', 'Tino uses this word at Mbare Musika'],
+    ['谢谢', 'xièxie', 'Merci', 'merci · expression', 'Thank you', 'showing appreciation', 'Say this when buying fruit from the street vendors on First Street'],
+    ['巴士', 'bāshì', 'Bus', 'le bus · masculine', 'Bus', 'the local commuter omnibus', 'You will hear people shouting \'Harare! Harare!\' at the kombi rank'],
+    ['朋友', 'péngyou', 'Ami', 'l\'ami · masculine', 'Friend', 'a close acquaintance', 'Greet your neighbours with this word in the morning'],
+    ['水果', 'shuǐguǒ', 'Fruit', 'le fruit · masculine', 'Fruit', 'fresh produce', 'OK Zimbabwe has plenty of fresh apples and oranges'],
+    ['钱', 'qián', 'Argent', 'l\'argent · masculine', 'Money', 'used for trade', 'A commuter trip costs about one US dollar in Harare'],
+    ['早安', 'zǎo ān', 'Bonjour', 'bon-ZHOOR · morning greeting', 'Good morning', 'greeting in the morning', 'Always say good morning to your mother before leaving'],
+    ['家', 'jiā', 'Maison', 'la maison · feminine', 'House', 'where you live', 'Leaving the house early ensures you catch the first kombi'],
+    ['面包', 'miànbāo', 'Pain', 'le pain · masculine', 'Bread', 'popular breakfast food', 'Eating fresh bread with sweet hot tea starts the day right'],
+    ['司机', 'sījī', 'Chauffeur', 'le chauffeur · masculine', 'Driver', 'the kombi operator', 'Confirm the route with the driver before getting in'],
+    ['街道', 'jiēdào', 'Rue', 'la rue · feminine', 'Street', 'busy thoroughfares', 'Walking along First Street is a lively experience during rush hour']
+  ];
+
+  for (const [zh, zh_p, fr, fr_d, en, en_d, tip] of words) {
+    await db.runAsync(
+      `INSERT INTO vocabulary (chinese, chinese_pinyin, french, french_details, english, english_details, context_tip)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      zh, zh_p, fr, fr_d, en, en_d, tip
+    );
+  }
+}
+
 
 async function seedMorningInMbare(db: SQLiteDatabase) {
   const insert = await db.runAsync(
