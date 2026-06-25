@@ -2,12 +2,12 @@ import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
-  FlatList,
-  Image,
+  Animated,
   Platform,
   ScrollView,
   StyleSheet,
@@ -17,18 +17,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { StoryPath, type LessonStory } from "@/components/story-path";
 import { LESSONS } from "@/lib/lessons";
 
-type Story = {
-  id: number;
-  title: string;
-  location: string;
-  description: string;
-  order_index: number;
-  level: string;
-  focus: string;
-  scene_count: number;
-};
+type Story = LessonStory;
 
 type Scene = {
   id: number;
@@ -42,11 +34,10 @@ type Scene = {
 
 export default function StoryScreen() {
   const db = useSQLiteContext();
+  const router = useRouter();
+  const params = useLocalSearchParams<{ lesson?: string }>();
   const colorScheme = useColorScheme();
   const activeColors = Colors[colorScheme ?? "light"];
-
-  const [stories, setStories] = useState<Story[]>([]);
-  const [loading, setLoading] = useState(true);
 
   // Reader state
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
@@ -55,50 +46,117 @@ export default function StoryScreen() {
   const [scenesLoading, setScenesLoading] = useState(false);
   const [readingCompleted, setReadingCompleted] = useState(false);
 
-  // Fetch stories
-  useEffect(() => {
-    let active = true;
-    async function loadStories() {
+  // Page-flip animation: 0 → flat, 1 → edge-on (content swaps here), back to flat.
+  const flipAnim = useRef(new Animated.Value(0)).current;
+  const [flipDir, setFlipDir] = useState(1);
+
+  // Upsert reading progress for a lesson.
+  const saveProgress = useCallback(
+    async (order: number, lastScene: number, completed: boolean) => {
       try {
-        const rows = await db.getAllAsync<Story>(
+        await db.runAsync(
+          `INSERT INTO lesson_progress (lesson_order, last_scene, completed, updated_at)
+           VALUES (?, ?, ?, ?)
+           ON CONFLICT(lesson_order) DO UPDATE SET
+             last_scene = excluded.last_scene,
+             completed = MAX(lesson_progress.completed, excluded.completed),
+             updated_at = excluded.updated_at`,
+          order,
+          lastScene,
+          completed ? 1 : 0,
+          new Date().toISOString(),
+        );
+      } catch (err) {
+        console.error("Error saving progress:", err);
+      }
+    },
+    [db],
+  );
+
+  // Fetch scenes when a lesson is selected, resuming where the learner left off.
+  const handleSelectStory = useCallback(
+    async (story: Story) => {
+      setScenesLoading(true);
+      setReadingCompleted(false);
+      try {
+        const rows = await db.getAllAsync<Scene>(
+          `SELECT * FROM story_scenes WHERE story_id = ? ORDER BY scene_number ASC`,
+          story.id,
+        );
+        const saved = await db.getFirstAsync<{
+          last_scene: number;
+          completed: number;
+        }>(
+          `SELECT last_scene, completed FROM lesson_progress WHERE lesson_order = ?`,
+          story.order_index,
+        );
+        // Resume mid-lesson; restart completed lessons from the beginning.
+        const startIndex =
+          saved && saved.completed !== 1
+            ? Math.min(saved.last_scene, Math.max(rows.length - 1, 0))
+            : 0;
+        setScenes(rows);
+        setCurrentSceneIndex(startIndex);
+        setSelectedStory(story);
+      } catch (err) {
+        console.error("Error fetching scenes:", err);
+      } finally {
+        setScenesLoading(false);
+      }
+    },
+    [db],
+  );
+
+  // Resolve a lesson order to its DB story row, then open the reader.
+  const openLessonByOrder = useCallback(
+    async (order: number) => {
+      try {
+        const story = await db.getFirstAsync<Story>(
           `SELECT s.id, s.title, s.location, s.description,
                   s.order_index, s.level, s.focus,
                   COUNT(sc.id) AS scene_count
            FROM stories s
            LEFT JOIN story_scenes sc ON sc.story_id = s.id
-           GROUP BY s.id
-           ORDER BY s.order_index`,
+           WHERE s.order_index = ?
+           GROUP BY s.id`,
+          order,
         );
-        if (active) setStories(rows);
+        if (story) {
+          handleSelectStory(story);
+        } else {
+          console.warn(`No story found for lesson order ${order}`);
+        }
       } catch (err) {
-        console.error("Error fetching stories:", err);
-      } finally {
-        if (active) setLoading(false);
+        console.error("Error opening lesson:", err);
       }
-    }
-    loadStories();
-    return () => {
-      active = false;
-    };
-  }, [db]);
+    },
+    [db, handleSelectStory],
+  );
 
-  // Fetch scenes when story is selected
-  const handleSelectStory = async (story: Story) => {
-    setScenesLoading(true);
-    setReadingCompleted(false);
-    setCurrentSceneIndex(0);
-    try {
-      const rows = await db.getAllAsync<Scene>(
-        `SELECT * FROM story_scenes WHERE story_id = ? ORDER BY scene_number ASC`,
-        story.id,
-      );
-      setScenes(rows);
-      setSelectedStory(story);
-    } catch (err) {
-      console.error("Error fetching scenes:", err);
-    } finally {
-      setScenesLoading(false);
-    }
+  // Deep-link from the Learn tab: open the lesson passed as a route param.
+  useEffect(() => {
+    const order = params.lesson ? Number(params.lesson) : null;
+    if (!order) return;
+    // Clear the param so the same lesson can be tapped again later.
+    router.setParams({ lesson: undefined });
+    openLessonByOrder(order);
+  }, [params.lesson, openLessonByOrder, router]);
+
+  // Run a book-flip, swapping scene at the hidden mid-point.
+  const flip = (apply: () => void, dir: number) => {
+    setFlipDir(dir);
+    Animated.timing(flipAnim, {
+      toValue: 1,
+      duration: 160,
+      useNativeDriver: true,
+    }).start(() => {
+      apply();
+      Animated.timing(flipAnim, {
+        toValue: 2,
+        duration: 160,
+        useNativeDriver: true,
+      }).start(() => flipAnim.setValue(0));
+    });
   };
 
   const speak = (text: string, lang: "zh-CN" | "fr-FR") => {
@@ -113,20 +171,31 @@ export default function StoryScreen() {
   };
 
   const handleNextScene = () => {
+    if (!selectedStory) return;
+    const order = selectedStory.order_index;
     if (currentSceneIndex < scenes.length - 1) {
-      setCurrentSceneIndex((prev) => prev + 1);
+      flip(() => {
+        const next = currentSceneIndex + 1;
+        setCurrentSceneIndex(next);
+        saveProgress(order, next, false);
+      }, 1);
     } else {
+      saveProgress(order, currentSceneIndex, true);
       setReadingCompleted(true);
     }
   };
 
   const handlePrevScene = () => {
-    if (currentSceneIndex > 0) {
-      setCurrentSceneIndex((prev) => prev - 1);
+    if (currentSceneIndex > 0 && selectedStory) {
+      flip(() => {
+        const prev = currentSceneIndex - 1;
+        setCurrentSceneIndex(prev);
+        saveProgress(selectedStory.order_index, prev, false);
+      }, -1);
     }
   };
 
-  if (loading || scenesLoading) {
+  if (scenesLoading) {
     return (
       <SafeAreaView style={[styles.flex, styles.center]}>
         <ActivityIndicator size="large" color={activeColors.tint} />
@@ -206,6 +275,13 @@ export default function StoryScreen() {
 
     const currentScene = scenes[currentSceneIndex];
     const progressRatio = (currentSceneIndex + 1) / scenes.length;
+    const rotateY = flipAnim.interpolate({
+      inputRange: [0, 1, 2],
+      outputRange:
+        flipDir > 0
+          ? ["0deg", "-90deg", "0deg"]
+          : ["0deg", "90deg", "0deg"],
+    });
 
     return (
       <SafeAreaView
@@ -253,13 +329,14 @@ export default function StoryScreen() {
             </View>
           </View>
 
-          {/* Immersive Scene Card */}
-          <View
+          {/* Immersive Scene Card (book-flip on Next/Prev) */}
+          <Animated.View
             style={[
               styles.sceneCard,
               {
                 borderColor: activeColors.cardBorder,
                 backgroundColor: "#fff",
+                transform: [{ perspective: 1000 }, { rotateY }],
               },
             ]}
           >
@@ -369,7 +446,7 @@ export default function StoryScreen() {
                 {currentScene.english}
               </ThemedText>
             </View>
-          </View>
+          </Animated.View>
 
           {/* Action Navigation Buttons */}
           <View style={styles.navButtonsRow}>
@@ -412,95 +489,13 @@ export default function StoryScreen() {
     );
   }
 
-  // 2. Story Catalog / Dashboard Screen
+  // 2. Story tree (shared with the Learn tab). Tapping a card opens the
+  // reader here on the Story tab.
   return (
-    <SafeAreaView
-      style={[styles.flex, { backgroundColor: activeColors.background }]}
-      edges={["top"]}
-    >
-      <FlatList
-        data={LESSONS}
-        keyExtractor={(item) => String(item.order)}
-        numColumns={2}
-        columnWrapperStyle={styles.lessonRow}
-        contentContainerStyle={styles.catalogContent}
-        ListHeaderComponent={
-          <View style={styles.catalogHeader}>
-            <ThemedText type="title" style={styles.catalogTitle}>
-              A Day in Harare
-            </ThemedText>
-            <ThemedText style={styles.catalogSubtitle}>
-              Ten lessons, beginner to advanced. Tap a lesson to start reading.
-            </ThemedText>
-          </View>
-        }
-        renderItem={({ item }) => {
-          // Open the matching DB story, falling back to the first available one
-          // so every lesson card opens the reader.
-          const story =
-            stories.find((s) => s.order_index === item.order) ?? stories[0];
-          return (
-            <TouchableOpacity
-              style={[
-                styles.lessonCard,
-                {
-                  borderColor: activeColors.cardBorder,
-                  backgroundColor: "#fff",
-                },
-              ]}
-              onPress={() => story && handleSelectStory(story)}
-              activeOpacity={0.85}
-            >
-              <View style={styles.lessonImageWrap}>
-                {item.image ? (
-                  <Image
-                    source={item.image}
-                    style={styles.lessonImage}
-                    resizeMode="cover"
-                  />
-                ) : (
-                  <View style={[styles.lessonImage, styles.lessonImageFallback]}>
-                    <ThemedText style={styles.lessonImageFallbackText}>
-                      {item.title.zh}
-                    </ThemedText>
-                  </View>
-                )}
-                <View
-                  style={[
-                    styles.lessonNumber,
-                    { backgroundColor: activeColors.primaryRed },
-                  ]}
-                >
-                  <ThemedText style={styles.lessonNumberText}>
-                    {item.order}
-                  </ThemedText>
-                </View>
-              </View>
-              <View style={styles.lessonInfo}>
-                <Text
-                  style={[
-                    styles.lessonTitle,
-                    { color: activeColors.primaryBlue },
-                  ]}
-                  numberOfLines={2}
-                >
-                  {item.title.en}
-                </Text>
-                <Text
-                  style={[
-                    styles.lessonLevel,
-                    { color: activeColors.primaryRed },
-                  ]}
-                  numberOfLines={1}
-                >
-                  {item.level}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
-    </SafeAreaView>
+    <StoryPath
+      onSelectLesson={openLessonByOrder}
+      onPressBasics={() => router.push("/basics")}
+    />
   );
 }
 
@@ -513,160 +508,6 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     justifyContent: "space-between",
     paddingBottom: 24,
-  },
-  catalogContent: {
-    padding: 20,
-    gap: 16,
-  },
-  catalogHeader: {
-    marginBottom: 12,
-  },
-  catalogTitle: {
-    fontSize: 26,
-    fontWeight: "bold",
-  },
-  catalogSubtitle: {
-    fontSize: 14,
-    opacity: 0.6,
-    marginTop: 4,
-    lineHeight: 20,
-  },
-  emptyText: {
-    textAlign: "center",
-    marginTop: 40,
-    opacity: 0.6,
-  },
-  lessonRow: {
-    gap: 12,
-  },
-  lessonCard: {
-    flex: 1,
-    borderWidth: 1,
-    borderRadius: 14,
-    overflow: "hidden",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.04,
-    shadowRadius: 6,
-    elevation: 2,
-  },
-  lessonImageWrap: {
-    width: "100%",
-    aspectRatio: 1,
-    backgroundColor: "#F0F0F0",
-  },
-  lessonImage: {
-    width: "100%",
-    height: "100%",
-  },
-  lessonImageFallback: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#1F2A37",
-    padding: 8,
-  },
-  lessonImageFallbackText: {
-    color: "#fff",
-    fontSize: 22,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  lessonNumber: {
-    position: "absolute",
-    top: 6,
-    left: 6,
-    minWidth: 24,
-    height: 24,
-    paddingHorizontal: 6,
-    borderRadius: 12,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  lessonNumberText: {
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: "800",
-    lineHeight: 16,
-  },
-  lessonInfo: {
-    paddingHorizontal: 8,
-    paddingVertical: 8,
-    gap: 2,
-  },
-  lessonTitle: {
-    fontSize: 12,
-    fontWeight: "bold",
-    lineHeight: 16,
-  },
-  lessonLevel: {
-    fontSize: 10,
-    fontWeight: "600",
-  },
-  storyCard: {
-    borderWidth: 1,
-    borderRadius: 20,
-    padding: 18,
-    gap: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.02,
-    shadowRadius: 6,
-    elevation: 1,
-  },
-  storyCardHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexWrap: "wrap",
-    gap: 8,
-  },
-  storyCardTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    flexShrink: 1,
-  },
-  locationBadge: {
-    backgroundColor: "#F5F5F7",
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  locationBadgeText: {
-    fontSize: 12,
-    color: "#687076",
-    fontWeight: "600",
-  },
-  storyCardDesc: {
-    fontSize: 13,
-    color: "#687076",
-    lineHeight: 18,
-  },
-  storyCardFooter: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 6,
-  },
-  scenesTag: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  scenesTagText: {
-    fontSize: 12,
-    color: "#687076",
-  },
-  startReadButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 10,
-  },
-  startReadText: {
-    fontSize: 12,
-    fontWeight: "bold",
   },
   readerHeader: {
     flexDirection: "row",

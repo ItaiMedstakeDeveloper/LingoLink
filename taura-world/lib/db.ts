@@ -10,14 +10,28 @@ export const DATABASE_NAME = "taura.db";
  * Guarded by PRAGMA user_version so it only runs when needed.
  */
 export async function migrateDbIfNeeded(db: SQLiteDatabase) {
-  const DATABASE_VERSION = 3;
+  const DATABASE_VERSION = 4;
 
   const result = await db.getFirstAsync<{ user_version: number }>(
     "PRAGMA user_version",
   );
   let currentVersion = result?.user_version ?? 0;
 
+  // Self-heal: always guarantee the progress table exists, regardless of how
+  // far past migrations got (a prior run may have aborted mid-migration and
+  // left user_version inconsistent). Idempotent + safe to run every launch.
+  await db.execAsync(`
+    CREATE TABLE IF NOT EXISTS lesson_progress (
+      lesson_order INTEGER PRIMARY KEY,
+      last_scene INTEGER NOT NULL DEFAULT 0,
+      completed INTEGER NOT NULL DEFAULT 0,
+      updated_at TEXT NOT NULL
+    );
+  `);
+
   if (currentVersion >= DATABASE_VERSION) {
+    // Up to date by version, but make sure the lessons actually got seeded.
+    await ensureStoriesSeeded(db);
     return;
   }
 
@@ -99,7 +113,51 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
     currentVersion = 3;
   }
 
+  if (currentVersion === 3) {
+    // Tracks how far the learner has read each lesson. Keyed by the stable
+    // lesson order (not story id) so it survives future content reseeds.
+    await db.execAsync(`
+      CREATE TABLE IF NOT EXISTS lesson_progress (
+        lesson_order INTEGER PRIMARY KEY,
+        last_scene INTEGER NOT NULL DEFAULT 0,
+        completed INTEGER NOT NULL DEFAULT 0,
+        updated_at TEXT NOT NULL
+      );
+    `);
+    currentVersion = 4;
+  }
+
+  await ensureStoriesSeeded(db);
   await db.execAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);
+}
+
+/**
+ * Guarantees the 10 lessons are present. If the stories table exists but is
+ * empty (e.g. an earlier migration aborted before seeding), it reseeds them.
+ * No-ops on a healthy database.
+ */
+async function ensureStoriesSeeded(db: SQLiteDatabase) {
+  let count = 0;
+  try {
+    const row = await db.getFirstAsync<{ n: number }>(
+      `SELECT COUNT(*) AS n FROM stories`,
+    );
+    count = row?.n ?? 0;
+  } catch {
+    // Stories table doesn't exist yet; the versioned migration will create it.
+    return;
+  }
+  if (count > 0) return;
+
+  // Empty — make sure the metadata columns exist, then seed.
+  for (const column of ["level TEXT", "focus TEXT"]) {
+    try {
+      await db.execAsync(`ALTER TABLE stories ADD COLUMN ${column}`);
+    } catch {
+      // Column already present — safe to skip.
+    }
+  }
+  await seedLessons(db);
 }
 
 /**
