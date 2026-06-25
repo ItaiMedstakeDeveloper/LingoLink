@@ -8,8 +8,8 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
-  type ImageSourcePropType,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -17,71 +17,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// Lesson cards shown in the catalog grid. Each picture represents a lesson
-// from "A Day in Harare". order_index maps a card to its story in the DB.
-type Lesson = {
-  order: number;
-  title: string;
-  level: string;
-  image: ImageSourcePropType;
-};
-
-const LESSONS: Lesson[] = [
-  {
-    order: 1,
-    title: "Morning in Harare",
-    level: "Beginner",
-    image: require("@/assets/images/lessons/lesson_01_morning_in_harare (1).png"),
-  },
-  {
-    order: 2,
-    title: "The Newspaper Man",
-    level: "Beginner",
-    image: require("@/assets/images/lessons/lesson_02_newspaper_man (1).png"),
-  },
-  {
-    order: 3,
-    title: "Mbare Market Arrives",
-    level: "Beginner–Elementary",
-    image: require("@/assets/images/lessons/lesson_03_mbare_market.png"),
-  },
-  {
-    order: 4,
-    title: "Ambuya Chipo's Tomatoes",
-    level: "Elementary",
-    image: require("@/assets/images/lessons/lesson_04_ambuya_chipo.png"),
-  },
-  {
-    order: 5,
-    title: "Zhou Wei & the Charger",
-    level: "Elementary–Intermediate",
-    image: require("@/assets/images/lessons/lesson_05_zhou_wei.png"),
-  },
-  {
-    order: 6,
-    title: "Marguerite and the Shoes",
-    level: "Intermediate",
-    image: require("@/assets/images/lessons/lesson_06_marguerite.png"),
-  },
-  {
-    order: 8,
-    title: "The Professor's Question",
-    level: "Upper-Intermediate",
-    image: require("@/assets/images/lessons/lesson_08_professor_question.png"),
-  },
-  {
-    order: 9,
-    title: "The Ride Home",
-    level: "Advanced",
-    image: require("@/assets/images/lessons/lesson_09_ride_home.png"),
-  },
-  {
-    order: 10,
-    title: "Five Conversations",
-    level: "Advanced",
-    image: require("@/assets/images/lessons/lesson_10_five_conversations.png"),
-  },
-];
+import { LESSONS } from "@/lib/lessons";
 
 type Story = {
   id: number;
@@ -89,6 +25,8 @@ type Story = {
   location: string;
   description: string;
   order_index: number;
+  level: string;
+  focus: string;
   scene_count: number;
 };
 
@@ -124,6 +62,7 @@ export default function StoryScreen() {
       try {
         const rows = await db.getAllAsync<Story>(
           `SELECT s.id, s.title, s.location, s.description,
+                  s.order_index, s.level, s.focus,
                   COUNT(sc.id) AS scene_count
            FROM stories s
            LEFT JOIN story_scenes sc ON sc.story_id = s.id
@@ -197,13 +136,19 @@ export default function StoryScreen() {
 
   // 1. Reader Mode Screen
   if (selectedStory && scenes.length > 0) {
+    // The lesson backing this story (for the key-vocabulary recap).
+    const lesson = LESSONS.find((l) => l.order === selectedStory.order_index);
+
     if (readingCompleted) {
       return (
         <SafeAreaView
           style={[styles.flex, { backgroundColor: activeColors.background }]}
           edges={["top"]}
         >
-          <View style={[styles.container, styles.center]}>
+          <ScrollView
+            contentContainerStyle={styles.completedScroll}
+            showsVerticalScrollIndicator={false}
+          >
             <View style={styles.completedCard}>
               <IconSymbol
                 size={72}
@@ -230,7 +175,31 @@ export default function StoryScreen() {
                 </ThemedText>
               </TouchableOpacity>
             </View>
-          </View>
+
+            {lesson && lesson.vocabulary.length > 0 && (
+              <View style={styles.vocabCard}>
+                <ThemedText style={styles.vocabHeading}>
+                  Key Vocabulary
+                </ThemedText>
+                {lesson.vocabulary.map((word) => (
+                  <View key={word.english} style={styles.vocabRow}>
+                    <Text style={styles.vocabHeadword}>
+                      <Text style={{ color: activeColors.primaryRed }}>
+                        {word.chinese}
+                      </Text>
+                      {"  ·  "}
+                      <Text style={{ color: activeColors.primaryBlue }}>
+                        {word.french}
+                      </Text>
+                      {"  ·  "}
+                      {word.english}
+                    </Text>
+                    <Text style={styles.vocabNote}>{word.note}</Text>
+                  </View>
+                ))}
+              </View>
+            )}
+          </ScrollView>
         </SafeAreaView>
       );
     }
@@ -483,11 +452,19 @@ export default function StoryScreen() {
               activeOpacity={0.85}
             >
               <View style={styles.lessonImageWrap}>
-                <Image
-                  source={item.image}
-                  style={styles.lessonImage}
-                  resizeMode="cover"
-                />
+                {item.image ? (
+                  <Image
+                    source={item.image}
+                    style={styles.lessonImage}
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <View style={[styles.lessonImage, styles.lessonImageFallback]}>
+                    <ThemedText style={styles.lessonImageFallbackText}>
+                      {item.title.zh}
+                    </ThemedText>
+                  </View>
+                )}
                 <View
                   style={[
                     styles.lessonNumber,
@@ -507,7 +484,7 @@ export default function StoryScreen() {
                   ]}
                   numberOfLines={2}
                 >
-                  {item.title}
+                  {item.title.en}
                 </Text>
                 <Text
                   style={[
@@ -581,6 +558,18 @@ const styles = StyleSheet.create({
   lessonImage: {
     width: "100%",
     height: "100%",
+  },
+  lessonImageFallback: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1F2A37",
+    padding: 8,
+  },
+  lessonImageFallbackText: {
+    color: "#fff",
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   lessonNumber: {
     position: "absolute",
@@ -860,5 +849,34 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     lineHeight: 20,
     marginBottom: 20,
+  },
+  completedScroll: {
+    padding: 20,
+    gap: 16,
+  },
+  vocabCard: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: "#E5E5E5",
+    gap: 14,
+  },
+  vocabHeading: {
+    fontSize: 16,
+    fontWeight: "bold",
+    letterSpacing: 0.5,
+  },
+  vocabRow: {
+    gap: 2,
+  },
+  vocabHeadword: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#333",
+  },
+  vocabNote: {
+    fontSize: 13,
+    color: "#687076",
   },
 });
