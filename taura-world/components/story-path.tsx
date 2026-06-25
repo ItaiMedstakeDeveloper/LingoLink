@@ -69,7 +69,10 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
       }>(`SELECT lesson_order, last_scene, completed FROM lesson_progress`);
       const map: Record<number, { last_scene: number; completed: number }> = {};
       for (const p of progressRows) {
-        map[p.lesson_order] = { last_scene: p.last_scene, completed: p.completed };
+        map[p.lesson_order] = {
+          last_scene: p.last_scene,
+          completed: p.completed,
+        };
       }
       setStories(rows);
       setProgress(map);
@@ -93,11 +96,7 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
     const lastScene = prog?.last_scene ?? 0;
     const started = !!prog && prog.last_scene > 0;
     const inProgress = started && !completed;
-    const pct = completed
-      ? 1
-      : inProgress
-        ? (lastScene + 1) / sceneCount
-        : 0;
+    const pct = completed ? 1 : inProgress ? (lastScene + 1) / sceneCount : 0;
     return { lesson, story, sceneCount, completed, lastScene, inProgress, pct };
   });
 
@@ -353,7 +352,12 @@ const styles = StyleSheet.create({
   },
   basicsText: { flex: 1, gap: 2 },
   basicsTitle: { fontSize: 15, fontWeight: "bold" },
-  basicsSub: { fontSize: 12, opacity: 0.6, lineHeight: 16 },
+  basicsSub: {
+    fontSize: 12,
+    opacity: 0.6,
+    lineHeight: 16,
+    color: "#000",
+  },
   resumeCard: {
     borderRadius: 20,
     padding: 18,

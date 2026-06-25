@@ -1,21 +1,21 @@
-import { useSQLiteContext } from 'expo-sqlite';
-import { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
+import { useSQLiteContext } from "expo-sqlite";
+import { useEffect, useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { ThemedText } from '@/components/themed-text';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { useAuth } from '@/lib/auth';
+import { ThemedText } from "@/components/themed-text";
+import { IconSymbol } from "@/components/ui/icon-symbol";
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useAuth } from "@/lib/auth";
 
 export default function MeScreen() {
   const db = useSQLiteContext();
   const isFocused = useIsFocused();
   const { user, signOut } = useAuth();
   const colorScheme = useColorScheme();
-  const activeColors = Colors[colorScheme ?? 'light'];
+  const activeColors = Colors[colorScheme ?? "light"];
 
   const [stats, setStats] = useState({
     masteredCount: 0,
@@ -31,10 +31,10 @@ export default function MeScreen() {
     async function fetchStats() {
       try {
         const masteredResult = await db.getFirstAsync<{ count: number }>(
-          `SELECT COUNT(*) as count FROM vocabulary WHERE mastered = 1`
+          `SELECT COUNT(*) as count FROM vocabulary WHERE mastered = 1`,
         );
         const totalResult = await db.getFirstAsync<{ count: number }>(
-          `SELECT COUNT(*) as count FROM vocabulary`
+          `SELECT COUNT(*) as count FROM vocabulary`,
         );
 
         if (active) {
@@ -45,7 +45,7 @@ export default function MeScreen() {
           });
         }
       } catch (err) {
-        console.error('Error fetching profile stats:', err);
+        console.error("Error fetching profile stats:", err);
       }
     }
 
@@ -63,13 +63,19 @@ export default function MeScreen() {
   return (
     <SafeAreaView
       style={[styles.flex, { backgroundColor: activeColors.background }]}
-      edges={['top']}
+      edges={["top"]}
     >
       <View style={styles.container}>
         {/* Profile Header */}
         <View style={styles.header}>
-          <View style={[styles.avatar, { backgroundColor: activeColors.lightRed }]}>
-            <IconSymbol size={40} name="person.fill" color={activeColors.primaryRed} />
+          <View
+            style={[styles.avatar, { backgroundColor: activeColors.lightRed }]}
+          >
+            <IconSymbol
+              size={40}
+              name="person.fill"
+              color={activeColors.primaryRed}
+            />
           </View>
           <ThemedText type="title" style={styles.title}>
             My Progress
@@ -84,10 +90,15 @@ export default function MeScreen() {
             <View
               style={[
                 styles.statCard,
-                { borderColor: activeColors.cardBorder, backgroundColor: '#fff' },
+                {
+                  borderColor: activeColors.cardBorder,
+                  backgroundColor: "#fff",
+                },
               ]}
             >
-              <ThemedText style={[styles.statValue, { color: activeColors.primaryRed }]}>
+              <ThemedText
+                style={[styles.statValue, { color: activeColors.primaryRed }]}
+              >
                 {stats.masteredCount}
               </ThemedText>
               <ThemedText style={styles.statLabel}>Words Mastered</ThemedText>
@@ -96,22 +107,34 @@ export default function MeScreen() {
             <View
               style={[
                 styles.statCard,
-                { borderColor: activeColors.cardBorder, backgroundColor: '#fff' },
+                {
+                  borderColor: activeColors.cardBorder,
+                  backgroundColor: "#fff",
+                },
               ]}
             >
-              <ThemedText style={[styles.statValue, { color: activeColors.primaryBlue }]}>
+              <ThemedText
+                style={[styles.statValue, { color: activeColors.primaryBlue }]}
+              >
                 {progressPercentage}%
               </ThemedText>
-              <ThemedText style={styles.statLabel}>Vocabulary Complete</ThemedText>
+              <ThemedText style={styles.statLabel}>
+                Vocabulary Complete
+              </ThemedText>
             </View>
 
             <View
               style={[
                 styles.statCard,
-                { borderColor: activeColors.cardBorder, backgroundColor: '#fff' },
+                {
+                  borderColor: activeColors.cardBorder,
+                  backgroundColor: "#fff",
+                },
               ]}
             >
-              <ThemedText style={[styles.statValue, { color: activeColors.primaryGreen }]}>
+              <ThemedText
+                style={[styles.statValue, { color: activeColors.primaryGreen }]}
+              >
                 {stats.storiesCount}
               </ThemedText>
               <ThemedText style={styles.statLabel}>Stories Read</ThemedText>
@@ -122,47 +145,87 @@ export default function MeScreen() {
         {/* Current Learning Tracks */}
         <View style={styles.tracksContainer}>
           <ThemedText style={styles.sectionTitle}>LEARNING TRACKS</ThemedText>
-          
+
           <View
             style={[
               styles.trackItem,
-              { borderColor: activeColors.cardBorder, backgroundColor: '#fff' },
+              { borderColor: activeColors.cardBorder, backgroundColor: "#fff" },
             ]}
           >
-            <View style={[styles.trackBadge, { backgroundColor: activeColors.lightRed }]}>
-              <ThemedText style={[styles.trackBadgeText, { color: activeColors.primaryRed }]}>
+            <View
+              style={[
+                styles.trackBadge,
+                { backgroundColor: activeColors.lightRed },
+              ]}
+            >
+              <ThemedText
+                style={[
+                  styles.trackBadgeText,
+                  { color: activeColors.primaryRed },
+                ]}
+              >
                 ZH
               </ThemedText>
             </View>
             <View style={styles.trackInfo}>
-              <ThemedText style={styles.trackTitle}>Chinese (Mandarin)</ThemedText>
-              <ThemedText style={styles.trackSub}>Focus: Harare Street Talk</ThemedText>
+              <ThemedText style={styles.trackTitle}>
+                Chinese (Mandarin)
+              </ThemedText>
+              <ThemedText style={styles.trackSub}>
+                Focus: Harare Street Talk
+              </ThemedText>
             </View>
-            <IconSymbol size={18} name="checkmark" color={activeColors.primaryGreen} />
+            <IconSymbol
+              size={18}
+              name="checkmark"
+              color={activeColors.primaryGreen}
+            />
           </View>
 
           <View
             style={[
               styles.trackItem,
-              { borderColor: activeColors.cardBorder, backgroundColor: '#fff' },
+              { borderColor: activeColors.cardBorder, backgroundColor: "#fff" },
             ]}
           >
-            <View style={[styles.trackBadge, { backgroundColor: activeColors.lightBlue }]}>
-              <ThemedText style={[styles.trackBadgeText, { color: activeColors.primaryBlue }]}>
+            <View
+              style={[
+                styles.trackBadge,
+                { backgroundColor: activeColors.lightBlue },
+              ]}
+            >
+              <ThemedText
+                style={[
+                  styles.trackBadgeText,
+                  { color: activeColors.primaryBlue },
+                ]}
+              >
                 FR
               </ThemedText>
             </View>
             <View style={styles.trackInfo}>
               <ThemedText style={styles.trackTitle}>French</ThemedText>
-              <ThemedText style={styles.trackSub}>Focus: Daily Conversations</ThemedText>
+              <ThemedText style={styles.trackSub}>
+                Focus: Daily Conversations
+              </ThemedText>
             </View>
-            <IconSymbol size={18} name="checkmark" color={activeColors.primaryGreen} />
+            <IconSymbol
+              size={18}
+              name="checkmark"
+              color={activeColors.primaryGreen}
+            />
           </View>
         </View>
 
         {/* Settings & Sign out */}
         <View style={styles.actionsContainer}>
-          <TouchableOpacity style={[styles.buttonSignOut, { backgroundColor: activeColors.primaryRed }]} onPress={signOut}>
+          <TouchableOpacity
+            style={[
+              styles.buttonSignOut,
+              { backgroundColor: activeColors.primaryRed },
+            ]}
+            onPress={signOut}
+          >
             <ThemedText style={styles.buttonSignOutText}>Sign Out</ThemedText>
           </TouchableOpacity>
         </View>
@@ -177,24 +240,24 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 24,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingBottom: 24,
   },
   header: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   avatar: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 12,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   email: {
     fontSize: 14,
@@ -207,13 +270,13 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     opacity: 0.5,
     letterSpacing: 1,
     marginBottom: 4,
   },
   statsGrid: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 10,
   },
   statCard: {
@@ -221,9 +284,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 16,
     padding: 12,
-    alignItems: 'center',
+    alignItems: "center",
     gap: 4,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.01,
     shadowRadius: 4,
@@ -231,21 +294,22 @@ const styles = StyleSheet.create({
   },
   statValue: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   statLabel: {
     fontSize: 10,
-    textAlign: 'center',
+    textAlign: "center",
     opacity: 0.6,
-    fontWeight: '600',
+    fontWeight: "600",
+    color: "black",
   },
   tracksContainer: {
     marginVertical: 12,
     gap: 8,
   },
   trackItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
     borderRadius: 16,
     padding: 12,
@@ -255,24 +319,26 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   trackBadgeText: {
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   trackInfo: {
     flex: 1,
   },
   trackTitle: {
     fontSize: 15,
-    fontWeight: 'bold',
+    fontWeight: "bold",
+    color: "black",
   },
   trackSub: {
     fontSize: 11,
     opacity: 0.6,
     marginTop: 1,
+    color: "black",
   },
   actionsContainer: {
     marginTop: 20,
@@ -280,12 +346,12 @@ const styles = StyleSheet.create({
   buttonSignOut: {
     height: 52,
     borderRadius: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonSignOutText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });

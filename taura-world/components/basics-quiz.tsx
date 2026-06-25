@@ -6,12 +6,13 @@ import { useSQLiteContext } from "expo-sqlite";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Platform,
   StyleSheet,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { speak } from "@/lib/speech";
 
 type Vocabulary = {
   id: number;
@@ -151,19 +152,6 @@ export function BasicsQuiz() {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const speak = (text: string, lang: "zh-CN" | "fr-FR") => {
-    if (Platform.OS === "web" && "speechSynthesis" in window) {
-      // Use web speech synthesis
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = lang;
-      window.speechSynthesis.speak(utterance);
-    } else {
-      // Simulate speaking on native platforms (or log in dev)
-      console.log(`[TTS Native simulation] Speaking: "${text}" in ${lang}`);
-    }
-  };
-
   const handleNext = async (markMastered: boolean) => {
     if (words.length === 0) return;
     const currentWord = words[currentIndex];
@@ -267,10 +255,15 @@ export function BasicsQuiz() {
             </ThemedText>
           </View>
           <TouchableOpacity
-            style={[styles.buttonPrimary, { backgroundColor: activeColors.tint }]}
+            style={[
+              styles.buttonPrimary,
+              { backgroundColor: activeColors.tint },
+            ]}
             onPress={handleRestart}
           >
-            <ThemedText style={styles.buttonPrimaryText}>Study Again</ThemedText>
+            <ThemedText style={styles.buttonPrimaryText}>
+              Study Again
+            </ThemedText>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -489,7 +482,10 @@ export function BasicsQuiz() {
           >
             <View style={styles.cardHeader}>
               <View
-                style={[styles.badge, { backgroundColor: activeColors.lightRed }]}
+                style={[
+                  styles.badge,
+                  { backgroundColor: activeColors.lightRed },
+                ]}
               >
                 <ThemedText
                   style={[styles.badgeText, { color: activeColors.primaryRed }]}
@@ -499,7 +495,10 @@ export function BasicsQuiz() {
               </View>
               <View style={styles.wordInfo}>
                 <ThemedText
-                  style={[styles.wordTextMain, { color: activeColors.primaryRed }]}
+                  style={[
+                    styles.wordTextMain,
+                    { color: activeColors.primaryRed },
+                  ]}
                 >
                   {currentWord.chinese}
                 </ThemedText>
@@ -535,7 +534,10 @@ export function BasicsQuiz() {
                 ]}
               >
                 <ThemedText
-                  style={[styles.badgeText, { color: activeColors.primaryBlue }]}
+                  style={[
+                    styles.badgeText,
+                    { color: activeColors.primaryBlue },
+                  ]}
                 >
                   FR
                 </ThemedText>
@@ -596,7 +598,10 @@ export function BasicsQuiz() {
         {/* Action Buttons Row */}
         <View style={styles.actionsRow}>
           <TouchableOpacity
-            style={[styles.buttonAgain, { backgroundColor: activeColors.lightRed }]}
+            style={[
+              styles.buttonAgain,
+              { backgroundColor: activeColors.lightRed },
+            ]}
             onPress={() => handleNext(false)}
           >
             <IconSymbol
@@ -605,7 +610,10 @@ export function BasicsQuiz() {
               color={activeColors.primaryRed}
             />
             <ThemedText
-              style={[styles.buttonAgainText, { color: activeColors.primaryRed }]}
+              style={[
+                styles.buttonAgainText,
+                { color: activeColors.primaryRed },
+              ]}
             >
               Again
             </ThemedText>
@@ -618,7 +626,9 @@ export function BasicsQuiz() {
             ]}
             onPress={() => handleNext(true)}
           >
-            <ThemedText style={styles.buttonPrimaryText}>I know this</ThemedText>
+            <ThemedText style={styles.buttonPrimaryText}>
+              I know this
+            </ThemedText>
             <IconSymbol size={18} name="arrow.right" color="#fff" />
           </TouchableOpacity>
         </View>
@@ -663,6 +673,7 @@ const styles = StyleSheet.create({
     lineHeight: 32,
     fontWeight: "bold",
     letterSpacing: -0.5,
+    color: "blue",
   },
   subtitleRow: {
     flexDirection: "row",

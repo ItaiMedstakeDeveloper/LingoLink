@@ -1,14 +1,16 @@
+import { StoryPath, type LessonStory } from "@/components/story-path";
 import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { LESSONS } from "@/lib/lessons";
+import { speak } from "@/lib/speech";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Animated,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -16,10 +18,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import { StoryPath, type LessonStory } from "@/components/story-path";
-import { LESSONS } from "@/lib/lessons";
-
 type Story = LessonStory;
 
 type Scene = {
@@ -159,17 +157,6 @@ export default function StoryScreen() {
     });
   };
 
-  const speak = (text: string, lang: "zh-CN" | "fr-FR") => {
-    if (Platform.OS === "web" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = lang;
-      window.speechSynthesis.speak(utterance);
-    } else {
-      console.log(`[TTS Native simulation] Speaking: "${text}" in ${lang}`);
-    }
-  };
-
   const handleNextScene = () => {
     if (!selectedStory) return;
     const order = selectedStory.order_index;
@@ -278,9 +265,7 @@ export default function StoryScreen() {
     const rotateY = flipAnim.interpolate({
       inputRange: [0, 1, 2],
       outputRange:
-        flipDir > 0
-          ? ["0deg", "-90deg", "0deg"]
-          : ["0deg", "90deg", "0deg"],
+        flipDir > 0 ? ["0deg", "-90deg", "0deg"] : ["0deg", "90deg", "0deg"],
     });
 
     return (
@@ -441,6 +426,12 @@ export default function StoryScreen() {
                     EN
                   </ThemedText>
                 </View>
+                <TouchableOpacity
+                  style={[styles.audioButton, { backgroundColor: "#F0F0F0" }]}
+                  onPress={() => speak(currentScene.english, "en-US")}
+                >
+                  <IconSymbol size={16} name="volume.3.fill" color="#687076" />
+                </TouchableOpacity>
               </View>
               <ThemedText style={styles.textEnglish}>
                 {currentScene.english}

@@ -7,12 +7,13 @@ import { useSQLiteContext } from "expo-sqlite";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Platform,
   StyleSheet,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { speak } from "@/lib/speech";
 
 type Vocabulary = {
   id: number;
@@ -63,16 +64,6 @@ export default function CardsScreen() {
     };
   }, [db]);
 
-  const speak = (text: string, lang: "zh-CN" | "fr-FR") => {
-    if (Platform.OS === "web" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = lang;
-      window.speechSynthesis.speak(utterance);
-    } else {
-      console.log(`[TTS Native simulation] Speaking: "${text}" in ${lang}`);
-    }
-  };
 
   const handleAction = async (gotIt: boolean) => {
     if (words.length === 0) return;
