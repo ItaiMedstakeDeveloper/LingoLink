@@ -7,18 +7,88 @@ import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  Image,
+  type ImageSourcePropType,
   Platform,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+// Lesson cards shown in the catalog grid. Each picture represents a lesson
+// from "A Day in Harare". order_index maps a card to its story in the DB.
+type Lesson = {
+  order: number;
+  title: string;
+  level: string;
+  image: ImageSourcePropType;
+};
+
+const LESSONS: Lesson[] = [
+  {
+    order: 1,
+    title: "Morning in Harare",
+    level: "Beginner",
+    image: require("@/assets/images/lessons/lesson_01_morning_in_harare (1).png"),
+  },
+  {
+    order: 2,
+    title: "The Newspaper Man",
+    level: "Beginner",
+    image: require("@/assets/images/lessons/lesson_02_newspaper_man (1).png"),
+  },
+  {
+    order: 3,
+    title: "Mbare Market Arrives",
+    level: "Beginner–Elementary",
+    image: require("@/assets/images/lessons/lesson_03_mbare_market.png"),
+  },
+  {
+    order: 4,
+    title: "Ambuya Chipo's Tomatoes",
+    level: "Elementary",
+    image: require("@/assets/images/lessons/lesson_04_ambuya_chipo.png"),
+  },
+  {
+    order: 5,
+    title: "Zhou Wei & the Charger",
+    level: "Elementary–Intermediate",
+    image: require("@/assets/images/lessons/lesson_05_zhou_wei.png"),
+  },
+  {
+    order: 6,
+    title: "Marguerite and the Shoes",
+    level: "Intermediate",
+    image: require("@/assets/images/lessons/lesson_06_marguerite.png"),
+  },
+  {
+    order: 8,
+    title: "The Professor's Question",
+    level: "Upper-Intermediate",
+    image: require("@/assets/images/lessons/lesson_08_professor_question.png"),
+  },
+  {
+    order: 9,
+    title: "The Ride Home",
+    level: "Advanced",
+    image: require("@/assets/images/lessons/lesson_09_ride_home.png"),
+  },
+  {
+    order: 10,
+    title: "Five Conversations",
+    level: "Advanced",
+    image: require("@/assets/images/lessons/lesson_10_five_conversations.png"),
+  },
+];
 
 type Story = {
   id: number;
   title: string;
   location: string;
   description: string;
+  order_index: number;
   scene_count: number;
 };
 
@@ -380,77 +450,78 @@ export default function StoryScreen() {
       edges={["top"]}
     >
       <FlatList
-        data={stories}
-        keyExtractor={(item) => String(item.id)}
+        data={LESSONS}
+        keyExtractor={(item) => String(item.order)}
+        numColumns={2}
+        columnWrapperStyle={styles.lessonRow}
         contentContainerStyle={styles.catalogContent}
         ListHeaderComponent={
           <View style={styles.catalogHeader}>
             <ThemedText type="title" style={styles.catalogTitle}>
-              Immersive Stories
+              A Day in Harare
             </ThemedText>
             <ThemedText style={styles.catalogSubtitle}>
-              Learn languages in context through stories set on Harare streets.
+              Ten lessons, beginner to advanced. Tap a lesson to start reading.
             </ThemedText>
           </View>
         }
-        ListEmptyComponent={
-          <ThemedText style={styles.emptyText}>No stories found.</ThemedText>
-        }
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[
-              styles.storyCard,
-              {
-                borderColor: activeColors.cardBorder,
-                backgroundColor: "#fff",
-              },
-            ]}
-            onPress={() => handleSelectStory(item)}
-            activeOpacity={0.8}
-          >
-            <View style={styles.storyCardHeader}>
-              <ThemedText type="subtitle" style={styles.storyCardTitle}>
-                {item.title}
-              </ThemedText>
-              <View style={styles.locationBadge}>
-                <ThemedText style={styles.locationBadgeText}>
-                  📍 {item.location}
-                </ThemedText>
-              </View>
-            </View>
-            <ThemedText style={styles.storyCardDesc}>
-              {item.description}
-            </ThemedText>
-            <View style={styles.storyCardFooter}>
-              <View style={styles.scenesTag}>
-                <IconSymbol size={14} name="book.fill" color="#687076" />
-                <ThemedText style={styles.scenesTagText}>
-                  {item.scene_count} chapters
-                </ThemedText>
-              </View>
-              <View
-                style={[
-                  styles.startReadButton,
-                  { backgroundColor: activeColors.lightRed },
-                ]}
-              >
-                <ThemedText
+        renderItem={({ item }) => {
+          // Open the matching DB story, falling back to the first available one
+          // so every lesson card opens the reader.
+          const story =
+            stories.find((s) => s.order_index === item.order) ?? stories[0];
+          return (
+            <TouchableOpacity
+              style={[
+                styles.lessonCard,
+                {
+                  borderColor: activeColors.cardBorder,
+                  backgroundColor: "#fff",
+                },
+              ]}
+              onPress={() => story && handleSelectStory(story)}
+              activeOpacity={0.85}
+            >
+              <View style={styles.lessonImageWrap}>
+                <Image
+                  source={item.image}
+                  style={styles.lessonImage}
+                  resizeMode="cover"
+                />
+                <View
                   style={[
-                    styles.startReadText,
-                    { color: activeColors.primaryRed },
+                    styles.lessonNumber,
+                    { backgroundColor: activeColors.primaryRed },
                   ]}
                 >
-                  Start Reading
-                </ThemedText>
-                <IconSymbol
-                  size={12}
-                  name="arrow.right"
-                  color={activeColors.primaryRed}
-                />
+                  <ThemedText style={styles.lessonNumberText}>
+                    {item.order}
+                  </ThemedText>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        )}
+              <View style={styles.lessonInfo}>
+                <Text
+                  style={[
+                    styles.lessonTitle,
+                    { color: activeColors.primaryBlue },
+                  ]}
+                  numberOfLines={2}
+                >
+                  {item.title}
+                </Text>
+                <Text
+                  style={[
+                    styles.lessonLevel,
+                    { color: activeColors.primaryRed },
+                  ]}
+                  numberOfLines={1}
+                >
+                  {item.level}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          );
+        }}
       />
     </SafeAreaView>
   );
@@ -487,6 +558,60 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 40,
     opacity: 0.6,
+  },
+  lessonRow: {
+    gap: 12,
+  },
+  lessonCard: {
+    flex: 1,
+    borderWidth: 1,
+    borderRadius: 14,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  lessonImageWrap: {
+    width: "100%",
+    aspectRatio: 1,
+    backgroundColor: "#F0F0F0",
+  },
+  lessonImage: {
+    width: "100%",
+    height: "100%",
+  },
+  lessonNumber: {
+    position: "absolute",
+    top: 6,
+    left: 6,
+    minWidth: 24,
+    height: 24,
+    paddingHorizontal: 6,
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  lessonNumberText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "800",
+    lineHeight: 16,
+  },
+  lessonInfo: {
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    gap: 2,
+  },
+  lessonTitle: {
+    fontSize: 12,
+    fontWeight: "bold",
+    lineHeight: 16,
+  },
+  lessonLevel: {
+    fontSize: 10,
+    fontWeight: "600",
   },
   storyCard: {
     borderWidth: 1,

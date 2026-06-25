@@ -156,12 +156,12 @@ const styles = StyleSheet.create({
   },
   error: { color: "#c0392b", textAlign: "center" },
   button: {
-    backgroundColor: "#1A73E8",
+    backgroundColor: "#061e3c",
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: "center",
     marginTop: 4,
-    shadowColor: "#1A73E8",
+    shadowColor: "#062348",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 4,
@@ -171,5 +171,5 @@ const styles = StyleSheet.create({
   buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },
   footer: { flexDirection: "row", justifyContent: "center", marginTop: 8 },
   footerText: { color: "#687076" },
-  linkText: { color: "#B21D1D", fontWeight: "600" },
+  linkText: { color: "#4c0a0a", fontWeight: "600" },
 });
