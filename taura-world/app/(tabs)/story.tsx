@@ -1,5 +1,5 @@
-import { useSQLiteContext } from 'expo-sqlite';
-import { useEffect, useState } from 'react';
+import { useSQLiteContext } from "expo-sqlite";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -7,13 +7,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { ThemedText } from '@/components/themed-text';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { ThemedText } from "@/components/themed-text";
+import { IconSymbol } from "@/components/ui/icon-symbol";
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
 
 type Story = {
   id: number;
@@ -36,11 +36,11 @@ type Scene = {
 export default function StoryScreen() {
   const db = useSQLiteContext();
   const colorScheme = useColorScheme();
-  const activeColors = Colors[colorScheme ?? 'light'];
+  const activeColors = Colors[colorScheme ?? "light"];
 
   const [stories, setStories] = useState<Story[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   // Reader state
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [scenes, setScenes] = useState<Scene[]>([]);
@@ -59,11 +59,11 @@ export default function StoryScreen() {
            FROM stories s
            LEFT JOIN story_scenes sc ON sc.story_id = s.id
            GROUP BY s.id
-           ORDER BY s.order_index`
+           ORDER BY s.order_index`,
         );
         if (active) setStories(rows);
       } catch (err) {
-        console.error('Error fetching stories:', err);
+        console.error("Error fetching stories:", err);
       } finally {
         if (active) setLoading(false);
       }
@@ -82,19 +82,19 @@ export default function StoryScreen() {
     try {
       const rows = await db.getAllAsync<Scene>(
         `SELECT * FROM story_scenes WHERE story_id = ? ORDER BY scene_number ASC`,
-        story.id
+        story.id,
       );
       setScenes(rows);
       setSelectedStory(story);
     } catch (err) {
-      console.error('Error fetching scenes:', err);
+      console.error("Error fetching scenes:", err);
     } finally {
       setScenesLoading(false);
     }
   };
 
-  const speak = (text: string, lang: 'zh-CN' | 'fr-FR') => {
-    if (Platform.OS === 'web' && 'speechSynthesis' in window) {
+  const speak = (text: string, lang: "zh-CN" | "fr-FR") => {
+    if (Platform.OS === "web" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = lang;
@@ -132,7 +132,7 @@ export default function StoryScreen() {
       return (
         <SafeAreaView
           style={[styles.flex, { backgroundColor: activeColors.background }]}
-          edges={['top']}
+          edges={["top"]}
         >
           <View style={[styles.container, styles.center]}>
             <View style={styles.completedCard}>
@@ -146,12 +146,13 @@ export default function StoryScreen() {
                 Story Completed!
               </ThemedText>
               <ThemedText style={styles.completedSubtitle}>
-                Well done! You have finished reading &quot;{selectedStory.title}&quot;.
+                Well done! You have finished reading &quot;{selectedStory.title}
+                &quot;.
               </ThemedText>
               <TouchableOpacity
                 style={[
                   styles.buttonPrimary,
-                  { backgroundColor: activeColors.primaryRed, width: '100%' },
+                  { backgroundColor: activeColors.primaryRed, width: "100%" },
                 ]}
                 onPress={() => setSelectedStory(null)}
               >
@@ -171,7 +172,7 @@ export default function StoryScreen() {
     return (
       <SafeAreaView
         style={[styles.flex, { backgroundColor: activeColors.background }]}
-        edges={['top']}
+        edges={["top"]}
       >
         <View style={styles.container}>
           {/* Header */}
@@ -180,7 +181,11 @@ export default function StoryScreen() {
               onPress={() => setSelectedStory(null)}
               style={styles.backButton}
             >
-              <IconSymbol size={24} name="chevron.left" color={activeColors.text} />
+              <IconSymbol
+                size={24}
+                name="chevron.left"
+                color={activeColors.text}
+              />
             </TouchableOpacity>
             <View style={styles.headerInfo}>
               <ThemedText style={styles.readerTitle} numberOfLines={1}>
@@ -216,7 +221,7 @@ export default function StoryScreen() {
               styles.sceneCard,
               {
                 borderColor: activeColors.cardBorder,
-                backgroundColor: '#fff',
+                backgroundColor: "#fff",
               },
             ]}
           >
@@ -239,7 +244,10 @@ export default function StoryScreen() {
                   ]}
                 >
                   <ThemedText
-                    style={[styles.langTagText, { color: activeColors.primaryRed }]}
+                    style={[
+                      styles.langTagText,
+                      { color: activeColors.primaryRed },
+                    ]}
                   >
                     ZH
                   </ThemedText>
@@ -249,7 +257,7 @@ export default function StoryScreen() {
                     styles.audioButton,
                     { backgroundColor: activeColors.lightRed },
                   ]}
-                  onPress={() => speak(currentScene.chinese, 'zh-CN')}
+                  onPress={() => speak(currentScene.chinese, "zh-CN")}
                 >
                   <IconSymbol
                     size={16}
@@ -290,7 +298,7 @@ export default function StoryScreen() {
                     styles.audioButton,
                     { backgroundColor: activeColors.lightBlue },
                   ]}
-                  onPress={() => speak(currentScene.french, 'fr-FR')}
+                  onPress={() => speak(currentScene.french, "fr-FR")}
                 >
                   <IconSymbol
                     size={16}
@@ -311,8 +319,10 @@ export default function StoryScreen() {
             {/* EN (Base) text */}
             <View style={styles.translationBlock}>
               <View style={styles.translationHeader}>
-                <View style={[styles.langTag, { backgroundColor: '#F0F0F0' }]}>
-                  <ThemedText style={[styles.langTagText, { color: '#687076' }]}>
+                <View style={[styles.langTag, { backgroundColor: "#F0F0F0" }]}>
+                  <ThemedText
+                    style={[styles.langTagText, { color: "#687076" }]}
+                  >
                     EN
                   </ThemedText>
                 </View>
@@ -334,8 +344,14 @@ export default function StoryScreen() {
               onPress={handlePrevScene}
               disabled={currentSceneIndex === 0}
             >
-              <IconSymbol size={18} name="chevron.left" color={activeColors.text} />
-              <ThemedText style={styles.navButtonSecondaryText}>Prev</ThemedText>
+              <IconSymbol
+                size={18}
+                name="chevron.left"
+                color={activeColors.text}
+              />
+              <ThemedText style={styles.navButtonSecondaryText}>
+                Prev
+              </ThemedText>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -346,7 +362,9 @@ export default function StoryScreen() {
               onPress={handleNextScene}
             >
               <ThemedText style={styles.buttonPrimaryText}>
-                {currentSceneIndex === scenes.length - 1 ? 'Finish' : 'Next Scene'}
+                {currentSceneIndex === scenes.length - 1
+                  ? "Finish"
+                  : "Next Scene"}
               </ThemedText>
               <IconSymbol size={18} name="arrow.right" color="#fff" />
             </TouchableOpacity>
@@ -360,7 +378,7 @@ export default function StoryScreen() {
   return (
     <SafeAreaView
       style={[styles.flex, { backgroundColor: activeColors.background }]}
-      edges={['top']}
+      edges={["top"]}
     >
       <FlatList
         data={stories}
@@ -385,7 +403,7 @@ export default function StoryScreen() {
               styles.storyCard,
               {
                 borderColor: activeColors.cardBorder,
-                backgroundColor: '#fff',
+                backgroundColor: "#fff",
               },
             ]}
             onPress={() => handleSelectStory(item)}
@@ -418,7 +436,10 @@ export default function StoryScreen() {
                 ]}
               >
                 <ThemedText
-                  style={[styles.startReadText, { color: activeColors.primaryRed }]}
+                  style={[
+                    styles.startReadText,
+                    { color: activeColors.primaryRed },
+                  ]}
                 >
                   Start Reading
                 </ThemedText>
@@ -438,12 +459,12 @@ export default function StoryScreen() {
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  center: { justifyContent: 'center', alignItems: 'center' },
+  center: { justifyContent: "center", alignItems: "center" },
   container: {
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 12,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingBottom: 24,
   },
   catalogContent: {
@@ -455,7 +476,7 @@ const styles = StyleSheet.create({
   },
   catalogTitle: {
     fontSize: 26,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   catalogSubtitle: {
     fontSize: 14,
@@ -464,7 +485,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   emptyText: {
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 40,
     opacity: 0.6,
   },
@@ -473,58 +494,58 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 18,
     gap: 10,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.02,
     shadowRadius: 6,
     elevation: 1,
   },
   storyCardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexWrap: "wrap",
     gap: 8,
   },
   storyCardTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     flexShrink: 1,
   },
   locationBadge: {
-    backgroundColor: '#F5F5F7',
+    backgroundColor: "#F5F5F7",
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
   },
   locationBadgeText: {
     fontSize: 12,
-    color: '#687076',
-    fontWeight: '600',
+    color: "#687076",
+    fontWeight: "600",
   },
   storyCardDesc: {
     fontSize: 13,
-    color: '#687076',
+    color: "#687076",
     lineHeight: 18,
   },
   storyCardFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 6,
   },
   scenesTag: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 6,
   },
   scenesTagText: {
     fontSize: 12,
-    color: '#687076',
+    color: "#687076",
   },
   startReadButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 6,
     paddingHorizontal: 12,
     paddingVertical: 8,
@@ -532,19 +553,19 @@ const styles = StyleSheet.create({
   },
   startReadText: {
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   readerHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     height: 48,
   },
   backButton: {
     width: 40,
     height: 40,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    justifyContent: "center",
+    alignItems: "flex-start",
   },
   headerInfo: {
     flex: 1,
@@ -552,7 +573,7 @@ const styles = StyleSheet.create({
   },
   readerTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   readerLocation: {
     fontSize: 11,
@@ -561,7 +582,7 @@ const styles = StyleSheet.create({
   },
   sceneCounter: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     opacity: 0.6,
   },
   progressContainer: {
@@ -569,12 +590,12 @@ const styles = StyleSheet.create({
   },
   progressBarBg: {
     height: 6,
-    backgroundColor: '#E0E0E0',
+    backgroundColor: "#E0E0E0",
     borderRadius: 3,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   progressBarFill: {
-    height: '100%',
+    height: "100%",
     borderRadius: 3,
   },
   sceneCard: {
@@ -583,36 +604,36 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     padding: 20,
     marginVertical: 8,
-    justifyContent: 'space-around',
-    shadowColor: '#000',
+    justifyContent: "space-around",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.03,
     shadowRadius: 10,
     elevation: 1,
   },
   contextBadgeRow: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
   contextBadge: {
-    backgroundColor: '#F5F5F7',
+    backgroundColor: "#F5F5F7",
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 8,
   },
   contextBadgeText: {
     fontSize: 10,
-    fontWeight: 'bold',
-    color: '#687076',
+    fontWeight: "bold",
+    color: "#687076",
     letterSpacing: 0.5,
   },
   translationBlock: {
     gap: 8,
   },
   translationHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   langTag: {
     paddingHorizontal: 8,
@@ -621,81 +642,81 @@ const styles = StyleSheet.create({
   },
   langTagText: {
     fontSize: 11,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   audioButton: {
     width: 28,
     height: 28,
     borderRadius: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   textChinese: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     lineHeight: 30,
   },
   textFrench: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   textEnglish: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
+    fontWeight: "600",
+    color: "#333",
     lineHeight: 24,
   },
   divider: {
     height: 1,
-    backgroundColor: '#F0F0F0',
+    backgroundColor: "#F0F0F0",
   },
   navButtonsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 12,
     marginVertical: 8,
   },
   navButtonSecondary: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     gap: 6,
     height: 52,
     paddingHorizontal: 20,
     borderRadius: 14,
     borderWidth: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   navButtonSecondaryText: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   disabledButton: {
     opacity: 0.4,
   },
   buttonPrimary: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     gap: 8,
     height: 52,
     borderRadius: 14,
   },
   buttonPrimaryText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   completedCard: {
-    width: '100%',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    width: "100%",
+    alignItems: "center",
+    backgroundColor: "#fff",
     borderRadius: 24,
     padding: 24,
     borderWidth: 1,
-    borderColor: '#E5E5E5',
-    shadowColor: '#000',
+    borderColor: "#E5E5E5",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.05,
     shadowRadius: 12,
@@ -706,12 +727,12 @@ const styles = StyleSheet.create({
   },
   completedTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
   },
   completedSubtitle: {
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: "center",
     opacity: 0.6,
     lineHeight: 20,
     marginBottom: 20,
