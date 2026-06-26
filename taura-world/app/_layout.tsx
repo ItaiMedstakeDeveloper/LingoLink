@@ -13,17 +13,13 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 import "react-native-reanimated";
-
 export const unstable_settings = {
   anchor: "(tabs)",
 };
-
 // Keep the native splash screen visible until the app has finished loading.
 SplashScreen.preventAutoHideAsync();
-
 // Minimum time (ms) to keep the splash screen visible before the login screen.
 const SPLASH_MIN_DURATION = 5000;
-
 function RootNavigator() {
   const colorScheme = useColorScheme();
   const { user, isLoading } = useAuth();
@@ -75,6 +71,18 @@ function RootNavigator() {
           <Stack.Screen
             name="question-papers-french"
             options={{ headerShown: true, title: "French Papers" }}
+          />
+          <Stack.Screen
+            name="view-media"
+            options={{ headerShown: true, title: "View Media" }}
+          />
+          <Stack.Screen
+            name="media-type"
+            options={{ headerShown: true, title: "View Media" }}
+          />
+          <Stack.Screen
+            name="media-items"
+            options={{ headerShown: true, title: "View Media" }}
           />
           <Stack.Screen
             name="modal"

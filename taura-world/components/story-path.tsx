@@ -1,3 +1,10 @@
+import { ThemedText } from "@/components/themed-text";
+import { IconSymbol } from "@/components/ui/icon-symbol";
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { LESSONS } from "@/lib/lessons";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useState } from "react";
 import {
   FlatList,
@@ -8,14 +15,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import { ThemedText } from "@/components/themed-text";
-import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import { LESSONS } from "@/lib/lessons";
-import { useFocusEffect, useRouter } from "expo-router";
-import { useSQLiteContext } from "expo-sqlite";
 
 /** A story row as stored in SQLite. */
 export type LessonStory = {
@@ -136,28 +135,43 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
                 />
               </View>
 
-              {/* Premium "Question Papers" entry point */}
-              <TouchableOpacity
-                style={styles.papersCard}
-                activeOpacity={0.9}
-                onPress={() => router.push("/question-papers")}
-              >
-                <View style={styles.papersIcon}>
-                  <IconSymbol size={16} name="book.fill" color="#7A5B00" />
-                </View>
-                <View style={styles.papersText}>
-                  <View style={styles.papersTitleRow}>
-                    <Text style={styles.papersTitle}>Question Papers</Text>
+              {/* Practice shortcuts: Question Papers (left) + Read Newspapers (right) */}
+              <View style={styles.featureRow}>
+                <TouchableOpacity
+                  style={[styles.featureCard, styles.papersCard]}
+                  activeOpacity={0.9}
+                  onPress={() => router.push("/question-papers")}
+                >
+                  <View style={styles.featureTopRow}>
+                    <View style={styles.papersIcon}>
+                      <IconSymbol size={16} name="book.fill" color="#7A5B00" />
+                    </View>
                     <View style={styles.premiumBadge}>
                       <Text style={styles.premiumBadgeText}>PREMIUM</Text>
                     </View>
                   </View>
-                  <Text style={styles.papersHint}>
-                    Common questions that appear in examinations
-                  </Text>
-                </View>
-                <IconSymbol size={16} name="chevron.right" color="#7A5B00" />
-              </TouchableOpacity>
+                  <Text style={styles.papersTitle}>Question Papers</Text>
+                  <Text style={styles.papersHint}>Common exam questions</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.featureCard, styles.newsCard]}
+                  activeOpacity={0.9}
+                  onPress={() => router.push("/view-media")}
+                >
+                  <View style={styles.featureTopRow}>
+                    <View style={styles.newsIcon}>
+                      <IconSymbol
+                        size={16}
+                        name="newspaper.fill"
+                        color="#1A4D7A"
+                      />
+                    </View>
+                  </View>
+                  <Text style={styles.newsTitle}>View Media</Text>
+                  <Text style={styles.newsHint}>Newspapers & videos to practise</Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/* "Before your first story" — opens the basics */}
@@ -357,17 +371,28 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   overallBarFill: { height: "100%", borderRadius: 4 },
-  papersCard: {
+  featureRow: {
     flexDirection: "row",
-    alignItems: "center",
     gap: 10,
-    backgroundColor: "#FFF8E6",
+    marginTop: 12,
+  },
+  featureCard: {
+    flex: 1,
     borderRadius: 12,
     borderWidth: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    gap: 4,
+  },
+  featureTopRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    minHeight: 30,
+  },
+  papersCard: {
+    backgroundColor: "#FFF8E6",
     borderColor: "#F0D98C",
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    marginTop: 12,
   },
   papersIcon: {
     width: 30,
@@ -377,8 +402,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  papersText: { flex: 1, gap: 1 },
-  papersTitleRow: { flexDirection: "row", alignItems: "center", gap: 6 },
   papersTitle: { fontSize: 13, fontWeight: "bold", color: "#7A5B00" },
   premiumBadge: {
     backgroundColor: "#7A5B00",
@@ -396,6 +419,24 @@ const styles = StyleSheet.create({
     fontSize: 11,
     lineHeight: 14,
     color: "#8A6D1F",
+  },
+  newsCard: {
+    backgroundColor: "#EAF2FB",
+    borderColor: "#BBD4F0",
+  },
+  newsIcon: {
+    width: 30,
+    height: 30,
+    borderRadius: 8,
+    backgroundColor: "#D3E4F7",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  newsTitle: { fontSize: 13, fontWeight: "bold", color: "#1A4D7A" },
+  newsHint: {
+    fontSize: 11,
+    lineHeight: 14,
+    color: "#3A6491",
   },
   basicsCard: {
     flexDirection: "row",
