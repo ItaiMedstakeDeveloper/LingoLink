@@ -34,34 +34,120 @@ export const MEDIA_TYPE_LABELS: Record<MediaType, string> = {
 export const MEDIA: Record<Language, Record<MediaType, MediaItem[]>> = {
   zh: {
     newspapers: [
-      { name: "People's Daily", native: "人民日报", note: "Largest national daily" },
-      { name: "Xinhua", native: "新华网", note: "State news agency · breaking news" },
-      { name: "China Daily", native: "中国日报", note: "Bilingual · easier for learners" },
-      { name: "Global Times", native: "环球时报", note: "World & current affairs" },
-      { name: "Guangming Daily", native: "光明日报", note: "Culture, science & education" },
+      {
+        name: "People's Daily",
+        native: "人民日报",
+        note: "Largest national daily",
+        url: "http://www.people.com.cn",
+      },
+      {
+        name: "Xinhua",
+        native: "新华网",
+        note: "State news agency · breaking news",
+        url: "http://www.news.cn",
+      },
+      {
+        name: "China Daily",
+        native: "中国日报",
+        note: "Bilingual · easier for learners",
+        url: "https://www.chinadaily.com.cn",
+      },
+      {
+        name: "Global Times",
+        native: "环球时报",
+        note: "World & current affairs",
+        url: "https://www.globaltimes.cn",
+      },
+      {
+        name: "Guangming Daily",
+        native: "光明日报",
+        note: "Culture, science & education",
+        url: "https://www.gmw.cn",
+      },
     ],
     videos: [
-      { name: "Mandarin Corner", note: "Real-life Mandarin with subtitles" },
-      { name: "Comprehensible Chinese", note: "Beginner listening practice" },
-      { name: "CCTV", native: "中国中央电视台", note: "National broadcaster · news" },
-      { name: "李子柒 Liziqi", note: "Slow, calm rural life vlogs" },
-      { name: "Mandarin With Miss Lin", note: "Structured lessons & culture" },
+      {
+        name: "Mandarin Corner",
+        note: "Real-life Mandarin with subtitles",
+        url: "https://www.youtube.com/@MandarinCorner2",
+      },
+      {
+        name: "Comprehensible Chinese",
+        note: "Beginner listening practice",
+        url: "https://www.youtube.com/@comprehensiblechinese",
+      },
+      {
+        name: "CCTV",
+        native: "中国中央电视台",
+        note: "National broadcaster · news",
+        url: "https://www.youtube.com/@CCTV",
+      },
+      {
+        name: "李子柒 Liziqi",
+        note: "Slow, calm rural life vlogs",
+        url: "https://www.youtube.com/@cnliziqi",
+      },
+      {
+        name: "Mandarin With Miss Lin",
+        note: "Structured lessons & culture",
+        url: "https://www.youtube.com/@MandarinWithMissLin",
+      },
     ],
   },
   fr: {
     newspapers: [
-      { name: "Le Monde", note: "France's paper of record · national & world news" },
-      { name: "Le Figaro", note: "Long-running daily · politics & culture" },
-      { name: "Libération", note: "Left-leaning daily · society & ideas" },
-      { name: "Le Parisien", note: "Accessible daily · everyday French" },
-      { name: "L'Équipe", note: "Sports daily · great for casual reading" },
+      {
+        name: "Le Monde",
+        note: "France's paper of record · national & world news",
+        url: "https://www.lemonde.fr",
+      },
+      {
+        name: "Le Figaro",
+        note: "Long-running daily · politics & culture",
+        url: "https://www.lefigaro.fr",
+      },
+      {
+        name: "Libération",
+        note: "Left-leaning daily · society & ideas",
+        url: "https://www.liberation.fr",
+      },
+      {
+        name: "Le Parisien",
+        note: "Accessible daily · everyday French",
+        url: "https://www.leparisien.fr",
+      },
+      {
+        name: "L'Équipe",
+        note: "Sports daily · great for casual reading",
+        url: "https://www.lequipe.fr",
+      },
     ],
     videos: [
-      { name: "InnerFrench", note: "Intermediate French, spoken slowly" },
-      { name: "Français Authentique", note: "Natural everyday French" },
-      { name: "Easy French", note: "Street interviews with subtitles" },
-      { name: "TV5Monde", note: "News & culture from the Francophone world" },
-      { name: "Piece of French", note: "Real conversations for learners" },
+      {
+        name: "InnerFrench",
+        note: "Intermediate French, spoken slowly",
+        url: "https://www.youtube.com/@innerfrench",
+      },
+      {
+        name: "Français Authentique",
+        note: "Natural everyday French",
+        url: "https://www.youtube.com/@francaisauthentique",
+      },
+      {
+        name: "Easy French",
+        note: "Street interviews with subtitles",
+        url: "https://www.youtube.com/@easyfrench",
+      },
+      {
+        name: "TV5Monde",
+        note: "Learn French with news & culture",
+        url: "https://apprendre.tv5monde.com",
+      },
+      {
+        name: "Piece of French",
+        note: "Real conversations for learners",
+        url: "https://www.youtube.com/@PieceofFrench",
+      },
     ],
   },
 };
