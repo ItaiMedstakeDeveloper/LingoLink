@@ -148,7 +148,7 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
                 <IconSymbol size={22} name="book.fill" color={c.primaryBlue} />
               </View>
               <View style={styles.basicsText}>
-                <Text style={[styles.basicsTitle, { color: c.primaryBlue }]}>
+                <Text style={[styles.basicsTitle, { color: c.lightBlue }]}>
                   Before your first story
                 </Text>
                 <ThemedText style={styles.basicsSub}>

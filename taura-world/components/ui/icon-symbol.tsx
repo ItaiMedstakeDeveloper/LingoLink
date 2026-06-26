@@ -27,6 +27,7 @@ const MAPPING = {
   'arrow.right': 'arrow-forward',
   'arrow.clockwise': 'refresh',
   'checkmark': 'check',
+  'xmark': 'close',
   'mappin.and.ellipse': 'place',
   'timer': 'timer',
 } as IconMapping;

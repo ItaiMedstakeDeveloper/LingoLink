@@ -1,4 +1,5 @@
 import { StoryPath, type LessonStory } from "@/components/story-path";
+import { StoryQuiz } from "@/components/story-quiz";
 import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
@@ -43,6 +44,8 @@ export default function StoryScreen() {
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
   const [scenesLoading, setScenesLoading] = useState(false);
   const [readingCompleted, setReadingCompleted] = useState(false);
+  // Whether the post-story comprehension quiz is open.
+  const [quizOpen, setQuizOpen] = useState(false);
 
   // Page-flip animation: 0 → flat, 1 → edge-on (content swaps here), back to flat.
   const flipAnim = useRef(new Animated.Value(0)).current;
@@ -76,6 +79,7 @@ export default function StoryScreen() {
     async (story: Story) => {
       setScenesLoading(true);
       setReadingCompleted(false);
+      setQuizOpen(false);
       try {
         const rows = await db.getAllAsync<Scene>(
           `SELECT * FROM story_scenes WHERE story_id = ? ORDER BY scene_number ASC`,
@@ -196,6 +200,21 @@ export default function StoryScreen() {
     const lesson = LESSONS.find((l) => l.order === selectedStory.order_index);
 
     if (readingCompleted) {
+      // After finishing the reader, offer the comprehension quiz before the
+      // learner heads back to the story list.
+      if (quizOpen) {
+        return (
+          <StoryQuiz
+            lessonOrder={selectedStory.order_index}
+            storyTitle={selectedStory.title}
+            onClose={() => {
+              setQuizOpen(false);
+              setSelectedStory(null);
+            }}
+          />
+        );
+      }
+
       return (
         <SafeAreaView
           style={[styles.flex, { backgroundColor: activeColors.background }]}
@@ -222,11 +241,23 @@ export default function StoryScreen() {
               <TouchableOpacity
                 style={[
                   styles.buttonPrimary,
-                  { backgroundColor: activeColors.primaryRed, width: "100%" },
+                  { backgroundColor: activeColors.primaryGreen, width: "100%" },
+                ]}
+                onPress={() => setQuizOpen(true)}
+              >
+                <IconSymbol size={18} name="checkmark" color="#fff" />
+                <ThemedText style={styles.buttonPrimaryText}>
+                  Take the Quiz
+                </ThemedText>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.buttonSecondary,
+                  { borderColor: activeColors.cardBorder, width: "100%" },
                 ]}
                 onPress={() => setSelectedStory(null)}
               >
-                <ThemedText style={styles.buttonPrimaryText}>
+                <ThemedText style={styles.buttonSecondaryText}>
                   Back to Story List
                 </ThemedText>
               </TouchableOpacity>
@@ -650,6 +681,20 @@ const styles = StyleSheet.create({
   },
   buttonPrimaryText: {
     color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  buttonSecondary: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 52,
+    borderRadius: 14,
+    borderWidth: 1,
+    backgroundColor: "#fff",
+    marginTop: 12,
+  },
+  buttonSecondaryText: {
     fontSize: 16,
     fontWeight: "bold",
   },
