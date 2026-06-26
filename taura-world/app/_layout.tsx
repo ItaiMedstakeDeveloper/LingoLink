@@ -51,6 +51,7 @@ function RootNavigator() {
         <Stack.Protected guard={!!user}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="basics" options={{ presentation: 'modal', title: 'Learn the Basics' }} />
+          <Stack.Screen name="word-add" options={{ presentation: 'modal', title: 'Save a Word' }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         </Stack.Protected>
         <Stack.Protected guard={!user}>

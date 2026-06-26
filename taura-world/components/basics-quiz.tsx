@@ -673,7 +673,7 @@ const styles = StyleSheet.create({
     lineHeight: 32,
     fontWeight: "bold",
     letterSpacing: -0.5,
-    color: "blue",
+    color: "white",
   },
   subtitleRow: {
     flexDirection: "row",

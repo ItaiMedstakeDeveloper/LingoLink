@@ -30,6 +30,9 @@ const MAPPING = {
   'xmark': 'close',
   'mappin.and.ellipse': 'place',
   'timer': 'timer',
+  'bookmark.fill': 'bookmark',
+  'plus': 'add',
+  'trash': 'delete',
 } as IconMapping;
 
 /**

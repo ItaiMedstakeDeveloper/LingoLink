@@ -10,22 +10,31 @@ export const DATABASE_NAME = "taura.db";
  * Guarded by PRAGMA user_version so it only runs when needed.
  */
 export async function migrateDbIfNeeded(db: SQLiteDatabase) {
-  const DATABASE_VERSION = 4;
+  const DATABASE_VERSION = 5;
 
   const result = await db.getFirstAsync<{ user_version: number }>(
     "PRAGMA user_version",
   );
   let currentVersion = result?.user_version ?? 0;
 
-  // Self-heal: always guarantee the progress table exists, regardless of how
-  // far past migrations got (a prior run may have aborted mid-migration and
-  // left user_version inconsistent). Idempotent + safe to run every launch.
+  // Self-heal: always guarantee these tables exist, regardless of how far past
+  // migrations got (a prior run may have aborted mid-migration and left
+  // user_version inconsistent). Idempotent + safe to run every launch.
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS lesson_progress (
       lesson_order INTEGER PRIMARY KEY,
       last_scene INTEGER NOT NULL DEFAULT 0,
       completed INTEGER NOT NULL DEFAULT 0,
       updated_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS saved_words (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      word TEXT NOT NULL,
+      language TEXT NOT NULL,
+      translation TEXT NOT NULL,
+      note TEXT,
+      created_at TEXT NOT NULL
     );
   `);
 
@@ -125,6 +134,22 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
       );
     `);
     currentVersion = 4;
+  }
+
+  if (currentVersion === 4) {
+    // Personal vocabulary the learner saves themselves ("My Words"). Kept
+    // separate from the seeded `vocabulary` deck so reseeds never touch it.
+    await db.execAsync(`
+      CREATE TABLE IF NOT EXISTS saved_words (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        word TEXT NOT NULL,
+        language TEXT NOT NULL,
+        translation TEXT NOT NULL,
+        note TEXT,
+        created_at TEXT NOT NULL
+      );
+    `);
+    currentVersion = 5;
   }
 
   await ensureStoriesSeeded(db);

@@ -161,7 +161,7 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
             {/* Resume / Start hero */}
             {current && (
               <TouchableOpacity
-                style={[styles.resumeCard, { backgroundColor: c.primaryRed }]}
+                style={[styles.resumeCard, { backgroundColor: c.lightRed }]}
                 activeOpacity={0.9}
                 onPress={() => onSelectLesson(current.lesson.order)}
               >

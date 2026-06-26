@@ -697,6 +697,7 @@ const styles = StyleSheet.create({
   buttonSecondaryText: {
     fontSize: 16,
     fontWeight: "bold",
+    color: "black",
   },
   completedCard: {
     width: "100%",
@@ -719,6 +720,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 8,
+    color: "black",
   },
   completedSubtitle: {
     fontSize: 14,
@@ -726,6 +728,7 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     lineHeight: 20,
     marginBottom: 20,
+    color: "black",
   },
   completedScroll: {
     padding: 20,
@@ -743,6 +746,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     letterSpacing: 0.5,
+    color: "black",
   },
   vocabRow: {
     gap: 2,
