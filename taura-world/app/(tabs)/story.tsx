@@ -19,8 +19,8 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-type Story = LessonStory;
 
+type Story = LessonStory;
 type Scene = {
   id: number;
   story_id: number;
@@ -37,7 +37,6 @@ export default function StoryScreen() {
   const params = useLocalSearchParams<{ lesson?: string }>();
   const colorScheme = useColorScheme();
   const activeColors = Colors[colorScheme ?? "light"];
-
   // Reader state
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [scenes, setScenes] = useState<Scene[]>([]);

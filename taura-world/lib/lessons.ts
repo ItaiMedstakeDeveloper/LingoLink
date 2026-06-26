@@ -46,19 +46,26 @@ export const LESSONS: LessonContent[] = [
     level: "Beginner",
     focus: "Present tense · Simple sentences · Greetings",
     location: "Harare",
-    title: { en: "Morning in Harare", fr: "Les rues du matin", zh: "哈拉雷的早晨" },
+    title: {
+      en: "Morning in Harare",
+      fr: "Les rues du matin",
+      zh: "哈拉雷的早晨",
+    },
     image: require("@/assets/images/lessons/lesson_01_morning_in_harare (1).png"),
     sections: [
       {
         context: "Narration",
-        english: "Tendai wakes up. The sun is rising. It is early morning in Harare.",
-        french: "Tendai se réveille. Le soleil se lève. C'est le matin à Harare.",
+        english:
+          "Tendai wakes up. The sun is rising. It is early morning in Harare.",
+        french:
+          "Tendai se réveille. Le soleil se lève. C'est le matin à Harare.",
         chinese: "滕代醒来了。太阳正在升起。是哈拉雷的清晨。",
       },
       {
         context: "Narration",
         english: "He hears a rooster. He hears a bus. He smells food cooking.",
-        french: "Il entend un coq. Il entend un bus. Il sent la nourriture qui cuit.",
+        french:
+          "Il entend un coq. Il entend un bus. Il sent la nourriture qui cuit.",
         chinese: "他听到了公鸡。他听到了公共汽车。他闻到了菜的香味。",
       },
       {
@@ -69,7 +76,8 @@ export const LESSONS: LessonContent[] = [
       },
       {
         context: "Narration",
-        english: "The street is quiet. The sky is orange. It is a beautiful morning.",
+        english:
+          "The street is quiet. The sky is orange. It is a beautiful morning.",
         french: "La rue est calme. Le ciel est orange. C'est un beau matin.",
         chinese: "街道很安静。天空是橙色的。是美丽的早晨。",
       },
@@ -81,12 +89,42 @@ export const LESSONS: LessonContent[] = [
       },
     ],
     vocabulary: [
-      { english: "wakes up", french: "se réveille", chinese: "醒来", note: "to stop sleeping" },
-      { english: "sun", french: "soleil", chinese: "太阳", note: "the star that gives us light" },
-      { english: "morning", french: "matin", chinese: "早晨", note: "the early part of the day" },
-      { english: "street", french: "rue", chinese: "街道", note: "a road in a city" },
-      { english: "shirt", french: "chemise", chinese: "衬衫", note: "clothing for the upper body" },
-      { english: "walk", french: "marcher", chinese: "走路", note: "to move on foot" },
+      {
+        english: "wakes up",
+        french: "se réveille",
+        chinese: "醒来",
+        note: "to stop sleeping",
+      },
+      {
+        english: "sun",
+        french: "soleil",
+        chinese: "太阳",
+        note: "the star that gives us light",
+      },
+      {
+        english: "morning",
+        french: "matin",
+        chinese: "早晨",
+        note: "the early part of the day",
+      },
+      {
+        english: "street",
+        french: "rue",
+        chinese: "街道",
+        note: "a road in a city",
+      },
+      {
+        english: "shirt",
+        french: "chemise",
+        chinese: "衬衫",
+        note: "clothing for the upper body",
+      },
+      {
+        english: "walk",
+        french: "marcher",
+        chinese: "走路",
+        note: "to move on foot",
+      },
     ],
   },
   {
@@ -94,19 +132,27 @@ export const LESSONS: LessonContent[] = [
     level: "Beginner",
     focus: "Simple dialogue · Numbers · Buying things",
     location: "City Street",
-    title: { en: "The Newspaper Man", fr: "Le vendeur de journaux", zh: "报纸小贩" },
+    title: {
+      en: "The Newspaper Man",
+      fr: "Le vendeur de journaux",
+      zh: "报纸小贩",
+    },
     image: require("@/assets/images/lessons/lesson_02_newspaper_man (1).png"),
     sections: [
       {
         context: "Narration",
-        english: "Tendai sees a man. The man sells newspapers. He stands on the street.",
-        french: "Tendai voit un homme. L'homme vend des journaux. Il est debout dans la rue.",
+        english:
+          "Tendai sees a man. The man sells newspapers. He stands on the street.",
+        french:
+          "Tendai voit un homme. L'homme vend des journaux. Il est debout dans la rue.",
         chinese: "滕代看到一个男人。那个男人卖报纸。他站在街上。",
       },
       {
         context: "Narration",
-        english: "Tendai stops. He wants a newspaper. He takes one dollar from his pocket.",
-        french: "Tendai s'arrête. Il veut un journal. Il prend un dollar dans sa poche.",
+        english:
+          "Tendai stops. He wants a newspaper. He takes one dollar from his pocket.",
+        french:
+          "Tendai s'arrête. Il veut un journal. Il prend un dollar dans sa poche.",
         chinese: "滕代停下来。他想要一份报纸。他从口袋里拿出一美元。",
       },
       {
@@ -143,12 +189,42 @@ export const LESSONS: LessonContent[] = [
       },
     ],
     vocabulary: [
-      { english: "newspaper", french: "journal", chinese: "报纸", note: "printed news, sold daily" },
-      { english: "buy", french: "acheter", chinese: "买", note: "to pay money for something" },
-      { english: "today", french: "aujourd'hui", chinese: "今天", note: "this day" },
-      { english: "give", french: "donner", chinese: "给", note: "to hand something to someone" },
-      { english: "dollar", french: "dollar", chinese: "美元", note: "a unit of money" },
-      { english: "world", french: "monde", chinese: "世界", note: "everywhere; all countries" },
+      {
+        english: "newspaper",
+        french: "journal",
+        chinese: "报纸",
+        note: "printed news, sold daily",
+      },
+      {
+        english: "buy",
+        french: "acheter",
+        chinese: "买",
+        note: "to pay money for something",
+      },
+      {
+        english: "today",
+        french: "aujourd'hui",
+        chinese: "今天",
+        note: "this day",
+      },
+      {
+        english: "give",
+        french: "donner",
+        chinese: "给",
+        note: "to hand something to someone",
+      },
+      {
+        english: "dollar",
+        french: "dollar",
+        chinese: "美元",
+        note: "a unit of money",
+      },
+      {
+        english: "world",
+        french: "monde",
+        chinese: "世界",
+        note: "everywhere; all countries",
+      },
     ],
   },
   {
@@ -156,25 +232,36 @@ export const LESSONS: LessonContent[] = [
     level: "Beginner–Elementary",
     focus: "Colours & quantities · Describing places · Past tense introduced",
     location: "Mbare Market",
-    title: { en: "Mbare Market Arrives", fr: "Le marché de Mbare", zh: "姆巴雷市场" },
+    title: {
+      en: "Mbare Market Arrives",
+      fr: "Le marché de Mbare",
+      zh: "姆巴雷市场",
+    },
     image: require("@/assets/images/lessons/lesson_03_mbare_market.png"),
     sections: [
       {
         context: "Narration",
-        english: "Tendai took a bus to Mbare. He arrived at the market. The market was already busy.",
-        french: "Tendai a pris un bus pour Mbare. Il est arrivé au marché. Le marché était déjà animé.",
+        english:
+          "Tendai took a bus to Mbare. He arrived at the market. The market was already busy.",
+        french:
+          "Tendai a pris un bus pour Mbare. Il est arrivé au marché. Le marché était déjà animé.",
         chinese: "滕代坐公共汽车去了姆巴雷。他到了市场。市场已经很热闹了。",
       },
       {
         context: "Narration",
-        english: "He saw many colours. Red tomatoes. Yellow bananas. Green vegetables. Brown dried fish.",
-        french: "Il a vu beaucoup de couleurs. Des tomates rouges. Des bananes jaunes. Des légumes verts. Du poisson séché brun.",
-        chinese: "他看到了很多颜色。红色的西红柿。黄色的香蕉。绿色的蔬菜。棕色的干鱼。",
+        english:
+          "He saw many colours. Red tomatoes. Yellow bananas. Green vegetables. Brown dried fish.",
+        french:
+          "Il a vu beaucoup de couleurs. Des tomates rouges. Des bananes jaunes. Des légumes verts. Du poisson séché brun.",
+        chinese:
+          "他看到了很多颜色。红色的西红柿。黄色的香蕉。绿色的蔬菜。棕色的干鱼。",
       },
       {
         context: "Narration",
-        english: "He smelled spices and smoke. He heard voices and music. The market was alive.",
-        french: "Il a senti des épices et de la fumée. Il a entendu des voix et de la musique. Le marché était vivant.",
+        english:
+          "He smelled spices and smoke. He heard voices and music. The market was alive.",
+        french:
+          "Il a senti des épices et de la fumée. Il a entendu des voix et de la musique. Le marché était vivant.",
         chinese: "他闻到了香料和烟的气味。他听到了声音和音乐。市场充满了生机。",
       },
       {
@@ -194,20 +281,55 @@ export const LESSONS: LessonContent[] = [
       },
     ],
     vocabulary: [
-      { english: "market", french: "marché", chinese: "市场", note: "a place where people sell things" },
-      { english: "tomato", french: "tomate", chinese: "西红柿", note: "a red round vegetable" },
-      { english: "crowded", french: "bondé", chinese: "拥挤的", note: "full of many people" },
-      { english: "arrived", french: "est arrivé", chinese: "到了", note: "came to a place (past)" },
-      { english: "smell", french: "odeur", chinese: "气味", note: "what your nose detects" },
-      { english: "stall", french: "étal", chinese: "摊位", note: "a table where things are sold" },
+      {
+        english: "market",
+        french: "marché",
+        chinese: "市场",
+        note: "a place where people sell things",
+      },
+      {
+        english: "tomato",
+        french: "tomate",
+        chinese: "西红柿",
+        note: "a red round vegetable",
+      },
+      {
+        english: "crowded",
+        french: "bondé",
+        chinese: "拥挤的",
+        note: "full of many people",
+      },
+      {
+        english: "arrived",
+        french: "est arrivé",
+        chinese: "到了",
+        note: "came to a place (past)",
+      },
+      {
+        english: "smell",
+        french: "odeur",
+        chinese: "气味",
+        note: "what your nose detects",
+      },
+      {
+        english: "stall",
+        french: "étal",
+        chinese: "摊位",
+        note: "a table where things are sold",
+      },
     ],
   },
   {
     order: 4,
     level: "Elementary",
-    focus: "Past & present together · Character description · Expressing opinions",
+    focus:
+      "Past & present together · Character description · Expressing opinions",
     location: "Mbare Market",
-    title: { en: "Ambuya Chipo's Tomatoes", fr: "Les tomates d'Ambuya Chipo", zh: "奇波奶奶的西红柿" },
+    title: {
+      en: "Ambuya Chipo's Tomatoes",
+      fr: "Les tomates d'Ambuya Chipo",
+      zh: "奇波奶奶的西红柿",
+    },
     image: require("@/assets/images/lessons/lesson_04_ambuya_chipo.png"),
     sections: [
       {
@@ -228,20 +350,26 @@ export const LESSONS: LessonContent[] = [
       },
       {
         context: "Ambuya Chipo",
-        english: "Tendai! Look at you! You are so tall now. Did your mother send you?",
-        french: "Tendai ! Regarde-toi ! Tu es si grand maintenant. Ta mère t'a envoyé ?",
+        english:
+          "Tendai! Look at you! You are so tall now. Did your mother send you?",
+        french:
+          "Tendai ! Regarde-toi ! Tu es si grand maintenant. Ta mère t'a envoyé ?",
         chinese: "滕代！看看你！你长这么高了。是你妈妈叫你来的？",
       },
       {
         context: "Tendai",
-        english: "Yes, Ambuya. She wants good tomatoes. From your garden, not from the trucks.",
-        french: "Oui, Ambuya. Elle veut de bonnes tomates. De votre jardin, pas des camions.",
+        english:
+          "Yes, Ambuya. She wants good tomatoes. From your garden, not from the trucks.",
+        french:
+          "Oui, Ambuya. Elle veut de bonnes tomates. De votre jardin, pas des camions.",
         chinese: "是的，奶奶。她想要您花园里的西红柿，不是卡车来的那种。",
       },
       {
         context: "Ambuya Chipo",
-        english: "Smart boy. Your mother raised you well. Take these tomatoes. Five dollars.",
-        french: "Garçon intelligent. Ta mère t'a bien élevé. Prends ces tomates. Cinq dollars.",
+        english:
+          "Smart boy. Your mother raised you well. Take these tomatoes. Five dollars.",
+        french:
+          "Garçon intelligent. Ta mère t'a bien élevé. Prends ces tomates. Cinq dollars.",
         chinese: "聪明的孩子。你妈妈把你教得很好。拿这些西红柿。五美元。",
       },
       {
@@ -254,18 +382,50 @@ export const LESSONS: LessonContent[] = [
       },
       {
         context: "Narration",
-        english: "Tendai smiled. He paid five dollars. He put the tomatoes carefully in his bag.",
-        french: "Tendai a souri. Il a payé cinq dollars. Il a mis les tomates soigneusement dans son sac.",
+        english:
+          "Tendai smiled. He paid five dollars. He put the tomatoes carefully in his bag.",
+        french:
+          "Tendai a souri. Il a payé cinq dollars. Il a mis les tomates soigneusement dans son sac.",
         chinese: "滕代微笑了。他付了五美元，小心地把西红柿放进包里。",
       },
     ],
     vocabulary: [
-      { english: "wise", french: "sage", chinese: "聪明的", note: "having good judgement from experience" },
-      { english: "recognise", french: "reconnaître", chinese: "认出", note: "to know someone you have seen before" },
-      { english: "garden", french: "jardin", chinese: "花园", note: "a place where plants grow" },
-      { english: "truck", french: "camion", chinese: "卡车", note: "a large vehicle that carries goods" },
-      { english: "embarrass", french: "embarrasser", chinese: "让人难堪", note: "to make someone feel awkward" },
-      { english: "raised", french: "a élevé", chinese: "养大", note: "brought up a child (past tense)" },
+      {
+        english: "wise",
+        french: "sage",
+        chinese: "聪明的",
+        note: "having good judgement from experience",
+      },
+      {
+        english: "recognise",
+        french: "reconnaître",
+        chinese: "认出",
+        note: "to know someone you have seen before",
+      },
+      {
+        english: "garden",
+        french: "jardin",
+        chinese: "花园",
+        note: "a place where plants grow",
+      },
+      {
+        english: "truck",
+        french: "camion",
+        chinese: "卡车",
+        note: "a large vehicle that carries goods",
+      },
+      {
+        english: "embarrass",
+        french: "embarrasser",
+        chinese: "让人难堪",
+        note: "to make someone feel awkward",
+      },
+      {
+        english: "raised",
+        french: "a élevé",
+        chinese: "养大",
+        note: "brought up a child (past tense)",
+      },
     ],
   },
   {
@@ -273,7 +433,11 @@ export const LESSONS: LessonContent[] = [
     level: "Elementary–Intermediate",
     focus: "Negotiation language · Humour & irony · Compound sentences",
     location: "Kwame Nkrumah Ave",
-    title: { en: "Zhou Wei & the Charger", fr: "Zhou Wei et le chargeur", zh: "周炜与充电器" },
+    title: {
+      en: "Zhou Wei & the Charger",
+      fr: "Zhou Wei et le chargeur",
+      zh: "周炜与充电器",
+    },
     image: require("@/assets/images/lessons/lesson_05_zhou_wei.png"),
     sections: [
       {
@@ -282,7 +446,8 @@ export const LESSONS: LessonContent[] = [
           "On Kwame Nkrumah Avenue, Tendai found the electronics street. A young man was calling out to everyone who passed.",
         french:
           "Sur l'avenue Kwame Nkrumah, Tendai a trouvé la rue des électroniques. Un jeune homme interpellait tous ceux qui passaient.",
-        chinese: "在恩克鲁玛大道上，滕代找到了电子产品一条街。一个年轻人对每个路过的人喊着。",
+        chinese:
+          "在恩克鲁玛大道上，滕代找到了电子产品一条街。一个年轻人对每个路过的人喊着。",
       },
       {
         context: "Narration",
@@ -290,18 +455,23 @@ export const LESSONS: LessonContent[] = [
           "His name was Zhou Wei — twenty-four, from Guangzhou. He had been in Harare for three years. He spoke Shona with a Chinese accent, and used this to his advantage.",
         french:
           "Il s'appelait Zhou Wei — vingt-quatre ans, de Guangzhou. Il était à Harare depuis trois ans. Il parlait le shona avec un accent chinois, et s'en servait à son avantage.",
-        chinese: "他叫周炜——二十四岁，来自广州。他在哈拉雷住了三年。他说带中国口音的绍纳语，并以此为优势。",
+        chinese:
+          "他叫周炜——二十四岁，来自广州。他在哈拉雷住了三年。他说带中国口音的绍纳语，并以此为优势。",
       },
       {
         context: "Zhou Wei",
-        english: "Hey boss! Charger? Cable? Earphones? Chinese price, American quality!",
-        french: "Hé patron ! Chargeur ? Câble ? Écouteurs ? Prix chinois, qualité américaine !",
+        english:
+          "Hey boss! Charger? Cable? Earphones? Chinese price, American quality!",
+        french:
+          "Hé patron ! Chargeur ? Câble ? Écouteurs ? Prix chinois, qualité américaine !",
         chinese: "嘿，老板！充电器？数据线？耳机？中国价格，美国质量！",
       },
       {
         context: "Tendai",
-        english: "Which is it? Chinese quality or American quality? You must choose one and commit, brother.",
-        french: "C'est lequel ? Qualité chinoise ou qualité américaine ? Tu dois en choisir une et t'y engager, mon frère.",
+        english:
+          "Which is it? Chinese quality or American quality? You must choose one and commit, brother.",
+        french:
+          "C'est lequel ? Qualité chinoise ou qualité américaine ? Tu dois en choisir une et t'y engager, mon frère.",
         chinese: "到底哪个？中国质量还是美国质量？你必须选一个坚持，兄弟。",
       },
       {
@@ -310,7 +480,8 @@ export const LESSONS: LessonContent[] = [
           "For you, my friend — both. Chinese price AND American quality. A special Harare deal. You cannot find this anywhere else.",
         french:
           "Pour toi, mon ami — les deux. Prix chinois ET qualité américaine. Une offre spéciale Harare. Tu ne trouveras ça nulle part ailleurs.",
-        chinese: "为你，我的朋友——两个都有。中国价格加美国质量。这是哈拉雷特惠。你在别处找不到。",
+        chinese:
+          "为你，我的朋友——两个都有。中国价格加美国质量。这是哈拉雷特惠。你在别处找不到。",
       },
       {
         context: "Narration",
@@ -318,16 +489,47 @@ export const LESSONS: LessonContent[] = [
           "They argued for ten minutes about football. They agreed on nothing, but parted as friends. Tendai paid three dollars. The charger cost five in the shop nearby.",
         french:
           "Ils ont débattu du football pendant dix minutes. Ils n'étaient d'accord sur rien, mais se sont quittés en amis. Tendai a payé trois dollars. Le chargeur coûtait cinq dans la boutique d'à côté.",
-        chinese: "他们争论了十分钟足球。什么都没达成共识，却成了朋友。滕代付了三美元。旁边店里的充电器要五美元。",
+        chinese:
+          "他们争论了十分钟足球。什么都没达成共识，却成了朋友。滕代付了三美元。旁边店里的充电器要五美元。",
       },
     ],
     vocabulary: [
-      { english: "entrepreneur", french: "entrepreneur", chinese: "创业者", note: "someone who runs their own business" },
-      { english: "accent", french: "accent", chinese: "口音", note: "the way someone pronounces words" },
-      { english: "negotiate", french: "négocier", chinese: "谈判", note: "to discuss a price until both agree" },
-      { english: "commit", french: "s'engager", chinese: "坚持", note: "to stay firm in a decision" },
-      { english: "quality", french: "qualité", chinese: "质量", note: "how good something is" },
-      { english: "charger", french: "chargeur", chinese: "充电器", note: "a device that powers a phone" },
+      {
+        english: "entrepreneur",
+        french: "entrepreneur",
+        chinese: "创业者",
+        note: "someone who runs their own business",
+      },
+      {
+        english: "accent",
+        french: "accent",
+        chinese: "口音",
+        note: "the way someone pronounces words",
+      },
+      {
+        english: "negotiate",
+        french: "négocier",
+        chinese: "谈判",
+        note: "to discuss a price until both agree",
+      },
+      {
+        english: "commit",
+        french: "s'engager",
+        chinese: "坚持",
+        note: "to stay firm in a decision",
+      },
+      {
+        english: "quality",
+        french: "qualité",
+        chinese: "质量",
+        note: "how good something is",
+      },
+      {
+        english: "charger",
+        french: "chargeur",
+        chinese: "充电器",
+        note: "a device that powers a phone",
+      },
     ],
   },
   {
@@ -335,13 +537,19 @@ export const LESSONS: LessonContent[] = [
     level: "Intermediate",
     focus: "Reported speech · Conditional sentences · Longer descriptions",
     location: "First Street",
-    title: { en: "Marguerite and the Shoes", fr: "Marguerite et les chaussures", zh: "玛格丽特与鞋子" },
+    title: {
+      en: "Marguerite and the Shoes",
+      fr: "Marguerite et les chaussures",
+      zh: "玛格丽特与鞋子",
+    },
     image: require("@/assets/images/lessons/lesson_06_marguerite.png"),
     sections: [
       {
         context: "Narration",
-        english: "Behind the First Street Mall, there was a narrow lane. It smelled of leather and ambition.",
-        french: "Derrière le First Street Mall, il y avait une ruelle étroite. Elle sentait le cuir et l'ambition.",
+        english:
+          "Behind the First Street Mall, there was a narrow lane. It smelled of leather and ambition.",
+        french:
+          "Derrière le First Street Mall, il y avait une ruelle étroite. Elle sentait le cuir et l'ambition.",
         chinese: "第一街购物中心后面有一条窄巷，弥漫着皮革和野心的气息。",
       },
       {
@@ -365,7 +573,8 @@ export const LESSONS: LessonContent[] = [
           "Un peu. A little. I am still learning — from an app, old French films, and a woman at work from Kinshasa.",
         french:
           "Un peu. J'apprends encore — d'une application, de vieux films français, et d'une collègue de Kinshasa.",
-        chinese: "Un peu。一点点。我还在学——从一个应用程序，从老法国电影，有一位来自金沙萨的同事。",
+        chinese:
+          "Un peu。一点点。我还在学——从一个应用程序，从老法国电影，有一位来自金沙萨的同事。",
       },
       {
         context: "Narration",
@@ -382,7 +591,8 @@ export const LESSONS: LessonContent[] = [
           "The vendor can see I want these shoes. If you ask the price, he will not know that. He cannot read your eyes.",
         french:
           "Le vendeur peut voir que je veux ces chaussures. Si vous demandez le prix, il ne le saura pas. Il ne peut pas lire dans vos yeux.",
-        chinese: "卖家能看出我非常想要这双鞋。如果你来问价格，他就不会知道这一点。他读不懂你的眼神。",
+        chinese:
+          "卖家能看出我非常想要这双鞋。如果你来问价格，他就不会知道这一点。他读不懂你的眼神。",
       },
       {
         context: "Narration",
@@ -395,12 +605,42 @@ export const LESSONS: LessonContent[] = [
       },
     ],
     vocabulary: [
-      { english: "journalist", french: "journaliste", chinese: "记者", note: "a person who writes news stories" },
-      { english: "negotiate", french: "négocier", chinese: "谈判", note: "to agree on a price by discussion" },
-      { english: "condition", french: "condition", chinese: "条件", note: "a requirement before agreeing" },
-      { english: "desperate", french: "désespéré", chinese: "迫切的", note: "very urgently wanting something" },
-      { english: "authentic", french: "authentique", chinese: "真实的", note: "genuinely real, not fake" },
-      { english: "resilience", french: "résilience", chinese: "韧性", note: "the ability to recover from difficulties" },
+      {
+        english: "journalist",
+        french: "journaliste",
+        chinese: "记者",
+        note: "a person who writes news stories",
+      },
+      {
+        english: "negotiate",
+        french: "négocier",
+        chinese: "谈判",
+        note: "to agree on a price by discussion",
+      },
+      {
+        english: "condition",
+        french: "condition",
+        chinese: "条件",
+        note: "a requirement before agreeing",
+      },
+      {
+        english: "desperate",
+        french: "désespéré",
+        chinese: "迫切的",
+        note: "very urgently wanting something",
+      },
+      {
+        english: "authentic",
+        french: "authentique",
+        chinese: "真实的",
+        note: "genuinely real, not fake",
+      },
+      {
+        english: "resilience",
+        french: "résilience",
+        chinese: "韧性",
+        note: "the ability to recover from difficulties",
+      },
     ],
   },
   {
@@ -408,7 +648,11 @@ export const LESSONS: LessonContent[] = [
     level: "Intermediate",
     focus: "Setting a scene · Indirect speech · Expressing philosophy",
     location: "Nelson Mandela Ave",
-    title: { en: "Mama Rudo's Restaurant", fr: "Le restaurant de Mama Rudo", zh: "鲁多的餐厅" },
+    title: {
+      en: "Mama Rudo's Restaurant",
+      fr: "Le restaurant de Mama Rudo",
+      zh: "鲁多的餐厅",
+    },
     sections: [
       {
         context: "Narration",
@@ -434,12 +678,15 @@ export const LESSONS: LessonContent[] = [
           "At the shared table sat Professor Ndlovu — a man who had taught philosophy at the University of Zimbabwe for thirty-five years.",
         french:
           "À la table commune était assis le Professeur Ndlovu — un homme qui avait enseigné la philosophie à l'Université du Zimbabwe pendant trente-cinq ans.",
-        chinese: "公共餐桌旁坐着恩德洛武教授，他在津巴布韦大学教了三十五年哲学。",
+        chinese:
+          "公共餐桌旁坐着恩德洛武教授，他在津巴布韦大学教了三十五年哲学。",
       },
       {
         context: "Professor Ndlovu",
-        english: "You are carrying many things, young man. But which of those things is actually carrying you?",
-        french: "Vous portez beaucoup de choses, jeune homme. Mais laquelle de ces choses vous porte vraiment ?",
+        english:
+          "You are carrying many things, young man. But which of those things is actually carrying you?",
+        french:
+          "Vous portez beaucoup de choses, jeune homme. Mais laquelle de ces choses vous porte vraiment ?",
         chinese: "年轻人，你携带着很多东西。但是，其中哪样东西在承载着你呢？",
       },
       {
@@ -463,16 +710,47 @@ export const LESSONS: LessonContent[] = [
           "Tendai sat. They ate in comfortable silence. Then the professor said something Tendai would not forget for a long time.",
         french:
           "Tendai s'est assis. Ils ont mangé dans un silence confortable. Puis le professeur a dit quelque chose que Tendai n'oublierait pas avant longtemps.",
-        chinese: "滕代坐下了。他们在舒适的沉默中一起吃饭。然后教授说了一些滕代很久都不会忘记的话。",
+        chinese:
+          "滕代坐下了。他们在舒适的沉默中一起吃饭。然后教授说了一些滕代很久都不会忘记的话。",
       },
     ],
     vocabulary: [
-      { english: "sign", french: "enseigne", chinese: "招牌", note: "a board with words giving information" },
-      { english: "retire", french: "prendre sa retraite", chinese: "退休", note: "to stop working permanently" },
-      { english: "extraordinary", french: "extraordinaire", chinese: "非凡的", note: "very unusual and impressive" },
-      { english: "genius", french: "génie", chinese: "天才", note: "great natural ability" },
-      { english: "companions", french: "compagnons", chinese: "同伴", note: "people you spend time with" },
-      { english: "announce", french: "annoncer", chinese: "宣布", note: "to say something officially" },
+      {
+        english: "sign",
+        french: "enseigne",
+        chinese: "招牌",
+        note: "a board with words giving information",
+      },
+      {
+        english: "retire",
+        french: "prendre sa retraite",
+        chinese: "退休",
+        note: "to stop working permanently",
+      },
+      {
+        english: "extraordinary",
+        french: "extraordinaire",
+        chinese: "非凡的",
+        note: "very unusual and impressive",
+      },
+      {
+        english: "genius",
+        french: "génie",
+        chinese: "天才",
+        note: "great natural ability",
+      },
+      {
+        english: "companions",
+        french: "compagnons",
+        chinese: "同伴",
+        note: "people you spend time with",
+      },
+      {
+        english: "announce",
+        french: "annoncer",
+        chinese: "宣布",
+        note: "to say something officially",
+      },
     ],
   },
   {
@@ -480,13 +758,19 @@ export const LESSONS: LessonContent[] = [
     level: "Upper-Intermediate",
     focus: "Abstract ideas · Questions & reflection · Longer monologue",
     location: "Mama Rudo's",
-    title: { en: "The Professor's Question", fr: "La question du professeur", zh: "教授的问题" },
+    title: {
+      en: "The Professor's Question",
+      fr: "La question du professeur",
+      zh: "教授的问题",
+    },
     image: require("@/assets/images/lessons/lesson_08_professor_question.png"),
     sections: [
       {
         context: "Professor Ndlovu",
-        english: "Do you know what Harare has that most cities in the world have lost?",
-        french: "Savez-vous ce que Harare possède et que la plupart des villes du monde ont perdu ?",
+        english:
+          "Do you know what Harare has that most cities in the world have lost?",
+        french:
+          "Savez-vous ce que Harare possède et que la plupart des villes du monde ont perdu ?",
         chinese: "你知道哈拉雷有而大多数城市已失去的是什么？",
       },
       {
@@ -533,12 +817,42 @@ export const LESSONS: LessonContent[] = [
       },
     ],
     vocabulary: [
-      { english: "conversation", french: "conversation", chinese: "对话", note: "a talk between two or more people" },
-      { english: "stranger", french: "étranger", chinese: "陌生人", note: "a person you do not know" },
-      { english: "protect", french: "protéger", chinese: "保护", note: "to keep something safe from harm" },
-      { english: "informal", french: "informel", chinese: "非正式的", note: "not official; not following strict rules" },
-      { english: "democracy", french: "démocratie", chinese: "民主", note: "a system where people vote for leaders" },
-      { english: "inheritance", french: "héritage", chinese: "遗产", note: "something passed down from those before" },
+      {
+        english: "conversation",
+        french: "conversation",
+        chinese: "对话",
+        note: "a talk between two or more people",
+      },
+      {
+        english: "stranger",
+        french: "étranger",
+        chinese: "陌生人",
+        note: "a person you do not know",
+      },
+      {
+        english: "protect",
+        french: "protéger",
+        chinese: "保护",
+        note: "to keep something safe from harm",
+      },
+      {
+        english: "informal",
+        french: "informel",
+        chinese: "非正式的",
+        note: "not official; not following strict rules",
+      },
+      {
+        english: "democracy",
+        french: "démocratie",
+        chinese: "民主",
+        note: "a system where people vote for leaders",
+      },
+      {
+        english: "inheritance",
+        french: "héritage",
+        chinese: "遗产",
+        note: "something passed down from those before",
+      },
     ],
   },
   {
@@ -555,7 +869,8 @@ export const LESSONS: LessonContent[] = [
           'On the kombi ride home, Tendai held his bag and scrolled through the photographs Marguerite had sent — with a message that said only: "For your memory."',
         french:
           "Dans le kombi du retour, Tendai tenait son sac et faisait défiler les photographies que Marguerite lui avait envoyées — avec un message qui disait seulement : « Pour ta mémoire. »",
-        chinese: "在回家的小巴上，滕代抱着包，翻看玛格丽特发来的照片——附上一条消息：「留作记忆。」",
+        chinese:
+          "在回家的小巴上，滕代抱着包，翻看玛格丽特发来的照片——附上一条消息：「留作记忆。」",
       },
       {
         context: "Narration",
@@ -572,7 +887,8 @@ export const LESSONS: LessonContent[] = [
           "He thought about the professor's simpler question beneath the grand statement: which of the things you are carrying is actually carrying you?",
         french:
           "Il pensait à la question plus simple du professeur sous la grande déclaration : laquelle des choses que vous portez vous porte vraiment ?",
-        chinese: "他想起了教授那番宏大言论背后更简单的问题：你所携带的那些东西中，究竟哪个在承载着你？",
+        chinese:
+          "他想起了教授那番宏大言论背后更简单的问题：你所携带的那些东西中，究竟哪个在承载着你？",
       },
       {
         context: "Narration",
@@ -594,12 +910,42 @@ export const LESSONS: LessonContent[] = [
       },
     ],
     vocabulary: [
-      { english: "scroll", french: "faire défiler", chinese: "滑动", note: "to move through images on a screen" },
-      { english: "lurched", french: "a fait un écart", chinese: "猛地一晃", note: "moved suddenly and unevenly" },
-      { english: "handhold", french: "point d'appui", chinese: "扶手", note: "something to grip for balance" },
-      { english: "necessarily", french: "nécessairement", chinese: "必然地", note: "in a way that could not be avoided" },
-      { english: "resilience", french: "résilience", chinese: "韧性", note: "recovering strongly from difficulty" },
-      { english: "informal economy", french: "économie informelle", chinese: "非正式经济", note: "trade outside official systems" },
+      {
+        english: "scroll",
+        french: "faire défiler",
+        chinese: "滑动",
+        note: "to move through images on a screen",
+      },
+      {
+        english: "lurched",
+        french: "a fait un écart",
+        chinese: "猛地一晃",
+        note: "moved suddenly and unevenly",
+      },
+      {
+        english: "handhold",
+        french: "point d'appui",
+        chinese: "扶手",
+        note: "something to grip for balance",
+      },
+      {
+        english: "necessarily",
+        french: "nécessairement",
+        chinese: "必然地",
+        note: "in a way that could not be avoided",
+      },
+      {
+        english: "resilience",
+        french: "résilience",
+        chinese: "韧性",
+        note: "recovering strongly from difficulty",
+      },
+      {
+        english: "informal economy",
+        french: "économie informelle",
+        chinese: "非正式经济",
+        note: "trade outside official systems",
+      },
     ],
   },
   {
@@ -607,7 +953,11 @@ export const LESSONS: LessonContent[] = [
     level: "Advanced",
     focus: "Full narrative voice · Thematic resolution · Idiomatic language",
     location: "Home",
-    title: { en: "Five Conversations", fr: "Cinq conversations", zh: "五次对话" },
+    title: {
+      en: "Five Conversations",
+      fr: "Cinq conversations",
+      zh: "五次对话",
+    },
     image: require("@/assets/images/lessons/lesson_10_five_conversations.png"),
     sections: [
       {
@@ -643,7 +993,8 @@ export const LESSONS: LessonContent[] = [
           "He did not have an answer to the professor's question. But he had learned that the question was the point. That you had to keep walking for the answer to find you.",
         french:
           "Il n'avait pas de réponse à la question du professeur. Mais il avait appris que la question était l'essentiel. Qu'il fallait continuer à marcher pour que la réponse vous trouve.",
-        chinese: "他没有答案来回答教授的问题。但他学到了——问题本身才是关键所在。你必须继续走，答案才能找到你。",
+        chinese:
+          "他没有答案来回答教授的问题。但他学到了——问题本身才是关键所在。你必须继续走，答案才能找到你。",
       },
       {
         context: "His mother",
@@ -669,7 +1020,8 @@ export const LESSONS: LessonContent[] = [
           "Brown. Oxford. Six dollars. She sends her love and says you had better visit before Christmas — or she will come here and embarrass you.",
         french:
           "Marron. Oxford. Six dollars. Elle envoie son amour et dit que tu ferais mieux de lui rendre visite avant Noël — sinon elle viendra ici t'embarrasser.",
-        chinese: "棕色。牛津鞋。六美元。她问你好，说你最好在圣诞前去看她——不然她会来这里让你难堪。",
+        chinese:
+          "棕色。牛津鞋。六美元。她问你好，说你最好在圣诞前去看她——不然她会来这里让你难堪。",
       },
       {
         context: "Narration",
@@ -682,12 +1034,42 @@ export const LESSONS: LessonContent[] = [
       },
     ],
     vocabulary: [
-      { english: "unplanned", french: "imprévu", chinese: "计划外的", note: "not arranged or prepared in advance" },
-      { english: "fleeting", french: "fugace", chinese: "短暂的", note: "lasting only a short time" },
-      { english: "encounter", french: "rencontre", chinese: "相遇", note: "a meeting, especially unexpected" },
-      { english: "deliberately", french: "délibérément", chinese: "故意地", note: "on purpose; intentionally" },
-      { english: "vernacular", french: "vernaculaire", chinese: "地方语言", note: "the language of ordinary people" },
-      { english: "worth", french: "qui vaut la peine", chinese: "值得", note: "deserving of; good enough for" },
+      {
+        english: "unplanned",
+        french: "imprévu",
+        chinese: "计划外的",
+        note: "not arranged or prepared in advance",
+      },
+      {
+        english: "fleeting",
+        french: "fugace",
+        chinese: "短暂的",
+        note: "lasting only a short time",
+      },
+      {
+        english: "encounter",
+        french: "rencontre",
+        chinese: "相遇",
+        note: "a meeting, especially unexpected",
+      },
+      {
+        english: "deliberately",
+        french: "délibérément",
+        chinese: "故意地",
+        note: "on purpose; intentionally",
+      },
+      {
+        english: "vernacular",
+        french: "vernaculaire",
+        chinese: "地方语言",
+        note: "the language of ordinary people",
+      },
+      {
+        english: "worth",
+        french: "qui vaut la peine",
+        chinese: "值得",
+        note: "deserving of; good enough for",
+      },
     ],
   },
 ];

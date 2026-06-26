@@ -1,18 +1,21 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { SQLiteProvider } from 'expo-sqlite';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { AuthProvider, useAuth } from '@/lib/auth';
-import { DATABASE_NAME, migrateDbIfNeeded } from '@/lib/db';
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { AuthProvider, useAuth } from "@/lib/auth";
+import { DATABASE_NAME, migrateDbIfNeeded } from "@/lib/db";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { SQLiteProvider } from "expo-sqlite";
+import { StatusBar } from "expo-status-bar";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
+import "react-native-reanimated";
 
 export const unstable_settings = {
-  anchor: '(tabs)',
+  anchor: "(tabs)",
 };
 
 // Keep the native splash screen visible until the app has finished loading.
@@ -27,7 +30,10 @@ function RootNavigator() {
   const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setMinTimeElapsed(true), SPLASH_MIN_DURATION);
+    const timer = setTimeout(
+      () => setMinTimeElapsed(true),
+      SPLASH_MIN_DURATION,
+    );
     return () => clearTimeout(timer);
   }, []);
 
@@ -46,13 +52,34 @@ function RootNavigator() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Protected guard={!!user}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="basics" options={{ presentation: 'modal', title: 'Learn the Basics' }} />
-          <Stack.Screen name="word-add" options={{ presentation: 'modal', title: 'Save a Word' }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+          <Stack.Screen
+            name="basics"
+            options={{ presentation: "modal", title: "Learn the Basics" }}
+          />
+          <Stack.Screen
+            name="word-add"
+            options={{ presentation: "modal", title: "Save a Word" }}
+          />
+          <Stack.Screen
+            name="question-papers"
+            options={{ headerShown: true, title: "Question Papers" }}
+          />
+          <Stack.Screen
+            name="question-papers-chinese"
+            options={{ headerShown: true, title: "Chinese Papers" }}
+          />
+          <Stack.Screen
+            name="question-papers-french"
+            options={{ headerShown: true, title: "French Papers" }}
+          />
+          <Stack.Screen
+            name="modal"
+            options={{ presentation: "modal", title: "Modal" }}
+          />
         </Stack.Protected>
         <Stack.Protected guard={!user}>
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />

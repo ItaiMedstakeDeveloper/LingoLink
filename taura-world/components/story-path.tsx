@@ -14,7 +14,7 @@ import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { LESSONS } from "@/lib/lessons";
-import { useFocusEffect } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 
 /** A story row as stored in SQLite. */
@@ -43,6 +43,7 @@ type Props = {
  */
 export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
   const db = useSQLiteContext();
+  const router = useRouter();
   const colorScheme = useColorScheme();
   const c = Colors[colorScheme ?? "light"];
 
@@ -134,6 +135,29 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
                   ]}
                 />
               </View>
+
+              {/* Premium "Question Papers" entry point */}
+              <TouchableOpacity
+                style={styles.papersCard}
+                activeOpacity={0.9}
+                onPress={() => router.push("/question-papers")}
+              >
+                <View style={styles.papersIcon}>
+                  <IconSymbol size={16} name="book.fill" color="#7A5B00" />
+                </View>
+                <View style={styles.papersText}>
+                  <View style={styles.papersTitleRow}>
+                    <Text style={styles.papersTitle}>Question Papers</Text>
+                    <View style={styles.premiumBadge}>
+                      <Text style={styles.premiumBadgeText}>PREMIUM</Text>
+                    </View>
+                  </View>
+                  <Text style={styles.papersHint}>
+                    Common questions that appear in examinations
+                  </Text>
+                </View>
+                <IconSymbol size={16} name="chevron.right" color="#7A5B00" />
+              </TouchableOpacity>
             </View>
 
             {/* "Before your first story" — opens the basics */}
@@ -333,6 +357,46 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   overallBarFill: { height: "100%", borderRadius: 4 },
+  papersCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    backgroundColor: "#FFF8E6",
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#F0D98C",
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    marginTop: 12,
+  },
+  papersIcon: {
+    width: 30,
+    height: 30,
+    borderRadius: 8,
+    backgroundColor: "#FBEFC4",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  papersText: { flex: 1, gap: 1 },
+  papersTitleRow: { flexDirection: "row", alignItems: "center", gap: 6 },
+  papersTitle: { fontSize: 13, fontWeight: "bold", color: "#7A5B00" },
+  premiumBadge: {
+    backgroundColor: "#7A5B00",
+    borderRadius: 5,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+  },
+  premiumBadgeText: {
+    color: "#FFF8E6",
+    fontSize: 8,
+    fontWeight: "800",
+    letterSpacing: 0.5,
+  },
+  papersHint: {
+    fontSize: 11,
+    lineHeight: 14,
+    color: "#8A6D1F",
+  },
   basicsCard: {
     flexDirection: "row",
     alignItems: "center",
