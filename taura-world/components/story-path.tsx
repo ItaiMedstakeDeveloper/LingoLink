@@ -365,7 +365,7 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
         </View>
         <View style={styles.fabText}>
           <Text style={styles.fabTitle}>View Media</Text>
-          <Text style={styles.fabHint}>Latest newspapers & videos</Text>
+          <Text style={styles.fabHint}>News Papers and Videos</Text>
         </View>
       </TouchableOpacity>
     </SafeAreaView>

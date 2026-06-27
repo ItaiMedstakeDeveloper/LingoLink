@@ -34,27 +34,6 @@ type QuizQuestion = {
 };
 
 function generateQuiz(vocabList: Vocabulary[]): QuizQuestion[] {
-  if (vocabList.length < 4) {
-    return [
-      {
-        question: "What does '你好' mean in English?",
-        options: ["Hello", "Thank you", "Friend", "Bus"],
-        correctAnswer: "Hello",
-        word: vocabList[0] || {
-          id: 1,
-          chinese: "你好",
-          chinese_pinyin: "nǐ hǎo",
-          french: "Bonjour",
-          french_details: "",
-          english: "Hello",
-          english_details: "",
-          context_tip: "",
-          mastered: 0,
-        },
-      },
-    ];
-  }
-
   const shuffled = [...vocabList].sort(() => 0.5 - Math.random());
   const selectedWords = shuffled.slice(0, 3);
   return selectedWords.map((word, index) => {

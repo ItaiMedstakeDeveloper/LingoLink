@@ -124,6 +124,26 @@ export const MEDIA: Record<Language, Record<MediaType, MediaItem[]>> = {
     ],
     videos: [
       {
+        name: "Konbini",
+        note: "French interviews from TikTok",
+        url: "https://www.tiktok.com/@konbini",
+      },
+      {
+        name: "Bruna Garglione",
+        note: "French blogger on TikTok",
+        url: "https://www.tiktok.com/@brunargaglionone",
+      },
+      {
+        name: "Extra",
+        note: "Simple to follow comedy series for French Beginners",
+        url: "https://www.youtube.com/watch?v=EaNqp4FXh-s",
+      },
+      {
+        name: "Alexa Polidoro",
+        note: "Beginned to Intermediate French Lessons From Youtube",
+        url: "https://www.youtube.com/user/learnfrenchwithalexa",
+      },
+      {
         name: "InnerFrench",
         note: "Intermediate French, spoken slowly",
         url: "https://www.youtube.com/@innerfrench",

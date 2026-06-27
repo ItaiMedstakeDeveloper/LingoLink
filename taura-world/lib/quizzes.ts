@@ -16,7 +16,11 @@
 export type LocalizedText = { en: string; fr: string; zh: string };
 
 /** Shorthand so the data below stays readable: t(english, french, chinese). */
-const t = (en: string, fr: string, zh: string): LocalizedText => ({ en, fr, zh });
+const t = (en: string, fr: string, zh: string): LocalizedText => ({
+  en,
+  fr,
+  zh,
+});
 
 export type MultipleChoiceQuestion = {
   type: "multiple-choice";
@@ -91,17 +95,29 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "sequence",
-      prompt: t("Put the morning in order.", "Remets la matinée dans l'ordre.", "把这个早晨按顺序排列。"),
+      prompt: t(
+        "Put the morning in order.",
+        "Remets la matinée dans l'ordre.",
+        "把这个早晨按顺序排列。",
+      ),
       items: [
         t("He washes his face.", "Il se lave le visage.", "他洗脸。"),
         t("He puts on his shirt.", "Il met sa chemise.", "他穿上衬衫。"),
         t("He goes outside.", "Il sort dehors.", "他走到外面。"),
-        t("Tendai walks, happy.", "Tendai marche, heureux.", "滕代高兴地走着。"),
+        t(
+          "Tendai walks, happy.",
+          "Tendai marche, heureux.",
+          "滕代高兴地走着。",
+        ),
       ],
     },
     {
       type: "who-said-it",
-      prompt: t("Who is the story about?", "De qui parle l'histoire ?", "这个故事是关于谁的？"),
+      prompt: t(
+        "Who is the story about?",
+        "De qui parle l'histoire ?",
+        "这个故事是关于谁的？",
+      ),
       quote: t(
         "He is happy. He likes mornings in Harare.",
         "Il est heureux. Il aime les matins à Harare.",
@@ -132,7 +148,11 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
   2: [
     {
       type: "multiple-choice",
-      prompt: t("How much does the newspaper cost?", "Combien coûte le journal ?", "报纸多少钱？"),
+      prompt: t(
+        "How much does the newspaper cost?",
+        "Combien coûte le journal ?",
+        "报纸多少钱？",
+      ),
       options: [
         t("One dollar", "Un dollar", "一美元"),
         t("Two dollars", "Deux dollars", "两美元"),
@@ -143,12 +163,20 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "true-false",
-      statement: t("Tendai buys a newspaper.", "Tendai achète un journal.", "滕代买了一份报纸。"),
+      statement: t(
+        "Tendai buys a newspaper.",
+        "Tendai achète un journal.",
+        "滕代买了一份报纸。",
+      ),
       answer: true,
     },
     {
       type: "who-said-it",
-      prompt: t("Who said this line?", "Qui a dit cette phrase ?", "这句话是谁说的？"),
+      prompt: t(
+        "Who said this line?",
+        "Qui a dit cette phrase ?",
+        "这句话是谁说的？",
+      ),
       quote: t(
         "Same as yesterday. Someone is stealing. Someone is crying. And we are all going to work.",
         "Pareil qu'hier. Quelqu'un vole. Quelqu'un pleure. Et nous allons tous travailler.",
@@ -164,12 +192,28 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "sequence",
-      prompt: t("Put the scene in order.", "Remets la scène dans l'ordre.", "把这个场景按顺序排列。"),
+      prompt: t(
+        "Put the scene in order.",
+        "Remets la scène dans l'ordre.",
+        "把这个场景按顺序排列。",
+      ),
       items: [
-        t("Tendai sees the newspaper man.", "Tendai voit le vendeur de journaux.", "滕代看到报贩。"),
-        t("He asks for a newspaper.", "Il demande un journal.", "他要一份报纸。"),
+        t(
+          "Tendai sees the newspaper man.",
+          "Tendai voit le vendeur de journaux.",
+          "滕代看到报贩。",
+        ),
+        t(
+          "He asks for a newspaper.",
+          "Il demande un journal.",
+          "他要一份报纸。",
+        ),
         t("He pays one dollar.", "Il paie un dollar.", "他付了一美元。"),
-        t("He laughs and walks on.", "Il rit et continue à marcher.", "他笑着继续往前走。"),
+        t(
+          "He laughs and walks on.",
+          "Il rit et continue à marcher.",
+          "他笑着继续往前走。",
+        ),
       ],
     },
     {
@@ -193,7 +237,11 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
   3: [
     {
       type: "multiple-choice",
-      prompt: t("How did Tendai travel to Mbare?", "Comment Tendai est-il allé à Mbare ?", "滕代怎么去姆巴雷的？"),
+      prompt: t(
+        "How did Tendai travel to Mbare?",
+        "Comment Tendai est-il allé à Mbare ?",
+        "滕代怎么去姆巴雷的？",
+      ),
       options: [
         t("By bus", "En bus", "坐公共汽车"),
         t("On foot", "À pied", "步行"),
@@ -204,7 +252,11 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "true-false",
-      statement: t("The market was quiet and empty.", "Le marché était calme et vide.", "市场又安静又空荡。"),
+      statement: t(
+        "The market was quiet and empty.",
+        "Le marché était calme et vide.",
+        "市场又安静又空荡。",
+      ),
       answer: false,
     },
     {
@@ -225,17 +277,41 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "sequence",
-      prompt: t("Put the market trip in order.", "Remets la sortie au marché dans l'ordre.", "把逛市场的过程按顺序排列。"),
+      prompt: t(
+        "Put the market trip in order.",
+        "Remets la sortie au marché dans l'ordre.",
+        "把逛市场的过程按顺序排列。",
+      ),
       items: [
-        t("He took a bus to Mbare.", "Il a pris un bus pour Mbare.", "他坐公共汽车去姆巴雷。"),
-        t("He arrived at the busy market.", "Il est arrivé au marché animé.", "他到了热闹的市场。"),
-        t("He saw many colours.", "Il a vu beaucoup de couleurs.", "他看到很多颜色。"),
-        t("He walked slowly with forty dollars.", "Il a marché lentement avec quarante dollars.", "他带着四十美元慢慢地走。"),
+        t(
+          "He took a bus to Mbare.",
+          "Il a pris un bus pour Mbare.",
+          "他坐公共汽车去姆巴雷。",
+        ),
+        t(
+          "He arrived at the busy market.",
+          "Il est arrivé au marché animé.",
+          "他到了热闹的市场。",
+        ),
+        t(
+          "He saw many colours.",
+          "Il a vu beaucoup de couleurs.",
+          "他看到很多颜色。",
+        ),
+        t(
+          "He walked slowly with forty dollars.",
+          "Il a marché lentement avec quarante dollars.",
+          "他带着四十美元慢慢地走。",
+        ),
       ],
     },
     {
       type: "fill-blank",
-      sentence: t("He had ___ dollars in his pocket.", "Il avait ___ dollars dans sa poche.", "他口袋里有___美元。"),
+      sentence: t(
+        "He had ___ dollars in his pocket.",
+        "Il avait ___ dollars dans sa poche.",
+        "他口袋里有___美元。",
+      ),
       options: [
         t("forty", "quarante", "四十"),
         t("four", "quatre", "四"),
@@ -250,7 +326,11 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
   4: [
     {
       type: "multiple-choice",
-      prompt: t("How old was Ambuya Chipo?", "Quel âge avait Ambuya Chipo ?", "奇波奶奶多大年纪？"),
+      prompt: t(
+        "How old was Ambuya Chipo?",
+        "Quel âge avait Ambuya Chipo ?",
+        "奇波奶奶多大年纪？",
+      ),
       options: [
         t("Seventy", "Soixante-dix", "七十岁"),
         t("Seventeen", "Dix-sept", "十七岁"),
@@ -270,7 +350,11 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "who-said-it",
-      prompt: t("Who said this line?", "Qui a dit cette phrase ?", "这句话是谁说的？"),
+      prompt: t(
+        "Who said this line?",
+        "Qui a dit cette phrase ?",
+        "这句话是谁说的？",
+      ),
       quote: t(
         "Smart boy. Your mother raised you well. Take these tomatoes. Five dollars.",
         "Garçon intelligent. Ta mère t'a bien élevé. Prends ces tomates. Cinq dollars.",
@@ -286,17 +370,41 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "sequence",
-      prompt: t("Put the visit in order.", "Remets la visite dans l'ordre.", "把这次拜访按顺序排列。"),
+      prompt: t(
+        "Put the visit in order.",
+        "Remets la visite dans l'ordre.",
+        "把这次拜访按顺序排列。",
+      ),
       items: [
-        t("Tendai comes to the stall.", "Tendai vient à l'étal.", "滕代来到摊位。"),
-        t("Ambuya Chipo recognises him.", "Ambuya Chipo le reconnaît.", "奇波奶奶认出了他。"),
-        t("She sells him tomatoes for five dollars.", "Elle lui vend des tomates pour cinq dollars.", "她以五美元把西红柿卖给他。"),
-        t("Tendai packs the tomatoes carefully.", "Tendai range soigneusement les tomates.", "滕代小心地把西红柿装好。"),
+        t(
+          "Tendai comes to the stall.",
+          "Tendai vient à l'étal.",
+          "滕代来到摊位。",
+        ),
+        t(
+          "Ambuya Chipo recognises him.",
+          "Ambuya Chipo le reconnaît.",
+          "奇波奶奶认出了他。",
+        ),
+        t(
+          "She sells him tomatoes for five dollars.",
+          "Elle lui vend des tomates pour cinq dollars.",
+          "她以五美元把西红柿卖给他。",
+        ),
+        t(
+          "Tendai packs the tomatoes carefully.",
+          "Tendai range soigneusement les tomates.",
+          "滕代小心地把西红柿装好。",
+        ),
       ],
     },
     {
       type: "fill-blank",
-      sentence: t("Take these tomatoes. ___ dollars.", "Prends ces tomates. ___ dollars.", "拿这些西红柿。___美元。"),
+      sentence: t(
+        "Take these tomatoes. ___ dollars.",
+        "Prends ces tomates. ___ dollars.",
+        "拿这些西红柿。___美元。",
+      ),
       options: [
         t("Five", "Cinq", "五"),
         t("Four", "Quatre", "四"),
@@ -311,7 +419,11 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
   5: [
     {
       type: "multiple-choice",
-      prompt: t("Where is Zhou Wei from?", "D'où vient Zhou Wei ?", "周炜来自哪里？"),
+      prompt: t(
+        "Where is Zhou Wei from?",
+        "D'où vient Zhou Wei ?",
+        "周炜来自哪里？",
+      ),
       options: [
         t("Guangzhou", "Guangzhou", "广州"),
         t("Harare", "Harare", "哈拉雷"),
@@ -331,7 +443,11 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "who-said-it",
-      prompt: t("Who said this line?", "Qui a dit cette phrase ?", "这句话是谁说的？"),
+      prompt: t(
+        "Who said this line?",
+        "Qui a dit cette phrase ?",
+        "这句话是谁说的？",
+      ),
       quote: t(
         "Hey boss! Charger? Cable? Earphones? Chinese price, American quality!",
         "Hé patron ! Chargeur ? Câble ? Écouteurs ? Prix chinois, qualité américaine !",
@@ -347,12 +463,32 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "sequence",
-      prompt: t("Put the deal in order.", "Remets la transaction dans l'ordre.", "把这笔交易按顺序排列。"),
+      prompt: t(
+        "Put the deal in order.",
+        "Remets la transaction dans l'ordre.",
+        "把这笔交易按顺序排列。",
+      ),
       items: [
-        t("Tendai finds the electronics street.", "Tendai trouve la rue des électroniques.", "滕代找到电子产品街。"),
-        t("Zhou Wei calls out to him.", "Zhou Wei l'interpelle.", "周炜向他喊话。"),
-        t("They argue about football.", "Ils débattent du football.", "他们争论足球。"),
-        t("Tendai pays three dollars.", "Tendai paie trois dollars.", "滕代付了三美元。"),
+        t(
+          "Tendai finds the electronics street.",
+          "Tendai trouve la rue des électroniques.",
+          "滕代找到电子产品街。",
+        ),
+        t(
+          "Zhou Wei calls out to him.",
+          "Zhou Wei l'interpelle.",
+          "周炜向他喊话。",
+        ),
+        t(
+          "They argue about football.",
+          "Ils débattent du football.",
+          "他们争论足球。",
+        ),
+        t(
+          "Tendai pays three dollars.",
+          "Tendai paie trois dollars.",
+          "滕代付了三美元。",
+        ),
       ],
     },
     {
@@ -376,7 +512,11 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
   6: [
     {
       type: "multiple-choice",
-      prompt: t("What is Marguerite's job?", "Quel est le métier de Marguerite ?", "玛格丽特的职业是什么？"),
+      prompt: t(
+        "What is Marguerite's job?",
+        "Quel est le métier de Marguerite ?",
+        "玛格丽特的职业是什么？",
+      ),
       options: [
         t("Journalist", "Journaliste", "记者"),
         t("Teacher", "Enseignante", "老师"),
@@ -387,13 +527,25 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "true-false",
-      statement: t("Marguerite is from Lyon.", "Marguerite vient de Lyon.", "玛格丽特来自里昂。"),
+      statement: t(
+        "Marguerite is from Lyon.",
+        "Marguerite vient de Lyon.",
+        "玛格丽特来自里昂。",
+      ),
       answer: true,
     },
     {
       type: "who-said-it",
-      prompt: t("Who said this line?", "Qui a dit cette phrase ?", "这句话是谁说的？"),
-      quote: t("Vous parlez français? You speak French?", "Vous parlez français ?", "你会说法语吗？"),
+      prompt: t(
+        "Who said this line?",
+        "Qui a dit cette phrase ?",
+        "这句话是谁说的？",
+      ),
+      quote: t(
+        "Vous parlez français? You speak French?",
+        "Vous parlez français ?",
+        "你会说法语吗？",
+      ),
       options: [
         t("Marguerite", "Marguerite", "玛格丽特"),
         t("Tendai", "Tendai", "滕代"),
@@ -404,17 +556,41 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "sequence",
-      prompt: t("Put the meeting in order.", "Remets la rencontre dans l'ordre.", "把这次相遇按顺序排列。"),
+      prompt: t(
+        "Put the meeting in order.",
+        "Remets la rencontre dans l'ordre.",
+        "把这次相遇按顺序排列。",
+      ),
       items: [
-        t("Tendai looks at brown shoes.", "Tendai regarde des chaussures marron.", "滕代在看棕色的鞋子。"),
-        t("He hears a woman speaking French.", "Il entend une femme parler français.", "他听到一个女人说法语。"),
-        t("They make a deal together.", "Ils concluent un marché.", "他们达成了一个交易。"),
-        t("He buys the shoes for six dollars.", "Il achète les chaussures pour six dollars.", "他用六美元买下了鞋子。"),
+        t(
+          "Tendai looks at brown shoes.",
+          "Tendai regarde des chaussures marron.",
+          "滕代在看棕色的鞋子。",
+        ),
+        t(
+          "He hears a woman speaking French.",
+          "Il entend une femme parler français.",
+          "他听到一个女人说法语。",
+        ),
+        t(
+          "They make a deal together.",
+          "Ils concluent un marché.",
+          "他们达成了一个交易。",
+        ),
+        t(
+          "He buys the shoes for six dollars.",
+          "Il achète les chaussures pour six dollars.",
+          "他用六美元买下了鞋子。",
+        ),
       ],
     },
     {
       type: "fill-blank",
-      sentence: t("The shoes cost ___ dollars.", "Les chaussures coûtent ___ dollars.", "鞋子花了___美元。"),
+      sentence: t(
+        "The shoes cost ___ dollars.",
+        "Les chaussures coûtent ___ dollars.",
+        "鞋子花了___美元。",
+      ),
       options: [
         t("six", "six", "六"),
         t("ten", "dix", "十"),
@@ -435,10 +611,22 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
         "餐厅外的黑板上写着什么？",
       ),
       options: [
-        t("Eat well. Pay what you can.", "Mangez bien. Payez ce que vous pouvez.", "吃好，量力而付。"),
+        t(
+          "Eat well. Pay what you can.",
+          "Mangez bien. Payez ce que vous pouvez.",
+          "吃好，量力而付。",
+        ),
         t("Closed today.", "Fermé aujourd'hui.", "今日休息。"),
-        t("Best food in Harare.", "La meilleure cuisine de Harare.", "哈拉雷最好的菜。"),
-        t("No money, no food.", "Pas d'argent, pas de nourriture.", "没钱就没饭。"),
+        t(
+          "Best food in Harare.",
+          "La meilleure cuisine de Harare.",
+          "哈拉雷最好的菜。",
+        ),
+        t(
+          "No money, no food.",
+          "Pas d'argent, pas de nourriture.",
+          "没钱就没饭。",
+        ),
       ],
       correctIndex: 0,
     },
@@ -453,7 +641,11 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "who-said-it",
-      prompt: t("Who said this line?", "Qui a dit cette phrase ?", "这句话是谁说的？"),
+      prompt: t(
+        "Who said this line?",
+        "Qui a dit cette phrase ?",
+        "这句话是谁说的？",
+      ),
       quote: t(
         "You are carrying many things, young man. But which of those things is actually carrying you?",
         "Vous portez beaucoup de choses, jeune homme. Mais laquelle de ces choses vous porte vraiment ?",
@@ -469,17 +661,37 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "sequence",
-      prompt: t("Put the visit in order.", "Remets la visite dans l'ordre.", "把这次用餐按顺序排列。"),
+      prompt: t(
+        "Put the visit in order.",
+        "Remets la visite dans l'ordre.",
+        "把这次用餐按顺序排列。",
+      ),
       items: [
         t("Tendai is hungry.", "Tendai a faim.", "滕代饿了。"),
-        t("He walks to Mama Rudo's restaurant.", "Il marche jusqu'au restaurant de Mama Rudo.", "他走到鲁多妈妈的餐厅。"),
-        t("He meets Professor Ndlovu.", "Il rencontre le professeur Ndlovu.", "他遇到了恩德洛武教授。"),
-        t("They eat together in silence.", "Ils mangent ensemble en silence.", "他们在沉默中一起吃饭。"),
+        t(
+          "He walks to Mama Rudo's restaurant.",
+          "Il marche jusqu'au restaurant de Mama Rudo.",
+          "他走到鲁多妈妈的餐厅。",
+        ),
+        t(
+          "He meets Professor Ndlovu.",
+          "Il rencontre le professeur Ndlovu.",
+          "他遇到了恩德洛武教授。",
+        ),
+        t(
+          "They eat together in silence.",
+          "Ils mangent ensemble en silence.",
+          "他们在沉默中一起吃饭。",
+        ),
       ],
     },
     {
       type: "fill-blank",
-      sentence: t("Mama Rudo used ___ in the sadza.", "Mama Rudo a mis du ___ dans la sadza.", "鲁多妈妈在玉米糊里加了___。"),
+      sentence: t(
+        "Mama Rudo used ___ in the sadza.",
+        "Mama Rudo a mis du ___ dans la sadza.",
+        "鲁多妈妈在玉米糊里加了___。",
+      ),
       options: [
         t("peanut butter", "beurre de cacahuètes", "花生酱"),
         t("sugar", "sucre", "糖"),
@@ -518,7 +730,11 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "who-said-it",
-      prompt: t("Who said this line?", "Qui a dit cette phrase ?", "这句话是谁说的？"),
+      prompt: t(
+        "Who said this line?",
+        "Qui a dit cette phrase ?",
+        "这句话是谁说的？",
+      ),
       quote: t(
         "Do you know what Harare has that most cities in the world have lost?",
         "Savez-vous ce que Harare possède et que la plupart des villes du monde ont perdu ?",
@@ -591,7 +807,11 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "who-said-it",
-      prompt: t("Who is in this photograph?", "Qui est sur cette photo ?", "这张照片里是谁？"),
+      prompt: t(
+        "Who is in this photograph?",
+        "Qui est sur cette photo ?",
+        "这张照片里是谁？",
+      ),
       quote: t(
         "His arms were full of cables, caught mid-sentence.",
         "Les bras pleins de câbles, saisi en pleine phrase.",
@@ -607,18 +827,38 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "sequence",
-      prompt: t("Put the ride home in order.", "Remets le trajet du retour dans l'ordre.", "把回家的路途按顺序排列。"),
+      prompt: t(
+        "Put the ride home in order.",
+        "Remets le trajet du retour dans l'ordre.",
+        "把回家的路途按顺序排列。",
+      ),
       items: [
-        t("Tendai scrolls through the photos.", "Tendai fait défiler les photos.", "滕代翻看照片。"),
-        t("He thinks about the professor's question.", "Il pense à la question du professeur.", "他想起教授的问题。"),
-        t("The kombi hits a pothole.", "Le kombi heurte un nid-de-poule.", "小巴撞上一个坑洼。"),
-        t("Everyone laughs together.", "Tout le monde rit ensemble.", "大家一起笑了。"),
+        t(
+          "Tendai scrolls through the photos.",
+          "Tendai fait défiler les photos.",
+          "滕代翻看照片。",
+        ),
+        t(
+          "He thinks about the professor's question.",
+          "Il pense à la question du professeur.",
+          "他想起教授的问题。",
+        ),
+        t(
+          "The kombi hits a pothole.",
+          "Le kombi heurte un nid-de-poule.",
+          "小巴撞上一个坑洼。",
+        ),
+        t(
+          "Everyone laughs together.",
+          "Tout le monde rit ensemble.",
+          "大家一起笑了。",
+        ),
       ],
     },
     {
       type: "fill-blank",
       sentence: t(
-        "Marguerite's message said only: \"For your ___.\"",
+        'Marguerite\'s message said only: "For your ___."',
         "Le message de Marguerite disait seulement : « Pour ta ___. »",
         "玛格丽特的消息只写着：「留作你的___。」",
       ),
@@ -636,7 +876,11 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
   10: [
     {
       type: "multiple-choice",
-      prompt: t("What colour were the shoes?", "De quelle couleur étaient les chaussures ?", "鞋子是什么颜色的？"),
+      prompt: t(
+        "What colour were the shoes?",
+        "De quelle couleur étaient les chaussures ?",
+        "鞋子是什么颜色的？",
+      ),
       options: [
         t("Brown", "Marron", "棕色"),
         t("Black", "Noir", "黑色"),
@@ -656,8 +900,16 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "who-said-it",
-      prompt: t("Who said this line?", "Qui a dit cette phrase ?", "这句话是谁说的？"),
-      quote: t("Did you get the tomatoes?", "Tu as pris les tomates ?", "你买到西红柿了吗？"),
+      prompt: t(
+        "Who said this line?",
+        "Qui a dit cette phrase ?",
+        "这句话是谁说的？",
+      ),
+      quote: t(
+        "Did you get the tomatoes?",
+        "Tu as pris les tomates ?",
+        "你买到西红柿了吗？",
+      ),
       options: [
         t("His mother", "Sa mère", "他的妈妈"),
         t("Ambuya Chipo", "Ambuya Chipo", "奇波奶奶"),
@@ -668,12 +920,32 @@ export const QUIZZES: Record<number, QuizQuestion[]> = {
     },
     {
       type: "sequence",
-      prompt: t("Put the ending in order.", "Remets la fin dans l'ordre.", "把结尾按顺序排列。"),
+      prompt: t(
+        "Put the ending in order.",
+        "Remets la fin dans l'ordre.",
+        "把结尾按顺序排列。",
+      ),
       items: [
-        t("Tendai walks the last block home.", "Tendai marche le dernier pâté de maisons jusqu'à chez lui.", "滕代走完回家的最后一个街区。"),
-        t("He remembers the five people he met.", "Il se souvient des cinq personnes rencontrées.", "他回想起遇到的五个人。"),
-        t("His mother asks about the tomatoes.", "Sa mère demande des nouvelles des tomates.", "他妈妈问起西红柿。"),
-        t("His mother laughs warmly.", "Sa mère rit chaleureusement.", "他妈妈温暖地笑了。"),
+        t(
+          "Tendai walks the last block home.",
+          "Tendai marche le dernier pâté de maisons jusqu'à chez lui.",
+          "滕代走完回家的最后一个街区。",
+        ),
+        t(
+          "He remembers the five people he met.",
+          "Il se souvient des cinq personnes rencontrées.",
+          "他回想起遇到的五个人。",
+        ),
+        t(
+          "His mother asks about the tomatoes.",
+          "Sa mère demande des nouvelles des tomates.",
+          "他妈妈问起西红柿。",
+        ),
+        t(
+          "His mother laughs warmly.",
+          "Sa mère rit chaleureusement.",
+          "他妈妈温暖地笑了。",
+        ),
       ],
     },
     {
