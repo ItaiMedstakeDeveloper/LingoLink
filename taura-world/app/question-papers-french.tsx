@@ -18,7 +18,10 @@ export default function FrenchPapersScreen() {
         <View style={[styles.flagWrap, { backgroundColor: c.lightBlue }]}>
           <FranceFlag size={96} />
         </View>
-        <ThemedText type="title" style={[styles.title, { color: c.primaryBlue }]}>
+        <ThemedText
+          type="title"
+          style={[styles.title, { color: c.primaryBlue }]}
+        >
           French Question Papers
         </ThemedText>
         <ThemedText style={styles.subtitle}>Épreuves de français</ThemedText>
