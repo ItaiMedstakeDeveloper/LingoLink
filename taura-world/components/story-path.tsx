@@ -135,24 +135,43 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
                 />
               </View>
 
-              {/* Practice shortcut: Question Papers (full-width strip) */}
-              <TouchableOpacity
-                style={styles.papersStrip}
-                activeOpacity={0.9}
-                onPress={() => router.push("/question-papers")}
-              >
-                <View style={styles.papersIcon}>
-                  <IconSymbol size={18} name="book.fill" color="#7A5B00" />
-                </View>
-                <View style={styles.papersStripText}>
+              {/* Two equal shortcuts: Question Papers + Restaurants & Schools */}
+              <View style={styles.featureRow}>
+                <TouchableOpacity
+                  style={[styles.featureCard, styles.papersCard]}
+                  activeOpacity={0.9}
+                  onPress={() => router.push("/question-papers")}
+                >
+                  <View style={styles.featureTopRow}>
+                    <View style={styles.papersIcon}>
+                      <IconSymbol size={16} name="book.fill" color="#7A5B00" />
+                    </View>
+                    <View style={styles.premiumBadge}>
+                      <Text style={styles.premiumBadgeText}>PREMIUM</Text>
+                    </View>
+                  </View>
                   <Text style={styles.papersTitle}>Question Papers</Text>
                   <Text style={styles.papersHint}>Common exam questions</Text>
-                </View>
-                <View style={styles.premiumBadge}>
-                  <Text style={styles.premiumBadgeText}>PREMIUM</Text>
-                </View>
-                <IconSymbol size={18} name="chevron.right" color="#B8901F" />
-              </TouchableOpacity>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.featureCard, styles.placesCard]}
+                  activeOpacity={0.9}
+                  onPress={() => router.push("/places")}
+                >
+                  <View style={styles.featureTopRow}>
+                    <View style={styles.placesShortcutIcon}>
+                      <IconSymbol size={16} name="fork.knife" color="#7A1212" />
+                    </View>
+                  </View>
+                  <Text style={styles.placesShortcutTitle}>
+                    Restaurants & Schools
+                  </Text>
+                  <Text style={styles.placesShortcutHint}>
+                    French & Chinese places near you
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/* "Before your first story" — opens the basics */}
@@ -367,29 +386,39 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   overallBarFill: { height: "100%", borderRadius: 4 },
-  papersStrip: {
+  featureRow: {
     flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
+    gap: 10,
     marginTop: 12,
+  },
+  featureCard: {
+    flex: 1,
     borderRadius: 12,
     borderWidth: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-    backgroundColor: "#FFF8E6",
-    borderColor: "#F0D98C",
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    gap: 4,
     ...Shadows.card,
   },
-  papersStripText: { flex: 1, gap: 2 },
+  featureTopRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    minHeight: 30,
+  },
+  papersCard: {
+    backgroundColor: "#FFF8E6",
+    borderColor: "#F0D98C",
+  },
   papersIcon: {
-    width: 34,
-    height: 34,
+    width: 30,
+    height: 30,
     borderRadius: 8,
     backgroundColor: "#FBEFC4",
     justifyContent: "center",
     alignItems: "center",
   },
-  papersTitle: { fontSize: 14, fontWeight: "bold", color: "#7A5B00" },
+  papersTitle: { fontSize: 13, fontWeight: "bold", color: "#7A5B00" },
   premiumBadge: {
     backgroundColor: "#7A5B00",
     borderRadius: 5,
@@ -403,9 +432,27 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   papersHint: {
-    fontSize: 12,
-    lineHeight: 15,
+    fontSize: 11,
+    lineHeight: 14,
     color: "#8A6D1F",
+  },
+  placesCard: {
+    backgroundColor: "#FCE8E6",
+    borderColor: "#F2C4BF",
+  },
+  placesShortcutIcon: {
+    width: 30,
+    height: 30,
+    borderRadius: 8,
+    backgroundColor: "#F8D3CE",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  placesShortcutTitle: { fontSize: 13, fontWeight: "bold", color: "#7A1212" },
+  placesShortcutHint: {
+    fontSize: 11,
+    lineHeight: 14,
+    color: "#9B4A45",
   },
   fab: {
     position: "absolute",

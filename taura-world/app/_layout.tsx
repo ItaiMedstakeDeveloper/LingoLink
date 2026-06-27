@@ -88,6 +88,14 @@ function RootNavigator() {
             options={{ headerShown: true, title: "View Media" }}
           />
           <Stack.Screen
+            name="places"
+            options={{ headerShown: true, title: "Restaurants & Schools" }}
+          />
+          <Stack.Screen
+            name="place-detail"
+            options={{ headerShown: true, title: "Place" }}
+          />
+          <Stack.Screen
             name="modal"
             options={{ presentation: "modal", title: "Modal" }}
           />

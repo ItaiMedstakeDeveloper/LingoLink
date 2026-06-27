@@ -34,6 +34,11 @@ const MAPPING = {
   trash: "delete",
   "newspaper.fill": "newspaper",
   "play.circle.fill": "play-circle-filled",
+  "fork.knife": "restaurant",
+  "graduationcap.fill": "school",
+  "location.fill": "directions",
+  "phone.fill": "call",
+  globe: "public",
 } satisfies Record<string, ComponentProps<typeof MaterialIcons>["name"]>;
 
 /**

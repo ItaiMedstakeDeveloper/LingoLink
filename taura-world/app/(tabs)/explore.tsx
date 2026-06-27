@@ -8,11 +8,13 @@ import { EXPLORE } from "@/lib/explore";
 import type { Marker } from "@/lib/explore";
 import type { Language } from "@/lib/media";
 import { speak } from "@/lib/speech";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ExploreScreen() {
+  const router = useRouter();
   const colorScheme = useColorScheme();
   const c = Colors[colorScheme ?? "light"];
 
@@ -58,6 +60,26 @@ export default function ExploreScreen() {
         <ThemedText style={styles.subtitle}>
           Tap a place to hear a phrase and learn something about it.
         </ThemedText>
+
+        {/* Real-world places entry point */}
+        <TouchableOpacity
+          style={[styles.placesCard, { borderColor: c.cardBorder }]}
+          activeOpacity={0.9}
+          onPress={() => router.push("/places")}
+        >
+          <View style={[styles.placesIcon, { backgroundColor: c.lightRed }]}>
+            <IconSymbol size={22} name="fork.knife" color={c.primaryRed} />
+          </View>
+          <View style={styles.placesText}>
+            <ThemedText style={styles.placesTitle}>
+              Restaurants & Schools
+            </ThemedText>
+            <ThemedText style={styles.placesSub}>
+              Find French & Chinese places near you
+            </ThemedText>
+          </View>
+          <IconSymbol size={18} name="chevron.right" color="#9BA1A6" />
+        </TouchableOpacity>
 
         {/* Language toggle */}
         <View style={styles.toggleRow}>
@@ -200,6 +222,26 @@ const styles = StyleSheet.create({
   content: { padding: 20, gap: 14, paddingBottom: 40 },
   title: { fontWeight: "bold" },
   subtitle: { fontSize: 14, color: "#11181C" },
+  placesCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    borderWidth: 1,
+    padding: 14,
+    ...Shadows.card,
+  },
+  placesIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  placesText: { flex: 1, gap: 2 },
+  placesTitle: { fontSize: 15, fontWeight: "700", color: "#11181C" },
+  placesSub: { fontSize: 12, color: "#11181C" },
   toggleRow: { flexDirection: "row", gap: 12 },
   toggle: {
     flex: 1,
