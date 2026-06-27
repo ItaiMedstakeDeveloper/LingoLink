@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
+import { Colors, Shadows } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { type LocalizedText, type QuizQuestion, QUIZZES } from "@/lib/quizzes";
 
@@ -420,6 +420,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E5E5E5",
     padding: 18,
+    ...Shadows.card,
   },
   quoteBox: {
     marginTop: 12,
@@ -501,6 +502,7 @@ const styles = StyleSheet.create({
     padding: 24,
     borderWidth: 1,
     borderColor: "#E5E5E5",
+    ...Shadows.card,
   },
   resultTitle: { fontSize: 24, fontWeight: "bold", marginBottom: 4 },
   resultSub: { fontSize: 14, opacity: 0.6, marginBottom: 16, textAlign: "center" },

@@ -38,13 +38,13 @@ export const MEDIA: Record<Language, Record<MediaType, MediaItem[]>> = {
         name: "People's Daily",
         native: "人民日报",
         note: "Largest national daily",
-        url: "http://www.people.com.cn",
+        url: "https://www.people.com.cn",
       },
       {
         name: "Xinhua",
         native: "新华网",
         note: "State news agency · breaking news",
-        url: "http://www.news.cn",
+        url: "https://www.news.cn",
       },
       {
         name: "China Daily",

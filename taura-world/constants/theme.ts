@@ -47,6 +47,21 @@ export const Colors = {
   },
 };
 
+/**
+ * Shared elevation token applied to every card across the app so shadows stay
+ * consistent. Spread into a card style (`{ ...Shadows.card }`) or pass it in a
+ * style array (`[styles.card, Shadows.card]`).
+ */
+export const Shadows = {
+  card: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+} as const;
+
 export const Fonts = Platform.select({
   ios: {
     /** iOS `UIFontDescriptorSystemDesignDefault` */

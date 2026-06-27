@@ -1,7 +1,7 @@
 import { ChinaFlag, FranceFlag } from "@/components/flags";
 import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
+import { Colors, Shadows } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { LANGUAGE_LABELS, type Language } from "@/lib/media";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
@@ -109,11 +109,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     borderWidth: 1,
     padding: 18,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.04,
-    shadowRadius: 10,
-    elevation: 1,
+    ...Shadows.card,
   },
   typeIcon: {
     width: 56,

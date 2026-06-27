@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
+import { Colors, Shadows } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { LESSONS } from "@/lib/lessons";
 import { useFocusEffect, useRouter } from "expo-router";
@@ -135,43 +135,24 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
                 />
               </View>
 
-              {/* Practice shortcuts: Question Papers (left) + Read Newspapers (right) */}
-              <View style={styles.featureRow}>
-                <TouchableOpacity
-                  style={[styles.featureCard, styles.papersCard]}
-                  activeOpacity={0.9}
-                  onPress={() => router.push("/question-papers")}
-                >
-                  <View style={styles.featureTopRow}>
-                    <View style={styles.papersIcon}>
-                      <IconSymbol size={16} name="book.fill" color="#7A5B00" />
-                    </View>
-                    <View style={styles.premiumBadge}>
-                      <Text style={styles.premiumBadgeText}>PREMIUM</Text>
-                    </View>
-                  </View>
+              {/* Practice shortcut: Question Papers (full-width strip) */}
+              <TouchableOpacity
+                style={styles.papersStrip}
+                activeOpacity={0.9}
+                onPress={() => router.push("/question-papers")}
+              >
+                <View style={styles.papersIcon}>
+                  <IconSymbol size={18} name="book.fill" color="#7A5B00" />
+                </View>
+                <View style={styles.papersStripText}>
                   <Text style={styles.papersTitle}>Question Papers</Text>
                   <Text style={styles.papersHint}>Common exam questions</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[styles.featureCard, styles.newsCard]}
-                  activeOpacity={0.9}
-                  onPress={() => router.push("/view-media")}
-                >
-                  <View style={styles.featureTopRow}>
-                    <View style={styles.newsIcon}>
-                      <IconSymbol
-                        size={16}
-                        name="newspaper.fill"
-                        color="#1A4D7A"
-                      />
-                    </View>
-                  </View>
-                  <Text style={styles.newsTitle}>View Media</Text>
-                  <Text style={styles.newsHint}>Newspapers & videos to practise</Text>
-                </TouchableOpacity>
-              </View>
+                </View>
+                <View style={styles.premiumBadge}>
+                  <Text style={styles.premiumBadgeText}>PREMIUM</Text>
+                </View>
+                <IconSymbol size={18} name="chevron.right" color="#B8901F" />
+              </TouchableOpacity>
             </View>
 
             {/* "Before your first story" — opens the basics */}
@@ -186,7 +167,7 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
                 <IconSymbol size={22} name="book.fill" color={c.primaryBlue} />
               </View>
               <View style={styles.basicsText}>
-                <Text style={[styles.basicsTitle, { color: c.lightBlue }]}>
+                <Text style={[styles.basicsTitle, { color: c.primaryBlue }]}>
                   Before your first story
                 </Text>
                 <ThemedText style={styles.basicsSub}>
@@ -199,7 +180,7 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
             {/* Resume / Start hero */}
             {current && (
               <TouchableOpacity
-                style={[styles.resumeCard, { backgroundColor: c.lightRed }]}
+                style={[styles.resumeCard, { backgroundColor: c.primaryRed }]}
                 activeOpacity={0.9}
                 onPress={() => onSelectLesson(current.lesson.order)}
               >
@@ -353,6 +334,21 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
           );
         }}
       />
+
+      {/* Floating action button: jump to newspapers & videos */}
+      <TouchableOpacity
+        style={[styles.fab, { backgroundColor: c.primaryBlue }]}
+        activeOpacity={0.9}
+        onPress={() => router.push("/view-media")}
+      >
+        <View style={styles.fabIcon}>
+          <IconSymbol size={20} name="newspaper.fill" color={c.primaryBlue} />
+        </View>
+        <View style={styles.fabText}>
+          <Text style={styles.fabTitle}>View Media</Text>
+          <Text style={styles.fabHint}>Latest newspapers & videos</Text>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -362,7 +358,7 @@ const styles = StyleSheet.create({
   content: { padding: 20, paddingBottom: 40 },
   header: { marginBottom: 16 },
   title: { fontSize: 26, fontWeight: "bold" },
-  subtitle: { fontSize: 14, opacity: 0.6, marginTop: 4 },
+  subtitle: { fontSize: 14, color: "#11181C", marginTop: 4 },
   overallBarBg: {
     height: 8,
     backgroundColor: "#E3E5E8",
@@ -371,38 +367,29 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   overallBarFill: { height: "100%", borderRadius: 4 },
-  featureRow: {
-    flexDirection: "row",
-    gap: 10,
-    marginTop: 12,
-  },
-  featureCard: {
-    flex: 1,
-    borderRadius: 12,
-    borderWidth: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    gap: 4,
-  },
-  featureTopRow: {
+  papersStrip: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    minHeight: 30,
-  },
-  papersCard: {
+    gap: 12,
+    marginTop: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
     backgroundColor: "#FFF8E6",
     borderColor: "#F0D98C",
+    ...Shadows.card,
   },
+  papersStripText: { flex: 1, gap: 2 },
   papersIcon: {
-    width: 30,
-    height: 30,
+    width: 34,
+    height: 34,
     borderRadius: 8,
     backgroundColor: "#FBEFC4",
     justifyContent: "center",
     alignItems: "center",
   },
-  papersTitle: { fontSize: 13, fontWeight: "bold", color: "#7A5B00" },
+  papersTitle: { fontSize: 14, fontWeight: "bold", color: "#7A5B00" },
   premiumBadge: {
     backgroundColor: "#7A5B00",
     borderRadius: 5,
@@ -416,28 +403,37 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   papersHint: {
-    fontSize: 11,
-    lineHeight: 14,
+    fontSize: 12,
+    lineHeight: 15,
     color: "#8A6D1F",
   },
-  newsCard: {
-    backgroundColor: "#EAF2FB",
-    borderColor: "#BBD4F0",
+  fab: {
+    position: "absolute",
+    right: 16,
+    bottom: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 28,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 6,
   },
-  newsIcon: {
-    width: 30,
-    height: 30,
-    borderRadius: 8,
-    backgroundColor: "#D3E4F7",
+  fabIcon: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
   },
-  newsTitle: { fontSize: 13, fontWeight: "bold", color: "#1A4D7A" },
-  newsHint: {
-    fontSize: 11,
-    lineHeight: 14,
-    color: "#3A6491",
-  },
+  fabText: { paddingRight: 4 },
+  fabTitle: { color: "#fff", fontSize: 15, fontWeight: "800" },
+  fabHint: { color: "rgba(255,255,255,0.9)", fontSize: 11, fontWeight: "500" },
   basicsCard: {
     flexDirection: "row",
     alignItems: "center",
@@ -447,6 +443,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 14,
     marginBottom: 16,
+    ...Shadows.card,
   },
   basicsIcon: {
     width: 44,
@@ -459,9 +456,8 @@ const styles = StyleSheet.create({
   basicsTitle: { fontSize: 15, fontWeight: "bold" },
   basicsSub: {
     fontSize: 12,
-    opacity: 0.6,
     lineHeight: 16,
-    color: "#000",
+    color: "#11181C",
   },
   resumeCard: {
     borderRadius: 20,
@@ -515,14 +511,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderWidth: 1,
     borderColor: "#E5E5E5",
+    ...Shadows.card,
   },
   resumeDoneTitle: { fontSize: 16, fontWeight: "bold" },
-  resumeDoneSub: { fontSize: 13, opacity: 0.6, marginTop: 4 },
+  resumeDoneSub: { fontSize: 13, color: "#11181C", marginTop: 4 },
   pathHeading: {
     fontSize: 12,
     fontWeight: "800",
     letterSpacing: 0.6,
-    opacity: 0.5,
+    color: "#11181C",
     marginBottom: 8,
   },
   pathRow: { flexDirection: "row" },
@@ -558,6 +555,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     marginLeft: 6,
     alignItems: "center",
+    ...Shadows.card,
   },
   pathThumb: {
     width: 64,

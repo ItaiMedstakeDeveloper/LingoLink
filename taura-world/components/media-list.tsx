@@ -1,9 +1,10 @@
 import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
+import { Colors, Shadows } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import type { MediaItem } from "@/lib/media";
-import { Linking, StyleSheet, TouchableOpacity, View } from "react-native";
+import { useRouter } from "expo-router";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type Props = {
@@ -20,8 +21,8 @@ type Props = {
 
 /**
  * A simple list of recommended media (newspapers or video channels). Each row
- * is tappable; if a `url` is provided it opens in the browser, otherwise it's
- * a no-op placeholder (links are added later via `lib/media.ts`).
+ * is tappable; if a `url` is provided it opens inside the app in a WebView,
+ * otherwise it's a no-op placeholder (links are added via `lib/media.ts`).
  */
 export function MediaList({
   title,
@@ -33,10 +34,14 @@ export function MediaList({
 }: Props) {
   const colorScheme = useColorScheme();
   const c = Colors[colorScheme ?? "light"];
+  const router = useRouter();
 
   const handlePress = (item: MediaItem) => {
     if (item.url) {
-      Linking.openURL(item.url).catch(() => {});
+      router.push({
+        pathname: "/web-view",
+        params: { url: item.url, title: item.name },
+      });
     }
   };
 
@@ -121,6 +126,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 1,
     padding: 14,
+    ...Shadows.card,
   },
   indexBadge: {
     width: 30,

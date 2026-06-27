@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
+import { Colors, Shadows } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useSQLiteContext } from "expo-sqlite";
 import { useEffect, useState } from "react";
@@ -720,6 +720,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 14,
     backgroundColor: "#fff",
+    ...Shadows.card,
   },
   cardHeader: {
     flexDirection: "row",
@@ -777,6 +778,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 14,
     gap: 12,
+    ...Shadows.card,
   },
   tipIconWrapper: { marginTop: 2 },
   tipContent: { flex: 1, gap: 2 },
@@ -789,11 +791,7 @@ const styles = StyleSheet.create({
     padding: 24,
     borderWidth: 1,
     borderColor: "#E5E5E5",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    elevation: 2,
+    ...Shadows.card,
   },
   completedIcon: { marginBottom: 16 },
   completedTitle: { fontSize: 24, fontWeight: "bold", marginBottom: 8 },
@@ -823,6 +821,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     gap: 20,
+    ...Shadows.card,
   },
   questionText: {
     fontSize: 20,

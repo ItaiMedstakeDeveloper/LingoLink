@@ -2,7 +2,7 @@ import { StoryPath, type LessonStory } from "@/components/story-path";
 import { StoryQuiz } from "@/components/story-quiz";
 import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
+import { Colors, Shadows } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { LESSONS } from "@/lib/lessons";
 import { speak } from "@/lib/speech";
@@ -580,11 +580,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     justifyContent: "space-around",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.03,
-    shadowRadius: 10,
-    elevation: 1,
+    ...Shadows.card,
   },
   contextBadgeRow: {
     flexDirection: "row",
@@ -706,11 +702,7 @@ const styles = StyleSheet.create({
     padding: 24,
     borderWidth: 1,
     borderColor: "#E5E5E5",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    elevation: 2,
+    ...Shadows.card,
   },
   completedIcon: {
     marginBottom: 16,
@@ -740,6 +732,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E5E5E5",
     gap: 14,
+    ...Shadows.card,
   },
   vocabHeading: {
     fontSize: 16,

@@ -29,14 +29,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/lessons/splash_screen_clean.png",
-          "resizeMode": "cover",
-          "backgroundColor": "#ffffff",
-          "enableFullScreenImage_legacy": true,
-          "dark": {
-            "image": "./assets/images/lessons/splash_screen_clean.png",
-            "backgroundColor": "#000000"
-          }
+          "backgroundColor": "#ffffff"
         }
       ],
       "expo-sqlite"

@@ -1,17 +1,12 @@
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { DATABASE_NAME, migrateDbIfNeeded } from "@/lib/db";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { SQLiteProvider } from "expo-sqlite";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import "react-native-reanimated";
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -21,11 +16,13 @@ SplashScreen.preventAutoHideAsync();
 // Minimum time (ms) to keep the splash screen visible before the login screen.
 const SPLASH_MIN_DURATION = 5000;
 function RootNavigator() {
-  const colorScheme = useColorScheme();
   const { user, isLoading } = useAuth();
   const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   useEffect(() => {
+    // Hide the native (Android 12 centred-icon) splash right away so our own
+    // full-screen splash image below can fill the whole screen instead.
+    SplashScreen.hideAsync();
     const timer = setTimeout(
       () => setMinTimeElapsed(true),
       SPLASH_MIN_DURATION,
@@ -35,20 +32,22 @@ function RootNavigator() {
 
   const ready = !isLoading && minTimeElapsed;
 
-  useEffect(() => {
-    if (ready) {
-      SplashScreen.hideAsync();
-    }
-  }, [ready]);
-
   if (!ready) {
-    // Render nothing while loading; the native splash screen stays on top
-    // for at least SPLASH_MIN_DURATION before the login screen appears.
-    return <View style={{ flex: 1 }} />;
+    // Our own full-screen splash: fills the entire screen (the native splash
+    // can only show a small centred icon on Android 12+).
+    return (
+      <View style={styles.splash}>
+        <Image
+          source={require("../assets/images/lessons/splash_screen_clean.png")}
+          style={StyleSheet.absoluteFill}
+          resizeMode="cover"
+        />
+      </View>
+    );
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={DefaultTheme}>
       <Stack>
         <Stack.Protected guard={!!user}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -85,6 +84,10 @@ function RootNavigator() {
             options={{ headerShown: true, title: "View Media" }}
           />
           <Stack.Screen
+            name="web-view"
+            options={{ headerShown: true, title: "View Media" }}
+          />
+          <Stack.Screen
             name="modal"
             options={{ presentation: "modal", title: "Modal" }}
           />
@@ -93,7 +96,7 @@ function RootNavigator() {
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         </Stack.Protected>
       </Stack>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
     </ThemeProvider>
   );
 }
@@ -107,3 +110,7 @@ export default function RootLayout() {
     </SQLiteProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  splash: { flex: 1, backgroundColor: "#ffffff" },
+});
