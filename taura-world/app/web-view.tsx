@@ -1,9 +1,10 @@
 import { ThemedText } from "@/components/themed-text";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useAuth } from "@/lib/auth";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { openBrowserAsync } from "expo-web-browser";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -11,6 +12,16 @@ import {
   View,
 } from "react-native";
 import { WebView } from "react-native-webview";
+
+/** Turn an email into a friendly login name: "itai.neil@x.com" → "Itai Neil". */
+function displayNameFromEmail(email?: string): string {
+  const local = (email ?? "").split("@")[0] ?? "";
+  return local
+    .split(/[._-]+/)
+    .filter(Boolean)
+    .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
+    .join(" ");
+}
 
 /**
  * Full-screen in-app WebView used to view newspapers / video channels without
@@ -22,10 +33,15 @@ export default function WebViewScreen() {
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const c = Colors[colorScheme ?? "light"];
-
-  const { url, title } = useLocalSearchParams<{ url: string; title?: string }>();
+  const { user } = useAuth();
+  const { url, title } = useLocalSearchParams<{
+    url: string;
+    title?: string;
+  }>();
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
+
+  const name = useMemo(() => displayNameFromEmail(user?.email), [user?.email]);
 
   // Reflect the source name in the native header.
   useEffect(() => {
@@ -84,8 +100,17 @@ export default function WebViewScreen() {
         style={styles.flex}
       />
       {loading ? (
-        <View style={styles.loading} pointerEvents="none">
+        <View
+          style={[styles.loading, { backgroundColor: c.background }]}
+          pointerEvents="none"
+        >
           <ActivityIndicator size="large" color={c.primaryBlue} />
+          <ThemedText style={styles.loadingTitle}>
+            {name ? `Please wait, ${name}` : "Please wait"}
+          </ThemedText>
+          <ThemedText style={styles.loadingSub}>
+            whilst we load {title ?? "the page"}…
+          </ThemedText>
         </View>
       ) : null}
     </View>
@@ -105,7 +130,16 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: "center",
     justifyContent: "center",
+    padding: 24,
+    gap: 6,
   },
+  loadingTitle: {
+    marginTop: 14,
+    fontSize: 16,
+    fontWeight: "700",
+    textAlign: "center",
+  },
+  loadingSub: { fontSize: 14, textAlign: "center", opacity: 0.7 },
   failTitle: { fontSize: 16, fontWeight: "700", textAlign: "center" },
   failText: { fontSize: 14, textAlign: "center", opacity: 0.7 },
   button: {

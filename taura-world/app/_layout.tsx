@@ -112,5 +112,5 @@ export default function RootLayout() {
 }
 
 const styles = StyleSheet.create({
-  splash: { flex: 1, backgroundColor: "#ffffff" },
+  splash: { flex: 1, backgroundColor: "#EAE0CC" },
 });
