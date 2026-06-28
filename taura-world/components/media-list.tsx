@@ -4,7 +4,7 @@ import { Colors, Shadows } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import type { MediaItem } from "@/lib/media";
 import { useRouter } from "expo-router";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type Props = {
@@ -64,7 +64,11 @@ export function MediaList({
         </View>
       </View>
 
-      <View style={styles.list}>
+      <ScrollView
+        style={styles.flex}
+        contentContainerStyle={styles.list}
+        showsVerticalScrollIndicator={false}
+      >
         {items.map((item, index) => (
           <TouchableOpacity
             key={item.name}
@@ -93,7 +97,7 @@ export function MediaList({
             <IconSymbol size={18} name="chevron.right" color="#9BA1A6" />
           </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

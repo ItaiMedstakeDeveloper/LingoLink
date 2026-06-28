@@ -38,7 +38,7 @@ export default function MediaItemsScreen() {
   return (
     <MediaList
       title={title}
-      subtitle="Top 5 to practise with"
+      subtitle="Top 5 to practise with" 
       accent={accent}
       accentLight={accentLight}
       flag={isFrench ? <FranceFlag size={48} /> : <ChinaFlag size={48} />}

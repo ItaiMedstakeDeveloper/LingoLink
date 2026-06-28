@@ -63,7 +63,7 @@ export const PLACES: Place[] = [
     priceLevel: 2,
     coords: { lat: -17.812, lng: 31.089 },
   },
-  {
+  { 
     id: "fr-patisserie",
     category: "restaurant",
     language: "fr",
