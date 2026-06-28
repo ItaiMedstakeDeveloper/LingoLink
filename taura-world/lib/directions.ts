@@ -15,6 +15,16 @@ export function callPhone(phone: string) {
   Linking.openURL(`tel:${phone.replace(/\s+/g, "")}`).catch(() => {});
 }
 
+/**
+ * Open a WhatsApp chat. The number is normalised to international digits only
+ * (wa.me requires no "+", spaces or leading zeros).
+ */
+export function openWhatsApp(number: string, message?: string) {
+  const digits = number.replace(/[^\d]/g, "");
+  const text = message ? `?text=${encodeURIComponent(message)}` : "";
+  Linking.openURL(`https://wa.me/${digits}${text}`).catch(() => {});
+}
+
 /** Open a website in the browser. */
 export function openWebsite(url: string) {
   Linking.openURL(url).catch(() => {});

@@ -2,8 +2,14 @@ import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors, Shadows } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { callPhone, openDirections, openWebsite } from "@/lib/directions";
+import {
+  callPhone,
+  openDirections,
+  openWebsite,
+  openWhatsApp,
+} from "@/lib/directions";
 import { getPlace } from "@/lib/places";
+import { FontAwesome } from "@expo/vector-icons";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
@@ -119,6 +125,17 @@ export default function PlaceDetailScreen() {
           <ThemedText style={styles.primaryBtnText}>Get directions</ThemedText>
         </TouchableOpacity>
 
+        {place.whatsapp ? (
+          <TouchableOpacity
+            style={[styles.whatsappBtn]}
+            activeOpacity={0.9}
+            onPress={() => openWhatsApp(place.whatsapp!)}
+          >
+            <FontAwesome name="whatsapp" size={20} color="#fff" />
+            <ThemedText style={styles.primaryBtnText}>WhatsApp</ThemedText>
+          </TouchableOpacity>
+        ) : null}
+
         <View style={styles.secondaryRow}>
           {place.phone ? (
             <TouchableOpacity
@@ -218,6 +235,16 @@ const styles = StyleSheet.create({
     ...Shadows.card,
   },
   primaryBtnText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
+  whatsappBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    height: 52,
+    borderRadius: 14,
+    backgroundColor: "#25D366",
+    ...Shadows.card,
+  },
   secondaryRow: { flexDirection: "row", gap: 12 },
   secondaryBtn: {
     flex: 1,

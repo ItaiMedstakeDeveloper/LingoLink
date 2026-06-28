@@ -1,10 +1,16 @@
 /**
  * Curated directory of French / Chinese restaurants and schools.
  *
- * ⚠️ THE ENTRIES BELOW ARE SAMPLES — replace them with real places. For each:
- *   - set the real `name`, `address`, `phone`, `website`, `hours`
+ * For each entry:
+ *   - set the real `name`, `address`, `website`, `hours`
  *   - set accurate `coords` (lat/lng) so "Get directions" opens the right spot
  *     (grab them from Google Maps → right-click a pin → copy coordinates).
+ *   - `phone`  → used by the "Call" button (any format, e.g. "+263 77 123 4567").
+ *   - `whatsapp` → used by the "WhatsApp" button. International format, e.g.
+ *     "+263771234567" (Zimbabwe = 263, drop the leading 0). Often same as phone.
+ *
+ * The Call / WhatsApp buttons only appear when the matching field is set.
+ * ⚠️ The phone/whatsapp numbers below are PLACEHOLDERS — replace with real ones.
  *
  * Everything is static + offline; add/edit objects here and reload.
  */
@@ -27,7 +33,10 @@ export type Place = {
   tags?: string[];
   address: string;
   city: string;
+  /** Phone number for the "Call" button (any readable format). */
   phone?: string;
+  /** WhatsApp number for the "WhatsApp" button (international, e.g. "+263771234567"). */
+  whatsapp?: string;
   website?: string;
   hours?: string;
   /** 1–3, restaurants only ($, $$, $$$). */
@@ -45,8 +54,10 @@ export const PLACES: Place[] = [
     blurb:
       "French language and culture centre — classes for all levels plus film and music events.",
     tags: ["all levels", "exams", "culture"],
-    address: "Replace with real address",
+    address: "328 Herbert Chitepo Avenue, Harare.Corner Chitepo & 9th Street.",
     city: "Harare",
+    phone: "+263782946551",
+    whatsapp: "+263782946551",
     website: "https://alliancefrancaisezimbabwe.org",
     hours: "Mon–Fri 8:00–17:00",
     coords: { lat: -17.8246, lng: 31.053 },
@@ -55,24 +66,31 @@ export const PLACES: Place[] = [
     id: "fr-bistro",
     category: "restaurant",
     language: "fr",
-    name: "Le Petit Bistro (sample)",
-    blurb: "Classic French bistro — steak frites, croissants and good coffee.",
+    name: "Cafe De Paris",
+    blurb:
+      "Providing Harare with a taste of Paris with authentic French pastrie and pâtisserie",
     tags: ["bistro", "breakfast", "wine"],
-    address: "Replace with real address",
+    address: "47 Churchill Avenue, Harare, Zimbabwe, Harare",
     city: "Harare",
+    phone: "+263 77 000 0000",
+    whatsapp: "+263770000000",
+    website: "http:://www.cafedeparisharare.com",
     priceLevel: 2,
     coords: { lat: -17.812, lng: 31.089 },
   },
-  { 
+  {
     id: "fr-patisserie",
     category: "restaurant",
     language: "fr",
-    name: "Maison Douce (sample)",
+    name: "La Fontaine Grillroom:",
     nativeName: "Pâtisserie",
-    blurb: "French bakery and patisserie — baguettes, éclairs and macarons.",
+    blurb:
+      "La Fontaine Grillroom is a distinguished choice for upscale dining in Harare—ideal for a refined steak dinner, romantic date, or special celebration.",
     tags: ["bakery", "pastries", "takeaway"],
-    address: "Replace with real address",
+    address: "Address: 5393+R3F, Jason Moyo Ave, Harare",
     city: "Harare",
+    phone: "+263 77 000 0000",
+    whatsapp: "+263770000000",
     priceLevel: 1,
     coords: { lat: -17.806, lng: 31.045 },
   },
@@ -82,14 +100,15 @@ export const PLACES: Place[] = [
     id: "zh-confucius",
     category: "school",
     language: "zh",
-    name: "Confucius Institute (sample)",
-    nativeName: "孔子学院",
+    name: "Mandarin Minds Academy",
     blurb:
       "Mandarin classes and Chinese cultural programmes, often hosted at a university.",
     tags: ["Mandarin", "HSK", "culture"],
-    address: "Replace with real address",
+    address:
+      " 3 Anchor House, Cnr Jason Moyo and First Street, 54 Jason Moyo Ave, Harare",
     city: "Harare",
-    website: "https://www.ci.cn",
+    phone: "+263 77 000 0000",
+    whatsapp: "+263770000000",
     hours: "Mon–Fri 8:30–16:30",
     coords: { lat: -17.7836, lng: 31.052 },
   },
@@ -97,27 +116,15 @@ export const PLACES: Place[] = [
     id: "zh-golden-dragon",
     category: "restaurant",
     language: "zh",
-    name: "Golden Dragon (sample)",
-    nativeName: "金龙",
-    blurb: "Cantonese restaurant — dim sum, roast duck and seafood.",
+    name: "Hungry Panda",
+    blurb: "The Best Chinese and grill cuisine Restaurant In Harare ",
     tags: ["Cantonese", "dim sum", "dinner"],
-    address: "Replace with real address",
+    address: "4BDG House,Avondale Shopping Centre Zimbabwe",
     city: "Harare",
+    phone: "+263776333969",
+    whatsapp: "+263776333969",
     priceLevel: 2,
     coords: { lat: -17.831, lng: 31.05 },
-  },
-  {
-    id: "zh-sichuan-house",
-    category: "restaurant",
-    language: "zh",
-    name: "Sichuan House (sample)",
-    nativeName: "川味馆",
-    blurb: "Spicy Sichuan cooking — hotpot, mapo tofu and kung pao chicken.",
-    tags: ["Sichuan", "spicy", "hotpot"],
-    address: "Replace with real address",
-    city: "Harare",
-    priceLevel: 2,
-    coords: { lat: -17.819, lng: 31.075 },
   },
 ];
 

@@ -2,8 +2,10 @@ import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors, Shadows } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { callPhone, openWhatsApp } from "@/lib/directions";
 import type { Language } from "@/lib/media";
 import { PLACES, type Place, type PlaceCategory } from "@/lib/places";
+import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
@@ -159,33 +161,64 @@ function PlaceCard({
       activeOpacity={0.9}
       onPress={onPress}
     >
-      <View style={[styles.cardIcon, { backgroundColor: accentLight }]}>
-        <IconSymbol
-          size={22}
-          name={place.category === "school" ? "graduationcap.fill" : "fork.knife"}
-          color={accent}
-        />
+      <View style={styles.cardTop}>
+        <View style={[styles.cardIcon, { backgroundColor: accentLight }]}>
+          <IconSymbol
+            size={22}
+            name={
+              place.category === "school" ? "graduationcap.fill" : "fork.knife"
+            }
+            color={accent}
+          />
+        </View>
+        <View style={styles.cardBody}>
+          <View style={styles.cardTitleRow}>
+            <ThemedText style={styles.cardName}>{place.name}</ThemedText>
+            {place.nativeName ? (
+              <ThemedText style={[styles.cardNative, { color: accent }]}>
+                {place.nativeName}
+              </ThemedText>
+            ) : null}
+          </View>
+          <ThemedText style={styles.cardBlurb} numberOfLines={2}>
+            {place.blurb}
+          </ThemedText>
+          <ThemedText style={styles.cardMeta}>
+            {place.category === "restaurant" && place.priceLevel
+              ? `${"$".repeat(place.priceLevel)} · `
+              : ""}
+            {place.city}
+          </ThemedText>
+        </View>
+        <IconSymbol size={18} name="chevron.right" color="#9BA1A6" />
       </View>
-      <View style={styles.cardBody}>
-        <View style={styles.cardTitleRow}>
-          <ThemedText style={styles.cardName}>{place.name}</ThemedText>
-          {place.nativeName ? (
-            <ThemedText style={[styles.cardNative, { color: accent }]}>
-              {place.nativeName}
-            </ThemedText>
+
+      {place.phone || place.whatsapp ? (
+        <View style={styles.cardActions}>
+          {place.phone ? (
+            <TouchableOpacity
+              style={[styles.actionBtn, { borderColor: accent }]}
+              activeOpacity={0.8}
+              onPress={() => callPhone(place.phone!)}
+            >
+              <IconSymbol size={15} name="phone.fill" color={accent} />
+              <ThemedText style={[styles.actionText, { color: accent }]}>
+                Call
+              </ThemedText>
+            </TouchableOpacity>
+          ) : null}
+          {place.whatsapp ? (
+            <TouchableOpacity
+              style={[styles.actionBtn, styles.waBtn]}
+              activeOpacity={0.8}
+              onPress={() => openWhatsApp(place.whatsapp!)}
+            >
+              <FontAwesome name="whatsapp" size={16} color="#fff" />
+              <ThemedText style={styles.waText}>WhatsApp</ThemedText>
+            </TouchableOpacity>
           ) : null}
         </View>
-        <ThemedText style={styles.cardBlurb} numberOfLines={2}>
-          {place.blurb}
-        </ThemedText>
-        <ThemedText style={styles.cardMeta}>
-          {place.category === "restaurant" && place.priceLevel
-            ? `${"$".repeat(place.priceLevel)} · `
-            : ""}
-          {place.city}
-        </ThemedText>
-      </View>
-      <IconSymbol size={18} name="chevron.right" color="#9BA1A6" />
+      ) : null}
     </TouchableOpacity>
   );
 }
@@ -204,15 +237,28 @@ const styles = StyleSheet.create({
   chipText: { fontSize: 13, fontWeight: "700" },
   list: { padding: 16, gap: 12 },
   card: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
     backgroundColor: "#fff",
     borderRadius: 16,
     borderWidth: 1,
     padding: 14,
     ...Shadows.card,
   },
+  cardTop: { flexDirection: "row", alignItems: "center", gap: 12 },
+  cardActions: { flexDirection: "row", gap: 8, marginTop: 12 },
+  actionBtn: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    height: 40,
+    borderRadius: 10,
+    borderWidth: 1,
+    backgroundColor: "#fff",
+  },
+  actionText: { fontSize: 14, fontWeight: "700" },
+  waBtn: { backgroundColor: "#25D366", borderColor: "#25D366" },
+  waText: { fontSize: 14, fontWeight: "700", color: "#fff" },
   cardIcon: {
     width: 46,
     height: 46,
