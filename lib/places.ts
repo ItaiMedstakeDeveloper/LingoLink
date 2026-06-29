@@ -60,7 +60,7 @@ export const PLACES: Place[] = [
     whatsapp: "+263782946551",
     website: "https://alliancefrancaisezimbabwe.org",
     hours: "Mon–Fri 8:00–17:00",
-    coords: { lat: -17.8246, lng: 31.053 },
+    coords: { lat: -17.822, lng: 31.049 },
   },
   {
     id: "fr-bistro",
@@ -75,7 +75,7 @@ export const PLACES: Place[] = [
     phone: "+26377807880",
     whatsapp: "+26377807880",
     priceLevel: 2,
-    coords: { lat: -17.812, lng: 31.089 },
+    coords: { lat: 17.7915, lng: 31.062 },
   },
   {
     id: "fr-patisserie",
@@ -91,7 +91,7 @@ export const PLACES: Place[] = [
     phone: "+263772328688",
     whatsapp: "+263772328688",
     priceLevel: 1,
-    coords: { lat: -17.806, lng: 31.045 },
+    coords: { lat: -17.824858, lng: 31.053028 },
   },
 
   // ---- Chinese ----
@@ -109,7 +109,7 @@ export const PLACES: Place[] = [
     phone: "+263778764015",
     whatsapp: "+263778764015",
     hours: "Mon–Fri 8:30–16:30",
-    coords: { lat: -17.7836, lng: 31.052 },
+    coords: { lat: 17.83058, lng: 31.05 },
   },
   {
     id: "zh-golden-dragon",
@@ -123,7 +123,7 @@ export const PLACES: Place[] = [
     phone: "+263776333969",
     whatsapp: "+263776333969",
     priceLevel: 2,
-    coords: { lat: -17.831, lng: 31.05 },
+    coords: { lat: -17.80007, lng: 31.03523 },
   },
 ];
 
