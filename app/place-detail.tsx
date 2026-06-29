@@ -1,9 +1,9 @@
+import { DialerModal } from "@/components/dialer-modal";
 import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors, Shadows } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import {
-  callPhone,
   openDirections,
   openWebsite,
   openWhatsApp,
@@ -11,7 +11,7 @@ import {
 import { getPlace } from "@/lib/places";
 import { FontAwesome } from "@expo/vector-icons";
 import { useLocalSearchParams, useNavigation } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -22,6 +22,8 @@ export default function PlaceDetailScreen() {
 
   const { id } = useLocalSearchParams<{ id: string }>();
   const place = getPlace(id);
+
+  const [dialerOpen, setDialerOpen] = useState(false);
 
   useEffect(() => {
     if (place) navigation.setOptions({ title: place.name });
@@ -141,7 +143,7 @@ export default function PlaceDetailScreen() {
             <TouchableOpacity
               style={[styles.secondaryBtn, { borderColor: accent }]}
               activeOpacity={0.85}
-              onPress={() => callPhone(place.phone!)}
+              onPress={() => setDialerOpen(true)}
             >
               <IconSymbol size={18} name="phone.fill" color={accent} />
               <ThemedText style={[styles.secondaryText, { color: accent }]}>
@@ -163,6 +165,17 @@ export default function PlaceDetailScreen() {
           ) : null}
         </View>
       </ScrollView>
+
+      {/* In-app dialer */}
+      {place.phone ? (
+        <DialerModal
+          visible={dialerOpen}
+          phone={place.phone}
+          name={place.name}
+          accent={accent}
+          onClose={() => setDialerOpen(false)}
+        />
+      ) : null}
     </SafeAreaView>
   );
 }

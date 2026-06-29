@@ -1,8 +1,9 @@
+import { DialerModal } from "@/components/dialer-modal";
 import { ThemedText } from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors, Shadows } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { callPhone, openWhatsApp } from "@/lib/directions";
+import { openWhatsApp } from "@/lib/directions";
 import type { Language } from "@/lib/media";
 import { PLACES, type Place, type PlaceCategory } from "@/lib/places";
 import { FontAwesome } from "@expo/vector-icons";
@@ -21,6 +22,7 @@ export default function PlacesScreen() {
 
   const [cat, setCat] = useState<CatFilter>("all");
   const [lang, setLang] = useState<LangFilter>("all");
+  const [dialer, setDialer] = useState<{ phone: string; name: string; accent: string } | null>(null);
 
   const data = useMemo(
     () =>
@@ -34,6 +36,11 @@ export default function PlacesScreen() {
 
   const accentFor = (l: Language) => (l === "fr" ? c.primaryBlue : c.primaryRed);
   const lightFor = (l: Language) => (l === "fr" ? c.lightBlue : c.lightRed);
+
+  function openDialer(place: Place) {
+    if (!place.phone) return;
+    setDialer({ phone: place.phone, name: place.name, accent: accentFor(place.language) });
+  }
 
   return (
     <SafeAreaView
@@ -103,8 +110,18 @@ export default function PlacesScreen() {
                 params: { id: item.id },
               })
             }
+            onCallPress={() => openDialer(item)}
           />
         )}
+      />
+
+      {/* In-app dialer */}
+      <DialerModal
+        visible={!!dialer}
+        phone={dialer?.phone ?? ""}
+        name={dialer?.name}
+        accent={dialer?.accent}
+        onClose={() => setDialer(null)}
       />
     </SafeAreaView>
   );
@@ -148,12 +165,14 @@ function PlaceCard({
   accentLight,
   border,
   onPress,
+  onCallPress,
 }: {
   place: Place;
   accent: string;
   accentLight: string;
   border: string;
   onPress: () => void;
+  onCallPress: () => void;
 }) {
   return (
     <TouchableOpacity
@@ -199,7 +218,7 @@ function PlaceCard({
             <TouchableOpacity
               style={[styles.actionBtn, { borderColor: accent }]}
               activeOpacity={0.8}
-              onPress={() => callPhone(place.phone!)}
+              onPress={onCallPress}
             >
               <IconSymbol size={15} name="phone.fill" color={accent} />
               <ThemedText style={[styles.actionText, { color: accent }]}>

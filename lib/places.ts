@@ -70,7 +70,7 @@ export const PLACES: Place[] = [
     language: "zh",
     name: "Mandarin Minds Academy",
     blurb:
-      "Mandarin classes and Chinese cultural programmes, often hosted at a university.",
+      "We are a Chinese Mandarin School. Our main focus is cultivating fluency in Chinese Mandarin through expert instruction and immersive language learning experiences",
     tags: ["Mandarin", "HSK", "culture"],
     address:
       " 3 Anchor House, Cnr Jason Moyo and First Street, 54 Jason Moyo Ave, Harare",
