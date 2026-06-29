@@ -14,9 +14,7 @@
  *
  * Everything is static + offline; add/edit objects here and reload.
  */
-
 import type { Language } from "@/lib/media";
-
 export type PlaceCategory = "restaurant" | "school";
 
 export type Place = {

@@ -74,15 +74,12 @@ export function BasicsQuiz() {
   const db = useSQLiteContext();
   const colorScheme = useColorScheme();
   const activeColors = Colors[colorScheme ?? "light"];
-
   const [words, setWords] = useState<Vocabulary[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [sessionCompleted, setSessionCompleted] = useState(false);
-
   // Countdown timer: 3 minutes (180s) to see how quickly the user finishes
   const [secondsLeft, setSecondsLeft] = useState(180);
-
   const [showQuiz, setShowQuiz] = useState(false);
   const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
   const [quizIndex, setQuizIndex] = useState(0);
