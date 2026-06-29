@@ -62,6 +62,26 @@ export const PLACES: Place[] = [
     hours: "Mon–Fri 8:00–17:00",
     coords: { lat: -17.822, lng: 31.049 },
   },
+
+  // ---- Chinese ----
+  {
+    id: "zh-confucius",
+    category: "school",
+    language: "zh",
+    name: "Mandarin Minds Academy",
+    blurb:
+      "Mandarin classes and Chinese cultural programmes, often hosted at a university.",
+    tags: ["Mandarin", "HSK", "culture"],
+    address:
+      " 3 Anchor House, Cnr Jason Moyo and First Street, 54 Jason Moyo Ave, Harare",
+    city: "Harare",
+    phone: "+263778764015",
+    whatsapp: "+263778764015",
+    hours: "Mon–Fri 8:30–16:30",
+    coords: { lat: 17.83058, lng: 31.05 },
+  },
+
+  // ---- French (continued) ----
   {
     id: "fr-bistro",
     category: "restaurant",
@@ -94,23 +114,7 @@ export const PLACES: Place[] = [
     coords: { lat: -17.824858, lng: 31.053028 },
   },
 
-  // ---- Chinese ----
-  {
-    id: "zh-confucius",
-    category: "school",
-    language: "zh",
-    name: "Mandarin Minds Academy",
-    blurb:
-      "Mandarin classes and Chinese cultural programmes, often hosted at a university.",
-    tags: ["Mandarin", "HSK", "culture"],
-    address:
-      " 3 Anchor House, Cnr Jason Moyo and First Street, 54 Jason Moyo Ave, Harare",
-    city: "Harare",
-    phone: "+263778764015",
-    whatsapp: "+263778764015",
-    hours: "Mon–Fri 8:30–16:30",
-    coords: { lat: 17.83058, lng: 31.05 },
-  },
+  // ---- Chinese (continued) ----
   {
     id: "zh-golden-dragon",
     category: "restaurant",
