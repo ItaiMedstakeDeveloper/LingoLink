@@ -104,29 +104,31 @@ export function SpeedDialFab({
           return (
             <Animated.View
               key={action.label}
-              style={[
-                styles.actionRow,
-                {
-                  opacity: anim,
-                  transform: [{ translateY }],
-                },
-              ]}
+              style={{
+                opacity: anim,
+                transform: [{ translateY }],
+              }}
               pointerEvents={open ? "auto" : "none"}
             >
-              <View
-                style={[
-                  styles.labelChip,
-                  { backgroundColor: activeColors.cardBackground },
-                ]}
-              >
-                <ThemedText style={styles.labelText}>{action.label}</ThemedText>
-              </View>
+              {/* The whole row (label chip + icon) is one tappable target. */}
               <TouchableOpacity
-                style={[styles.actionButton, { backgroundColor: action.color }]}
+                style={styles.actionRow}
                 onPress={() => runAction(action)}
                 activeOpacity={0.85}
               >
-                <IconSymbol size={22} name={action.icon} color="#fff" />
+                <View
+                  style={[
+                    styles.labelChip,
+                    { backgroundColor: activeColors.cardBackground },
+                  ]}
+                >
+                  <ThemedText style={styles.labelText}>{action.label}</ThemedText>
+                </View>
+                <View
+                  style={[styles.actionButton, { backgroundColor: action.color }]}
+                >
+                  <IconSymbol size={22} name={action.icon} color="#fff" />
+                </View>
               </TouchableOpacity>
             </Animated.View>
           );
