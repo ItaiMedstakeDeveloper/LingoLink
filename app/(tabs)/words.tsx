@@ -59,34 +59,31 @@ export default function WordsScreen() {
   );
 
   const handleDelete = (word: SavedWord) => {
-    Alert.alert(
-      "Delete word",
-      `Remove "${word.word}" from your saved words?`,
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              await db.runAsync(
-                `DELETE FROM saved_words WHERE id = ?`,
-                word.id,
-              );
-              setWords((prev) => prev.filter((w) => w.id !== word.id));
-            } catch (err) {
-              console.error("Error deleting saved word:", err);
-            }
-          },
+    Alert.alert("Delete word", `Remove "${word.word}" from your saved words?`, [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            await db.runAsync(`DELETE FROM saved_words WHERE id = ?`, word.id);
+            setWords((prev) => prev.filter((w) => w.id !== word.id));
+          } catch (err) {
+            console.error("Error deleting saved word:", err);
+          }
         },
-      ],
-    );
+      },
+    ]);
   };
 
   const renderItem = ({ item }: { item: SavedWord }) => {
     const isFrench = item.language === "fr";
-    const accent = isFrench ? activeColors.primaryBlue : activeColors.primaryRed;
-    const accentLight = isFrench ? activeColors.lightBlue : activeColors.lightRed;
+    const accent = isFrench
+      ? activeColors.primaryBlue
+      : activeColors.primaryRed;
+    const accentLight = isFrench
+      ? activeColors.lightBlue
+      : activeColors.lightRed;
     const bcp47 = isFrench ? "fr-FR" : "zh-CN";
 
     return (
@@ -95,7 +92,10 @@ export default function WordsScreen() {
         onLongPress={() => handleDelete(item)}
         style={[
           styles.card,
-          { borderColor: activeColors.cardBorder, backgroundColor: activeColors.cardBackground },
+          {
+            borderColor: activeColors.cardBorder,
+            backgroundColor: activeColors.cardBackground,
+          },
         ]}
       >
         <View style={styles.cardHeader}>
@@ -156,7 +156,9 @@ export default function WordsScreen() {
             No saved words yet
           </ThemedText>
           <ThemedText style={styles.emptySubtitle}>
-            Tap the + button to save a new word and its translation.
+            Tap the + button to save a new word and its translation. Click On
+            Translate And Add An English Word. If you click on translate it will
+            change that word to either French Or Chinese
           </ThemedText>
         </View>
       ) : (
@@ -171,7 +173,10 @@ export default function WordsScreen() {
 
       {/* Floating translate button */}
       <TouchableOpacity
-        style={[styles.translateFab, { backgroundColor: activeColors.primaryBlue }]}
+        style={[
+          styles.translateFab,
+          { backgroundColor: activeColors.primaryBlue },
+        ]}
         onPress={() => router.push("/translate")}
         activeOpacity={0.85}
       >
@@ -261,6 +266,7 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     marginTop: 8,
     lineHeight: 20,
+    color: "#000",
   },
   fab: {
     position: "absolute",
