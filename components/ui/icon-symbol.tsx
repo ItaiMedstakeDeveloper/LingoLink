@@ -39,6 +39,8 @@ const MAPPING = {
   "location.fill": "directions",
   "phone.fill": "call",
   globe: "public",
+  "square.grid.2x2.fill": "apps",
+  "play.rectangle.fill": "smart-display",
 } satisfies Record<string, ComponentProps<typeof MaterialIcons>["name"]>;
 
 /**

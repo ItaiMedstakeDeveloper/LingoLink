@@ -60,6 +60,10 @@ function RootNavigator() {
             options={{ presentation: "modal", title: "Save a Word" }}
           />
           <Stack.Screen
+            name="translate"
+            options={{ presentation: "modal", title: "Translate" }}
+          />
+          <Stack.Screen
             name="question-papers"
             options={{ headerShown: true, title: "Question Papers" }}
           />

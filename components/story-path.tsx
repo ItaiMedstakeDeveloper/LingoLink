@@ -353,9 +353,8 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
           );
         }}
       />
-
-      {/* Floating action button: jump to newspapers & videos */}
-      <TouchableOpacity
+      {/* 
+       <TouchableOpacity
         style={[styles.fab, { backgroundColor: c.primaryBlue }]}
         activeOpacity={0.9}
         onPress={() => router.push("/view-media")}
@@ -368,6 +367,7 @@ export function StoryPath({ onSelectLesson, onPressBasics }: Props) {
           <Text style={styles.fabHint}>News Papers and Videos</Text>
         </View>
       </TouchableOpacity>
+      Floating action button: jump to newspapers & videos */}
     </SafeAreaView>
   );
 }

@@ -169,6 +169,16 @@ export default function WordsScreen() {
         />
       )}
 
+      {/* Floating translate button */}
+      <TouchableOpacity
+        style={[styles.translateFab, { backgroundColor: activeColors.primaryBlue }]}
+        onPress={() => router.push("/translate")}
+        activeOpacity={0.85}
+      >
+        <IconSymbol size={22} name="globe" color="#fff" />
+        <ThemedText style={styles.translateFabText}>Translate</ThemedText>
+      </TouchableOpacity>
+
       {/* Floating add button */}
       <TouchableOpacity
         style={[styles.fab, { backgroundColor: activeColors.tint }]}
@@ -266,5 +276,26 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 6,
+  },
+  translateFab: {
+    position: "absolute",
+    right: 24,
+    bottom: 96,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 18,
+    height: 52,
+    borderRadius: 26,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  translateFabText: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 15,
   },
 });
