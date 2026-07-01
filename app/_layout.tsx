@@ -45,7 +45,6 @@ function RootNavigator() {
       </View>
     );
   }
-
   return (
     <ThemeProvider value={DefaultTheme}>
       <Stack>

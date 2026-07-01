@@ -11,18 +11,23 @@
 // Optional: add an email to raise the free daily limit. Leave "" to stay anonymous.
 const MYMEMORY_EMAIL = "";
 
-export type SourceLang = "en" | "auto";
-export type TargetLang = "fr" | "zh";
+/** Any language the translator supports, in either direction. */
+export type Lang = "en" | "fr" | "zh";
 
-/** BCP 47 codes used for text-to-speech of each target language. */
-export const SPEECH_LOCALE: Record<TargetLang, string> = {
-  fr: "fr-FR",
-  zh: "zh-CN",
-};
+export const LANGS: Lang[] = ["en", "fr", "zh"];
 
-export const TARGET_LABEL: Record<TargetLang, string> = {
+/** Short label shown on the language selectors. */
+export const LANG_LABEL: Record<Lang, string> = {
+  en: "English",
   fr: "Français",
   zh: "中文",
+};
+
+/** BCP 47 codes used for text-to-speech of each language. */
+export const SPEECH_LOCALE: Record<Lang, string> = {
+  en: "en-US",
+  fr: "fr-FR",
+  zh: "zh-CN",
 };
 
 type MyMemoryResponse = {
@@ -32,13 +37,13 @@ type MyMemoryResponse = {
 };
 
 /**
- * Translate `text` from `source` into `target`. Throws on network/API errors
- * so callers can surface a friendly message.
+ * Translate `text` from `source` into `target` (any direction). Throws on
+ * network/API errors so callers can surface a friendly message.
  */
 export async function translateText(
   text: string,
-  source: SourceLang,
-  target: TargetLang,
+  source: Lang,
+  target: Lang,
 ): Promise<string> {
   const langpair = `${source}|${target}`;
   const email = MYMEMORY_EMAIL
@@ -59,16 +64,4 @@ export async function translateText(
   }
 
   return data.responseData.translatedText;
-}
-
-/** Translate the same text into both French and Chinese at once. */
-export async function translateToBoth(
-  text: string,
-  source: SourceLang = "en",
-): Promise<Record<TargetLang, string>> {
-  const [fr, zh] = await Promise.all([
-    translateText(text, source, "fr"),
-    translateText(text, source, "zh"),
-  ]);
-  return { fr, zh };
 }

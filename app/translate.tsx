@@ -4,10 +4,11 @@ import { Colors, Shadows } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { speak } from "@/lib/speech";
 import {
+  LANG_LABEL,
+  LANGS,
   SPEECH_LOCALE,
-  TARGET_LABEL,
-  translateToBoth,
-  type TargetLang,
+  translateText,
+  type Lang,
 } from "@/lib/translate";
 import { useState } from "react";
 import {
@@ -21,16 +22,52 @@ import {
   View,
 } from "react-native";
 
-type Results = Record<TargetLang, string> | null;
-
 export default function TranslateScreen() {
   const colorScheme = useColorScheme();
   const activeColors = Colors[colorScheme ?? "light"];
 
+  const [from, setFrom] = useState<Lang>("en");
+  const [to, setTo] = useState<Lang>("fr");
   const [text, setText] = useState("");
-  const [results, setResults] = useState<Results>(null);
+  const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Colour each language gets in the UI.
+  const accentFor = (lang: Lang) =>
+    lang === "fr"
+      ? activeColors.primaryBlue
+      : lang === "zh"
+        ? activeColors.primaryRed
+        : activeColors.primaryGreen;
+  const accentLightFor = (lang: Lang) =>
+    lang === "fr"
+      ? activeColors.lightBlue
+      : lang === "zh"
+        ? activeColors.lightRed
+        : activeColors.lightGreen;
+
+  // Pick a "from" language; if it collides with "to", swap them.
+  const chooseFrom = (lang: Lang) => {
+    if (lang === to) setTo(from);
+    setFrom(lang);
+    setResult(null);
+  };
+  const chooseTo = (lang: Lang) => {
+    if (lang === from) setFrom(to);
+    setTo(lang);
+    setResult(null);
+  };
+
+  // Swap the two languages (and swap the text/result if we have a result).
+  const handleSwap = () => {
+    setFrom(to);
+    setTo(from);
+    if (result !== null) {
+      setText(result);
+      setResult(null);
+    }
+  };
 
   async function handleTranslate() {
     const trimmed = text.trim();
@@ -38,10 +75,10 @@ export default function TranslateScreen() {
 
     setLoading(true);
     setError(null);
-    setResults(null);
+    setResult(null);
     try {
-      const both = await translateToBoth(trimmed, "en");
-      setResults(both);
+      const translated = await translateText(trimmed, from, to);
+      setResult(translated);
     } catch (err) {
       console.error("Translation error:", err);
       setError(
@@ -54,10 +91,40 @@ export default function TranslateScreen() {
     }
   }
 
-  const accentFor = (lang: TargetLang) =>
-    lang === "fr" ? activeColors.primaryBlue : activeColors.primaryRed;
-  const accentLightFor = (lang: TargetLang) =>
-    lang === "fr" ? activeColors.lightBlue : activeColors.lightRed;
+  const renderLangPills = (
+    selected: Lang,
+    onChoose: (lang: Lang) => void,
+  ) => (
+    <View style={styles.pillRow}>
+      {LANGS.map((lang) => {
+        const active = lang === selected;
+        const accent = accentFor(lang);
+        return (
+          <TouchableOpacity
+            key={lang}
+            style={[
+              styles.pill,
+              {
+                borderColor: active ? accent : activeColors.cardBorder,
+                backgroundColor: active ? accentLightFor(lang) : "transparent",
+              },
+            ]}
+            onPress={() => onChoose(lang)}
+            activeOpacity={0.8}
+          >
+            <ThemedText
+              style={[
+                styles.pillText,
+                active && { color: accent, fontWeight: "700" },
+              ]}
+            >
+              {LANG_LABEL[lang]}
+            </ThemedText>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
 
   return (
     <KeyboardAvoidingView
@@ -72,16 +139,40 @@ export default function TranslateScreen() {
           Translate
         </ThemedText>
         <ThemedText style={styles.subtitle}>
-          Type some English text and get it in French and Chinese.
+          Pick the languages, type your text, and translate either way.
         </ThemedText>
 
-        <ThemedText style={styles.label}>Text to translate</ThemedText>
+        {/* From / To selectors with a swap button */}
+        <ThemedText style={styles.label}>From</ThemedText>
+        {renderLangPills(from, chooseFrom)}
+
+        <TouchableOpacity
+          style={[styles.swapButton, { borderColor: activeColors.cardBorder }]}
+          onPress={handleSwap}
+          activeOpacity={0.8}
+        >
+          <IconSymbol
+            size={20}
+            name="arrow.clockwise"
+            color={activeColors.tint}
+          />
+          <ThemedText style={[styles.swapText, { color: activeColors.tint }]}>
+            Swap
+          </ThemedText>
+        </TouchableOpacity>
+
+        <ThemedText style={styles.label}>To</ThemedText>
+        {renderLangPills(to, chooseTo)}
+
+        <ThemedText style={styles.label}>
+          Text ({LANG_LABEL[from]})
+        </ThemedText>
         <TextInput
           style={[
             styles.input,
             { color: activeColors.text, borderColor: activeColors.cardBorder },
           ]}
-          placeholder="e.g. Hello, how are you?"
+          placeholder="Type something to translate…"
           placeholderTextColor={activeColors.icon}
           value={text}
           onChangeText={setText}
@@ -108,49 +199,49 @@ export default function TranslateScreen() {
 
         {error ? <ThemedText style={styles.error}>{error}</ThemedText> : null}
 
-        {results
-          ? (Object.keys(results) as TargetLang[]).map((lang) => {
-              const accent = accentFor(lang);
-              return (
-                <View
-                  key={lang}
-                  style={[
-                    styles.resultCard,
-                    {
-                      borderColor: activeColors.cardBorder,
-                      backgroundColor: activeColors.cardBackground,
-                    },
-                  ]}
+        {result !== null ? (
+          <View
+            style={[
+              styles.resultCard,
+              {
+                borderColor: activeColors.cardBorder,
+                backgroundColor: activeColors.cardBackground,
+              },
+            ]}
+          >
+            <View style={styles.resultHeader}>
+              <View
+                style={[
+                  styles.langPill,
+                  { backgroundColor: accentLightFor(to) },
+                ]}
+              >
+                <ThemedText
+                  style={[styles.langPillText, { color: accentFor(to) }]}
                 >
-                  <View style={styles.resultHeader}>
-                    <View
-                      style={[
-                        styles.langPill,
-                        { backgroundColor: accentLightFor(lang) },
-                      ]}
-                    >
-                      <ThemedText style={[styles.langPillText, { color: accent }]}>
-                        {TARGET_LABEL[lang]}
-                      </ThemedText>
-                    </View>
-                    <TouchableOpacity
-                      style={[
-                        styles.speakButton,
-                        { backgroundColor: accentLightFor(lang) },
-                      ]}
-                      onPress={() => speak(results[lang], SPEECH_LOCALE[lang])}
-                      hitSlop={8}
-                    >
-                      <IconSymbol size={18} name="volume.3.fill" color={accent} />
-                    </TouchableOpacity>
-                  </View>
-                  <ThemedText style={[styles.resultText, { color: accent }]}>
-                    {results[lang]}
-                  </ThemedText>
-                </View>
-              );
-            })
-          : null}
+                  {LANG_LABEL[to]}
+                </ThemedText>
+              </View>
+              <TouchableOpacity
+                style={[
+                  styles.speakButton,
+                  { backgroundColor: accentLightFor(to) },
+                ]}
+                onPress={() => speak(result, SPEECH_LOCALE[to])}
+                hitSlop={8}
+              >
+                <IconSymbol
+                  size={18}
+                  name="volume.3.fill"
+                  color={accentFor(to)}
+                />
+              </TouchableOpacity>
+            </View>
+            <ThemedText style={[styles.resultText, { color: accentFor(to) }]}>
+              {result}
+            </ThemedText>
+          </View>
+        ) : null}
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -171,6 +262,31 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginBottom: 6,
   },
+  pillRow: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  pill: {
+    flex: 1,
+    height: 44,
+    borderRadius: 12,
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  pillText: { fontSize: 15 },
+  swapButton: {
+    flexDirection: "row",
+    alignSelf: "center",
+    alignItems: "center",
+    gap: 6,
+    borderWidth: 1,
+    borderRadius: 999,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginTop: 12,
+  },
+  swapText: { fontSize: 14, fontWeight: "700" },
   input: {
     borderWidth: 1,
     borderRadius: 12,
